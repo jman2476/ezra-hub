@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	const port = "8080"
+	const port = "3294"
 	const filepathRoot = "."
 
 	mux := http.NewServeMux()
@@ -16,6 +16,6 @@ func main() {
 		Handler: mux,
 	}
 
-	log.Printf("Starting server %s on port %s", filepathRoot, port)
+	log.Printf("Starting Ezra Hub server on port 3294")
 	log.Fatal(server.ListenAndServe())
 }
