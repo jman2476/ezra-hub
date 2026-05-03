@@ -3,10 +3,11 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
-	const port = "3294"
+	port := os.Getenv("SERVER_PORT")
 	const filepathRoot = "."
 
 	mux := http.NewServeMux()
