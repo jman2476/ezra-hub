@@ -17,6 +17,6 @@ func main() {
 		Handler: mux,
 	}
 
-	log.Printf("Starting Ezra Hub server on port 3294")
+	log.Printf("Starting Ezra Hub server on port %", port)
 	log.Fatal(server.ListenAndServe())
 }
