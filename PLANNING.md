@@ -17,9 +17,9 @@ See notebook
 # What do I need to set up for it to run?
 ## Roadmap
 1. Setup server with connection to database, users table
-    - create psql database
-    - design table schema
-    - design endpoints
+    - create psql database  [X]
+    - design table schema   [X]
+    - design endpoints  [ ]
     - 
 2. Setup client to basic sign in, no password
     - implement bubbletea, if reasonable
