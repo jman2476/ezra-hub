@@ -2,7 +2,7 @@ package apicaller
 
 import "time"
 
-type newUser struct {
+type NewUser struct {
 	Name        string `json:"name"`
 	PhoneNumber string `json:"phone_number"`
 	Email       string `json:"email"`

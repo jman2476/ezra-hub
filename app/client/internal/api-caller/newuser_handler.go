@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func (c *Client) NewUser(signupInfo newUser) (User, error) {
+func (c *Client) NewUser(signupInfo NewUser) (User, error) {
 	url := c.baseURL + "/api/users"
 
 	userData, err := json.Marshal(signupInfo)

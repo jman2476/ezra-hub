@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"golang.org/x/term"
 )
@@ -34,13 +35,33 @@ func startRepl(cfg *config) {
 				fmt.Println("\rEnd of file")
 				commandExit(cfg)
 			}
-			fmt.Println(
-				fmt.Errorf("\r, err"),
-			)
+			fmt.Println("\r", err)
+		}
+		cleanedInput := cleanInput(buffer)
+
+		if len(cleanedInput) == 0 {
+			continue
 		}
 
-		fmt.Printf("\rLine read: %s\n", buffer)
+		commandName := cleanedInput[0]
+		command, ok := getCommands()[commandName]
+		if ok {
+			err := command.callback(cfg)
+
+			if err != nil {
+				fmt.Println("\r", err)
+			}
+			continue
+		} else {
+			fmt.Println("\rUnknown command")
+			continue
+		}
 	}
+}
+
+func cleanInput(text string) []string {
+	lowered := strings.ToLower(text)
+	return strings.Fields(lowered)
 }
 
 func setReaderWriter(in, out *os.File) io.ReadWriter {
