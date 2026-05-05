@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/jman2476/ezra-hub/internal/database"
+	"github.com/jman2476/ezra-hub/app/server/internal/database"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )

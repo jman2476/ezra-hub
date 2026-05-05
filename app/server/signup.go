@@ -8,7 +8,7 @@ import (
 	"net/mail"
 	"strings"
 
-	"github.com/jman2476/ezra-hub/internal/database"
+	"github.com/jman2476/ezra-hub/app/server/internal/database"
 	"github.com/nyaruka/phonenumbers"
 )
 
