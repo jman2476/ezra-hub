@@ -19,7 +19,7 @@ See notebook
 1. Setup server with connection to database, users table
     - create psql database  [X]
     - design table schema   [X]
-    - design endpoints  [ ]
+    - design endpoints  [X]
     - 
 2. Setup client to basic sign in, no password
     - implement bubbletea, if reasonable

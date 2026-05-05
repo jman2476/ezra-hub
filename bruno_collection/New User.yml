@@ -1,0 +1,23 @@
+info:
+  name: New User
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: http://localhost:3294/api/users
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Jerry Seinfeld",
+        "phone_number": "6095587564",
+        "email": "mrseinfeld@jerry.net"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
