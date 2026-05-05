@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/mail"
+	"strings"
 
 	"github.com/jman2476/ezra-hub/internal/database"
 	"github.com/nyaruka/phonenumbers"
@@ -49,6 +50,14 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 
 	user, err := cfg.db.CreateUser(req.Context(), userArgs)
 	if err != nil {
+		if strings.Contains(err.Error(), "violates unique constraint \"users_name_email_key\"") {
+			respondWithError(w, http.StatusBadRequest, "Name&email combination in use by another user", err)
+			return
+		}
+		if strings.Contains(err.Error(), "violates unique constraint \"users_name_phone_number_key\"") {
+			respondWithError(w, http.StatusBadRequest, "Name&phonenumber combination in use by another user", err)
+			return
+		}
 		respondWithError(w, http.StatusInternalServerError, "Error creating user", err)
 		return
 	}
