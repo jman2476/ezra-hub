@@ -17,7 +17,7 @@ type apiConfig struct {
 }
 
 func main() {
-	godotenv.Load()
+	godotenv.Load("./app/server/.env")
 	dbURL := os.Getenv("DB_URL")
 	platform := os.Getenv("PLATFORM")
 
