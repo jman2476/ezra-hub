@@ -8,7 +8,7 @@ import (
 	"net/mail"
 
 	"github.com/jman2476/ezra-hub/internal/database"
-	"github.com/ttacon/libphonenumber"
+	"github.com/nyaruka/phonenumbers"
 )
 
 func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
@@ -27,8 +27,8 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 		respondWithError(w, http.StatusInternalServerError, "Error decoding user sign up data", err)
 		return
 	}
-
-	phoneNumber, err := libphonenumber.Parse(params.PhoneNumber, "US")
+	log.Printf("Given phone number: %s", params.PhoneNumber)
+	phoneNumber, err := phonenumbers.Parse(params.PhoneNumber, "US")
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid phone number", err)
 		return
