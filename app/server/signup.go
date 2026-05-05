@@ -7,7 +7,9 @@ import (
 	"net/http"
 	"net/mail"
 	"strings"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/jman2476/ezra-hub/app/server/internal/database"
 	"github.com/nyaruka/phonenumbers"
 )
@@ -62,5 +64,25 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	respondWithJSON(w, http.StatusCreated, user)
+	respondWithJSON(w, http.StatusCreated, userMap(user))
+}
+
+type User struct {
+	ID          uuid.UUID `json:"id"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdateAt    time.Time `json:"updated_at"`
+	Name        string    `json:"name"`
+	PhoneNumber string    `json:"phone_number"`
+	Email       string    `json:"email"`
+}
+
+func userMap(user database.User) User {
+	return User{
+		ID:          user.ID,
+		CreatedAt:   user.CreatedAt,
+		UpdateAt:    user.UpdateAt,
+		Name:        user.Name,
+		PhoneNumber: user.PhoneNumber,
+		Email:       user.Email,
+	}
 }
