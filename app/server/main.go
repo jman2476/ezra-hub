@@ -12,12 +12,14 @@ import (
 )
 
 type apiConfig struct {
-	db *database.Queries
+	db       *database.Queries
+	platform string
 }
 
 func main() {
 	godotenv.Load()
 	dbURL := os.Getenv("DB_URL")
+	platform := os.Getenv("PLATFORM")
 
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
@@ -28,10 +30,14 @@ func main() {
 	const filepathRoot = "."
 
 	apiCfg := apiConfig{
-		db: database.New(db),
+		db:       database.New(db),
+		platform: platform,
 	}
 
 	mux := http.NewServeMux()
+
+	// Development endpoints: Reset users
+	mux.HandleFunc("POST /admin/reset", apiCfg.handlerResetDB)
 
 	// User endpoints: Create, Login, Update
 	mux.HandleFunc("POST /api/users", apiCfg.handlerNewUser)

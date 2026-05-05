@@ -33,7 +33,7 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 		respondWithError(w, http.StatusBadRequest, "Invalid phone number", err)
 		return
 	}
-	phoneStr := fmt.Sprintf("+%d %d", phoneNumber.CountryCode, phoneNumber.NationalNumber)
+	phoneStr := fmt.Sprintf("+%d %d", *phoneNumber.CountryCode, *phoneNumber.NationalNumber)
 
 	email, err := mail.ParseAddress(params.Email)
 	if err != nil {
