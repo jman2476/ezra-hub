@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/jman2476/ezra-hub/internal/database"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -15,6 +16,7 @@ type apiConfig struct {
 }
 
 func main() {
+	godotenv.Load()
 	dbURL := os.Getenv("DB_URL")
 
 	db, err := sql.Open("postgres", dbURL)
@@ -28,7 +30,6 @@ func main() {
 	apiCfg := apiConfig{
 		db: database.New(db),
 	}
-	log.Printf("apiCfg var: %v", apiCfg)
 
 	mux := http.NewServeMux()
 
