@@ -32,6 +32,9 @@ func main() {
 
 	mux := http.NewServeMux()
 
+	// User endpoints: Create, Login, Update
+	mux.HandleFunc("POST /api/users", apiCfg.handlerNewUser)
+
 	server := &http.Server{
 		Addr:    ":" + port,
 		Handler: mux,
