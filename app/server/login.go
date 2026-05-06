@@ -41,5 +41,7 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 		respondWithError(w, http.StatusInternalServerError, "Error making authentication token", err)
 	}
 
-	respondWithJSON(w, http.StatusOK, mapUser(user, token, ""))
+	refresh := auth.MakeRefreshToken()
+
+	respondWithJSON(w, http.StatusOK, mapUser(user, token, refresh))
 }
