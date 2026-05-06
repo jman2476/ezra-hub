@@ -22,10 +22,10 @@ See notebook
     - design endpoints  [X]
     - 
 2. Setup client to basic sign in, no password
-    - implement bubbletea, if reasonable
-    - make http requests to
-        - create user
-        - log into user account
+    - implement bubbletea, if reasonable [maybe later]
+    - make http requests to [X]
+        - create user [X]
+        - log into user account [X]
 
 3. Add authentication internal package
     - JWT, refresh tokens, password hashing
