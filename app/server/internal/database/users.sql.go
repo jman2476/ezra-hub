@@ -7,6 +7,9 @@ package database
 
 import (
 	"context"
+	"time"
+
+	"github.com/google/uuid"
 )
 
 const clearUsers = `-- name: ClearUsers :exec
@@ -19,19 +22,25 @@ func (q *Queries) ClearUsers(ctx context.Context) error {
 }
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO users (id, created_at, updated_at, name, phone_number, email)
-VALUES (gen_random_uuid(), NOW(), NOW(), $1, $2, $3)
-RETURNING id, created_at, updated_at, name, phone_number, email
+INSERT INTO users (id, created_at, updated_at, name, phone_number, email, hashed_password)
+VALUES (gen_random_uuid(), NOW(), NOW(), $1, $2, $3, $4)
+RETURNING id, created_at, updated_at, name, phone_number, email, hashed_password
 `
 
 type CreateUserParams struct {
-	Name        string
-	PhoneNumber string
-	Email       string
+	Name           string
+	PhoneNumber    string
+	Email          string
+	HashedPassword string
 }
 
 func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, createUser, arg.Name, arg.PhoneNumber, arg.Email)
+	row := q.db.QueryRowContext(ctx, createUser,
+		arg.Name,
+		arg.PhoneNumber,
+		arg.Email,
+		arg.HashedPassword,
+	)
 	var i User
 	err := row.Scan(
 		&i.ID,
@@ -40,6 +49,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.Name,
 		&i.PhoneNumber,
 		&i.Email,
+		&i.HashedPassword,
 	)
 	return i, err
 }
@@ -55,9 +65,18 @@ type GetUserByNameEmailParams struct {
 	Email string
 }
 
-func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmailParams) (User, error) {
+type GetUserByNameEmailRow struct {
+	ID          uuid.UUID
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	Name        string
+	PhoneNumber string
+	Email       string
+}
+
+func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmailParams) (GetUserByNameEmailRow, error) {
 	row := q.db.QueryRowContext(ctx, getUserByNameEmail, arg.Name, arg.Email)
-	var i User
+	var i GetUserByNameEmailRow
 	err := row.Scan(
 		&i.ID,
 		&i.CreatedAt,
@@ -70,7 +89,7 @@ func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmail
 }
 
 const getUsers = `-- name: GetUsers :many
-SELECT id, created_at, updated_at, name, phone_number, email
+SELECT id, created_at, updated_at, name, phone_number, email, hashed_password
 FROM users
 `
 
@@ -90,6 +109,7 @@ func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 			&i.Name,
 			&i.PhoneNumber,
 			&i.Email,
+			&i.HashedPassword,
 		); err != nil {
 			return nil, err
 		}
