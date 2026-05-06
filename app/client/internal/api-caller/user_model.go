@@ -6,11 +6,13 @@ type NewUser struct {
 	Name        string `json:"name"`
 	PhoneNumber string `json:"phone_number"`
 	Email       string `json:"email"`
+	Password    string `json:"password"`
 }
 
 type UserLogin struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type User struct {

@@ -31,6 +31,23 @@ func commandSignUp(cfg *config) error {
 	}
 	newUser.PhoneNumber = phonenumber
 
+	for {
+		password, err := cfg.Term.ReadPassword("Set password: ")
+		if err != nil {
+			return err
+		}
+
+		retype, err := cfg.Term.ReadPassword("Retype password: ")
+		if err != nil {
+			return err
+		}
+
+		if password == retype {
+			newUser.Password = password
+			break
+		}
+	}
+
 	user, err := cfg.Client.NewUser(newUser)
 	if err != nil {
 		return err

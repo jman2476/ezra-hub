@@ -10,7 +10,7 @@ import (
 
 func main() {
 	fmt.Println("Starting Ezra Hub client")
-	ezraClient := apicaller.NewClient(5 * time.Second)
+	ezraClient := apicaller.NewClient(30 * time.Second)
 
 	cfg := &config{
 		Window: int(os.Stdin.Fd()), // sets reference for term window

@@ -24,6 +24,12 @@ func commandLogin(cfg *config) error {
 	}
 	loginData.Email = email
 
+	password, err := cfg.Term.ReadPassword("Password: ")
+	if err != nil {
+		return err
+	}
+	loginData.Password = password
+
 	user, err := cfg.Client.LoginUser(loginData)
 	if err != nil {
 		return err
