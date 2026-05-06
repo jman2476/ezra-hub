@@ -10,7 +10,7 @@ import (
 type User struct {
 	ID          uuid.UUID `json:"id"`
 	CreatedAt   time.Time `json:"created_at"`
-	UpdateAt    time.Time `json:"updated_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 	Name        string    `json:"name"`
 	PhoneNumber string    `json:"phone_number"`
 	Email       string    `json:"email"`
@@ -23,7 +23,7 @@ func mapUser(user database.User, jwt, refresh string) User {
 		return User{
 			ID:          user.ID,
 			CreatedAt:   user.CreatedAt,
-			UpdateAt:    user.UpdateAt,
+			UpdateAt:    user.UpdatedAt,
 			Name:        user.Name,
 			PhoneNumber: user.PhoneNumber,
 			Email:       user.Email,
@@ -34,7 +34,7 @@ func mapUser(user database.User, jwt, refresh string) User {
 	return User{
 		ID:          user.ID,
 		CreatedAt:   user.CreatedAt,
-		UpdateAt:    user.UpdateAt,
+		UpdateAt:    user.UpdatedAt,
 		Name:        user.Name,
 		PhoneNumber: user.PhoneNumber,
 		Email:       user.Email,

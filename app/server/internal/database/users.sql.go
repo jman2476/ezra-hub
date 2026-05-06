@@ -19,9 +19,9 @@ func (q *Queries) ClearUsers(ctx context.Context) error {
 }
 
 const createUser = `-- name: CreateUser :one
-INSERT INTO users (id, created_at, update_at, name, phone_number, email)
+INSERT INTO users (id, created_at, updated_at, name, phone_number, email)
 VALUES (gen_random_uuid(), NOW(), NOW(), $1, $2, $3)
-RETURNING id, created_at, update_at, name, phone_number, email
+RETURNING id, created_at, updated_at, name, phone_number, email
 `
 
 type CreateUserParams struct {
@@ -36,7 +36,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 	err := row.Scan(
 		&i.ID,
 		&i.CreatedAt,
-		&i.UpdateAt,
+		&i.UpdatedAt,
 		&i.Name,
 		&i.PhoneNumber,
 		&i.Email,
@@ -45,7 +45,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 }
 
 const getUserByNameEmail = `-- name: GetUserByNameEmail :one
-SELECT id, created_at, update_at, name, phone_number, email
+SELECT id, created_at, updated_at, name, phone_number, email
 FROM users
 WHERE name = $1 and email = $2
 `
@@ -61,7 +61,7 @@ func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmail
 	err := row.Scan(
 		&i.ID,
 		&i.CreatedAt,
-		&i.UpdateAt,
+		&i.UpdatedAt,
 		&i.Name,
 		&i.PhoneNumber,
 		&i.Email,
@@ -70,7 +70,7 @@ func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmail
 }
 
 const getUsers = `-- name: GetUsers :many
-SELECT id, created_at, update_at, name, phone_number, email
+SELECT id, created_at, updated_at, name, phone_number, email
 FROM users
 `
 
@@ -86,7 +86,7 @@ func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 		if err := rows.Scan(
 			&i.ID,
 			&i.CreatedAt,
-			&i.UpdateAt,
+			&i.UpdatedAt,
 			&i.Name,
 			&i.PhoneNumber,
 			&i.Email,
