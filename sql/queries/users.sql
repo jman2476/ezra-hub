@@ -11,6 +11,10 @@ SELECT id, created_at, updated_at, name, phone_number, email
 FROM users
 WHERE name = $1 and email = $2;
 
+-- name: GetUserforLogin :one
+SELECT * FROM users
+WHERE name = $1 and email = $2;
+
 -- name: GetUsers :many
 SELECT *
 FROM users;

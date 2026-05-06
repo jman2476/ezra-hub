@@ -23,3 +23,7 @@ func HashPassword(password string) (string, error) {
 
 	return hash, nil
 }
+
+func CheckPassword(password, hash string) (bool, error) {
+	return argon2id.ComparePasswordAndHash(password, hash)
+}

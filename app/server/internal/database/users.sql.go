@@ -88,6 +88,31 @@ func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmail
 	return i, err
 }
 
+const getUserforLogin = `-- name: GetUserforLogin :one
+SELECT id, created_at, updated_at, name, phone_number, email, hashed_password FROM users
+WHERE name = $1 and email = $2
+`
+
+type GetUserforLoginParams struct {
+	Name  string
+	Email string
+}
+
+func (q *Queries) GetUserforLogin(ctx context.Context, arg GetUserforLoginParams) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserforLogin, arg.Name, arg.Email)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.PhoneNumber,
+		&i.Email,
+		&i.HashedPassword,
+	)
+	return i, err
+}
+
 const getUsers = `-- name: GetUsers :many
 SELECT id, created_at, updated_at, name, phone_number, email, hashed_password
 FROM users

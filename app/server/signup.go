@@ -8,6 +8,7 @@ import (
 	"net/mail"
 	"strings"
 
+	"github.com/jman2476/ezra-hub/app/server/internal/auth"
 	"github.com/jman2476/ezra-hub/app/server/internal/database"
 	"github.com/nyaruka/phonenumbers"
 )
@@ -19,6 +20,7 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 		Name        string `json:"name"`
 		PhoneNumber string `json:"phone_number"`
 		Email       string `json:"email"`
+		Password    string `json:"password"`
 	}
 
 	decoder := json.NewDecoder(req.Body)
@@ -42,10 +44,17 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	hash, err := auth.HashPassword(params.Password)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Auth hashing error", err)
+		return
+	}
+
 	userArgs := database.CreateUserParams{
-		Name:        params.Name,
-		PhoneNumber: phoneStr,
-		Email:       email.Address,
+		Name:           params.Name,
+		PhoneNumber:    phoneStr,
+		Email:          email.Address,
+		HashedPassword: hash,
 	}
 
 	user, err := cfg.db.CreateUser(req.Context(), userArgs)
