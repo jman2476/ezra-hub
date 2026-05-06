@@ -1,0 +1,23 @@
+info:
+  name: New User Hank
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:3294/api/users
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Hank Hill",
+        "phone_number": "6094587989",
+        "email": "hhill@stricklanpropane.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

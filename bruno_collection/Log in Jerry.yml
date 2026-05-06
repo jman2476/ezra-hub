@@ -1,0 +1,22 @@
+info:
+  name: Log in Jerry
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: http://localhost:3294/api/login
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Jerry Seinfeld",
+        "email": "mrseinfeld@jerry.net"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

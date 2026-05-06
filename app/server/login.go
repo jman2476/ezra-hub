@@ -12,8 +12,8 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 	log.Println("POST /api/login")
 
 	type parameters struct {
-		Name  string
-		Email string
+		Name  string `json:"name"`
+		Email string `json:"email"`
 	}
 
 	decoder := json.NewDecoder(req.Body)

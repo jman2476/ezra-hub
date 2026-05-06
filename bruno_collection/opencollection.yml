@@ -22,4 +22,4 @@ extensions:
     presets:
       request:
         type: http
-        url: localhost:3294/api
+        url: http://localhost:3294/

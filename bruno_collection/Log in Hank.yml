@@ -1,0 +1,22 @@
+info:
+  name: Log in Hank
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: http://localhost:3294/api/login
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Hank Hill",
+        "email": "hhill@stricklanpropane.com"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
