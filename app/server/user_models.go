@@ -23,7 +23,7 @@ func mapUser(user database.User, jwt, refresh string) User {
 		return User{
 			ID:          user.ID,
 			CreatedAt:   user.CreatedAt,
-			UpdateAt:    user.UpdatedAt,
+			UpdatedAt:   user.UpdatedAt,
 			Name:        user.Name,
 			PhoneNumber: user.PhoneNumber,
 			Email:       user.Email,
@@ -34,7 +34,7 @@ func mapUser(user database.User, jwt, refresh string) User {
 	return User{
 		ID:          user.ID,
 		CreatedAt:   user.CreatedAt,
-		UpdateAt:    user.UpdatedAt,
+		UpdatedAt:   user.UpdatedAt,
 		Name:        user.Name,
 		PhoneNumber: user.PhoneNumber,
 		Email:       user.Email,

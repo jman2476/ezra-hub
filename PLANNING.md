@@ -29,7 +29,7 @@ See notebook
 
 3. Add authentication internal package
     - JWT, refresh tokens, password hashing
-    - add refresh token table to db
+    - add refresh token table to db [X]
 4. Migrate DB to take password, add password login to server
     - first implement JWT and password hashing
     - add refresh tokens after that's working

@@ -39,9 +39,19 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 	token, err := auth.MakeJWT(user.ID, cfg.secret, 5*time.Minute)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Error making authentication token", err)
+		return
 	}
 
-	refresh := auth.MakeRefreshToken()
+	refreshArgs := database.CreateRefreshTokenParams{
+		Token:  auth.MakeRefreshToken(),
+		UserID: user.ID,
+	}
 
-	respondWithJSON(w, http.StatusOK, mapUser(user, token, refresh))
+	refresh, err := cfg.db.CreateRefreshToken(req.Context(), refreshArgs)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Error creating refresh token", err)
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, mapUser(user, token, refresh.Token))
 }
