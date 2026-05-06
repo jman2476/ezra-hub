@@ -14,9 +14,23 @@ type User struct {
 	Name        string    `json:"name"`
 	PhoneNumber string    `json:"phone_number"`
 	Email       string    `json:"email"`
+	JWT         string    `json:"jwt"`
+	Refresh     string    `json:"refresh_token"`
 }
 
-func mapUser(user database.User) User {
+func mapUser(user database.User, jwt, refresh string) User {
+	if jwt != "" || refresh != "" {
+		return User{
+			ID:          user.ID,
+			CreatedAt:   user.CreatedAt,
+			UpdateAt:    user.UpdateAt,
+			Name:        user.Name,
+			PhoneNumber: user.PhoneNumber,
+			Email:       user.Email,
+			JWT:         jwt,
+			Refresh:     refresh,
+		}
+	}
 	return User{
 		ID:          user.ID,
 		CreatedAt:   user.CreatedAt,

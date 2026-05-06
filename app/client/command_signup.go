@@ -47,4 +47,10 @@ func printUser(user apicaller.User) {
 	fmt.Printf("\rUpdated At: %v\n", user.UpdatedAt)
 	fmt.Printf("\rEmail: %s\n", user.Email)
 	fmt.Printf("\rPhone Number: %s\n", user.PhoneNumber)
+	if user.Token != "" {
+		fmt.Printf("\rJWT: %s\n", user.Token)
+	}
+	if user.Refresh != "" {
+		fmt.Printf("\rRefresh: %s\n", user.Refresh)
+	}
 }

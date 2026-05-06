@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
 
+	"github.com/jman2476/ezra-hub/app/server/internal/auth"
 	"github.com/jman2476/ezra-hub/app/server/internal/database"
 )
 
@@ -34,5 +36,10 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	respondWithJSON(w, http.StatusOK, mapUser(user))
+	token, err := auth.MakeJWT(user.ID, cfg.secret, 5*time.Minute)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Error making authentication token", err)
+	}
+
+	respondWithJSON(w, http.StatusOK, mapUser(user, token, ""))
 }

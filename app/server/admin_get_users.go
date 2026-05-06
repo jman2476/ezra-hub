@@ -16,7 +16,7 @@ func (cfg *apiConfig) handlerGetUsers(w http.ResponseWriter, req *http.Request) 
 
 	mappedUsers := []User{}
 	for _, u := range users {
-		mappedUsers = append(mappedUsers, mapUser(u))
+		mappedUsers = append(mappedUsers, mapUser(u, "", ""))
 	}
 
 	respondWithJSON(w, http.StatusOK, mappedUsers)

@@ -14,12 +14,14 @@ import (
 type apiConfig struct {
 	db       *database.Queries
 	platform string
+	secret   string
 }
 
 func main() {
 	godotenv.Load("./app/server/.env")
 	dbURL := os.Getenv("DB_URL")
 	platform := os.Getenv("PLATFORM")
+	secret := os.Getenv("SECRET")
 
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
@@ -32,6 +34,7 @@ func main() {
 	apiCfg := apiConfig{
 		db:       database.New(db),
 		platform: platform,
+		secret:   secret,
 	}
 
 	mux := http.NewServeMux()
