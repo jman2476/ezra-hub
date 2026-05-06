@@ -36,8 +36,9 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	// Development endpoints: Reset users
+	// Development/Admin endpoints: Reset users
 	mux.HandleFunc("POST /admin/reset", apiCfg.handlerResetDB)
+	mux.HandleFunc("GET /admin/users", apiCfg.handlerGetUsers)
 
 	// User endpoints: Create, Login, Update
 	mux.HandleFunc("POST /api/users", apiCfg.handlerNewUser)
