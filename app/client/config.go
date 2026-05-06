@@ -6,7 +6,7 @@ import (
 )
 
 type config struct {
-	User      string
+	User      apicaller.User
 	Term      *term.Terminal
 	termState *term.State
 	Window    int

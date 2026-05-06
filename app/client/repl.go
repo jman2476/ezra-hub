@@ -24,8 +24,8 @@ func startRepl(cfg *config) {
 
 	for {
 		prompt := "Ezra"
-		if cfg.User != "" {
-			prompt = "Ezra:" + cfg.User
+		if cfg.User.Name != "" {
+			prompt = "Ezra:" + cfg.User.Name
 		}
 		cfg.Term.SetPrompt(fmt.Sprintf("\r%s > ", prompt))
 

@@ -8,14 +8,14 @@ import (
 	"net/http"
 )
 
-func (c *Client) NewUser(signupInfo NewUser) (User, error) {
-	url := c.baseURL + "/api/users"
+func (c *Client) LoginUser(loginInfo UserLogin) (User, error) {
+	url := c.baseURL + "/api/login"
 
-	userData, err := json.Marshal(signupInfo)
+	loginData, err := json.Marshal(loginInfo)
 	if err != nil {
 		return User{}, fmt.Errorf("Data marshalling error: %w", err)
 	}
-	body := bytes.NewReader(userData)
+	body := bytes.NewReader(loginData)
 
 	req, err := http.NewRequest("POST", url, body)
 	if err != nil {
@@ -28,7 +28,7 @@ func (c *Client) NewUser(signupInfo NewUser) (User, error) {
 	}
 	defer res.Body.Close()
 
-	if res.StatusCode != 201 {
+	if res.StatusCode != 200 {
 		errResp := struct {
 			Error string `json:"error"`
 		}{}
@@ -37,12 +37,13 @@ func (c *Client) NewUser(signupInfo NewUser) (User, error) {
 		if err != nil {
 			return User{}, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
 		}
+
 		err = json.Unmarshal(data, &errResp)
 		if err != nil {
 			return User{}, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
 		}
 
-		return User{}, fmt.Errorf("Error creating new user: %s, %s", res.Status, errResp.Error)
+		return User{}, fmt.Errorf("Error logging in user: %s, %s", res.Status, errResp.Error)
 	}
 
 	data, err := io.ReadAll(res.Body)

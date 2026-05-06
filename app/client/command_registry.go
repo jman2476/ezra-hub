@@ -18,5 +18,10 @@ func getCommands() map[string]cliCommand {
 			description: "Sign up a new user",
 			callback:    commandSignUp,
 		},
+		"login": {
+			name:        "login",
+			description: "Log into account",
+			callback:    commandLogin,
+		},
 	}
 }
