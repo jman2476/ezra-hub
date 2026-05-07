@@ -31,9 +31,24 @@ See notebook
     - JWT, refresh tokens, password hashing
     - add refresh token table to db [X]
 4. Migrate DB to take password, add password login to server
-    - first implement JWT and password hashing
-    - add refresh tokens after that's working
-    - add refresh tokens table for tracking
+    - first implement JWT and password hashing [X]
+    - add refresh tokens after that's working [ ]
+    - add refresh tokens table for tracking [ ]
+    - 4.a) Create basic events to test JWT, Refresh tokens, Authorization [ ]
+        - Create basic events table [ ]
+            - Event name, type, creator, created at/updated at, description
+        - Create endpoint for creating events
+            - Must be logged in to create event [ ]
+            - Use JWT to get user ID [ ]
+            - add client side event creation [ ]
+    - 4.b) Create updating events endpoint [ ]
+        - for each field, ask "Update?" [ ]
+            - if yes, open writing field
+            - if no, continue to next field
+        - Verify user by JWT [ ]
+    - 4.c) Add endpoint refresh to create new JWT [ ]
+        - Add revoking of refresh tokens [ ]
+        - Create new JWT if JWT is expired [ ]
 5. Add client login, verify
     - find a way to safely store information on client side
     - don't want JWT/refresh token in a bad place
