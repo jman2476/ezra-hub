@@ -23,5 +23,10 @@ func getCommands() map[string]cliCommand {
 			description: "Log into account",
 			callback:    commandLogin,
 		},
+		"create": {
+			name:        "create event",
+			description: "Create new event",
+			callback:    commandCreateEvent,
+		},
 	}
 }
