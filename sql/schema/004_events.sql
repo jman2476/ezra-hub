@@ -4,7 +4,7 @@ CREATE TABLE events(
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     name TEXT NOT NULL,
-    owner UUID NOT NULL,
+    owner_id UUID NOT NULL
             references users(id)
             on delete cascade,
     type TEXT NOT NULL,
