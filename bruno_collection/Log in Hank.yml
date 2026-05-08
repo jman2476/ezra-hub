@@ -11,7 +11,8 @@ http:
     data: |-
       {
         "name": "Hank Hill",
-        "email": "hhill@stricklanpropane.com"
+        "email": "hhill@stricklanpropane.com",
+        "password": "propane&propaneAccessories"
       }
   auth: inherit
 

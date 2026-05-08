@@ -31,6 +31,11 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if params.Password == "" {
+		respondWithError(w, http.StatusBadRequest, "Missing password for new user", err)
+		return
+	}
+
 	phoneNumber, err := phonenumbers.Parse(params.PhoneNumber, "US")
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid phone number", err)

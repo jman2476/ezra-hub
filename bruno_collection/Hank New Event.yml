@@ -1,0 +1,28 @@
+info:
+  name: Hank New Event
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: http://localhost:3294/api/events
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjFlNDAyMmU5LWVkNzMtNGRjNC1iMDllLWZhODJkMjljOTA4NSIsImV4cCI6MTc3ODI2NjQ0NiwiaWF0IjoxNzc4MjY2MTQ2fQ.QwlCO9dFQxFvWljEK2x3_TDXd72g46HUKN37Pc7Fq_o
+  body:
+    type: json
+    data: |-
+      {
+        "name": "BBQ July 4",
+        "type": "cookout party",
+        "occurs_on": "July 4 2026",
+        "expires_at": "July 5 2026"
+      }
+  auth:
+    type: bearer
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

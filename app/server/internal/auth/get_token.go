@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -19,6 +20,7 @@ func GetBearerToken(headers http.Header) (string, error) {
 
 	token, ok := strings.CutPrefix(bearerStr, "Bearer ")
 	if !ok {
+		log.Printf("Bearer string: %s\nToken: %s", bearerStr, token)
 		return "", malformedHeaderErr
 	}
 

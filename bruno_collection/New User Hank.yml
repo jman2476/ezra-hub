@@ -12,7 +12,8 @@ http:
       {
         "name": "Hank Hill",
         "phone_number": "6094587989",
-        "email": "hhill@stricklanpropane.com"
+        "email": "hhill@stricklanpropane.com",
+        "password": "propane&propaneAccessories"
       }
   auth: inherit
 

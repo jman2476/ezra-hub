@@ -11,6 +11,17 @@ import (
 	"github.com/google/uuid"
 )
 
+type Event struct {
+	ID        uuid.UUID
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	Name      string
+	OwnerID   uuid.UUID
+	Type      string
+	OccursOn  time.Time
+	ExpiresAt time.Time
+}
+
 type Refreshtoken struct {
 	Token     string
 	CreatedAt time.Time
