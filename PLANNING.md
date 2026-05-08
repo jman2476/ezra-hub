@@ -35,20 +35,20 @@ See notebook
     - add refresh tokens after that's working [ ]
     - add refresh tokens table for tracking [ ]
     - 4.a) Create basic events to test JWT, Refresh tokens, Authorization [ ]
-        - Create basic events table [ ]
+        - Create basic events table [X]
             - Event name, type, creator, created at/updated at, description
         - Create endpoint for creating events
-            - Must be logged in to create event [ ]
-            - Use JWT to get user ID [ ]
+            - Must be logged in to create event [X]
+            - Use JWT to get user ID [X]
             - add client side event creation [ ]
     - 4.b) Create updating events endpoint [ ]
         - for each field, ask "Update?" [ ]
             - if yes, open writing field
             - if no, continue to next field
         - Verify user by JWT [ ]
-    - 4.c) Add endpoint refresh to create new JWT [ ]
-        - Add revoking of refresh tokens [ ]
-        - Create new JWT if JWT is expired [ ]
+    - 4.c) Add endpoint refresh to create new JWT [X]
+        - Add revoking of refresh tokens [X]
+        - Create new JWT if JWT is expired [X]
 5. Add client login, verify
     - find a way to safely store information on client side
     - don't want JWT/refresh token in a bad place
