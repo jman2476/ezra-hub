@@ -9,7 +9,7 @@ CREATE TABLE events(
             on delete cascade,
     type TEXT NOT NULL,
     occurs_on TIMESTAMP NOT NULL,
-    expires_on TIMESTAMP NOT NULL
+    expires_at TIMESTAMP NOT NULL
 );
 
 -- +goose Down
