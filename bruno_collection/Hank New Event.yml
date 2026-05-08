@@ -8,18 +8,16 @@ http:
   url: http://localhost:3294/api/events
   headers:
     - name: Authorization
-      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjFlNDAyMmU5LWVkNzMtNGRjNC1iMDllLWZhODJkMjljOTA4NSIsImV4cCI6MTc3ODI2NjQ0NiwiaWF0IjoxNzc4MjY2MTQ2fQ.QwlCO9dFQxFvWljEK2x3_TDXd72g46HUKN37Pc7Fq_o
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjFlNDAyMmU5LWVkNzMtNGRjNC1iMDllLWZhODJkMjljOTA4NSIsImV4cCI6MTc3ODI2Njg2OCwiaWF0IjoxNzc4MjY2NTY4fQ.xwHys8Z7IZ-MCh1tzKV-44Xb9IWe3y--Z2OQ9m_OQx8
   body:
     type: json
     data: |-
       {
         "name": "BBQ July 4",
         "type": "cookout party",
-        "occurs_on": "July 4 2026",
-        "expires_at": "July 5 2026"
+        "occurs_on": "2026-07-04T12:01:23.970923Z",
+        "expires_at": "2026-07-05T12:01:23.970923Z"
       }
-  auth:
-    type: bearer
 
 settings:
   encodeUrl: true
