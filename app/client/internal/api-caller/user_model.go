@@ -9,6 +9,18 @@ type NewUser struct {
 	Password    string `json:"password"`
 }
 
+func (u NewUser) GetLogName() string {
+	return "new user"
+}
+
+func (u NewUser) GetEndpointURL(c *Client) string {
+	return c.baseURL + "/api/users"
+}
+
+func (u NewUser) NewEmptyStruct() User {
+	return User{}
+}
+
 type UserLogin struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
