@@ -28,8 +28,8 @@ func CreateNewResource[R any, NR NewResource[R]](c *Client, newData NR) (R, erro
 		return resource, fmt.Errorf("Error creating request: %w", err)
 	}
 
-	header, ok := c.MakeAuthHeader()
-	if ok {
+	if c.token != "" {
+		header := c.MakeAuthHeader(c.token)
 		req.Header = header
 	}
 
@@ -50,7 +50,7 @@ func CreateNewResource[R any, NR NewResource[R]](c *Client, newData NR) (R, erro
 		}
 		err = json.Unmarshal(data, &errResp)
 		if err != nil {
-			return resource, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
+			return resource, fmt.Errorf("Response code: %s, Error unmarshalling response body: %w", res.Status, err)
 		}
 
 		return resource, fmt.Errorf("Error creating %s: %s, %s", newData.GetLogName(), res.Status, errResp.Error)
@@ -65,8 +65,6 @@ func CreateNewResource[R any, NR NewResource[R]](c *Client, newData NR) (R, erro
 	if err != nil {
 		return resource, fmt.Errorf("Error unmarshalling response body: %w", err)
 	}
-
-	fmt.Printf("Created resource of type %T from empty struct %T", resource, nil)
 
 	return resource, nil
 }

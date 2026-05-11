@@ -46,7 +46,7 @@ func (cfg *apiConfig) handlerRefresh(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	respondWithJSON(w, http.StatusAccepted, response{Token: newToken})
+	respondWithJSON(w, http.StatusOK, response{Token: newToken})
 }
 
 func (cfg *apiConfig) verifyRefreshToken(token database.Refreshtoken) (bool, error) {
