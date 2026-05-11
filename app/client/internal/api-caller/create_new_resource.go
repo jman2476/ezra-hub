@@ -11,11 +11,22 @@ import (
 type NewResource interface {
 	GetLogName() string
 	GetEndpointURL(*Client) string
-	NewEmptyStruct() interface{}
 }
 
 type Resource interface {
 	User | Event
+}
+
+func NewEmptyResource(newRes any) (any, error) {
+	switch newRes.(type) {
+	case NewUser:
+		return User{}, nil
+	case NewEvent:
+		return Event{}, nil
+	default:
+		return nil, fmt.Errorf("Unsupported type %T", newRes)
+	}
+
 }
 
 func (c *Client) CreateNewResource(newData NewResource) (interface{}, error) {
@@ -23,13 +34,13 @@ func (c *Client) CreateNewResource(newData NewResource) (interface{}, error) {
 
 	resourceData, err := json.Marshal(newData)
 	if err != nil {
-		return newData.NewEmptyStruct(), fmt.Errorf("Data marshalling error: %w", err)
+		return nil, fmt.Errorf("Data marshalling error: %w", err)
 	}
 	body := bytes.NewReader(resourceData)
 
 	req, err := http.NewRequest("POST", url, body)
 	if err != nil {
-		return newData.NewEmptyStruct(), fmt.Errorf("Error creating request: %w", err)
+		return nil, fmt.Errorf("Error creating request: %w", err)
 	}
 
 	header, ok := c.MakeAuthHeader()
@@ -39,7 +50,7 @@ func (c *Client) CreateNewResource(newData NewResource) (interface{}, error) {
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
-		return newData.NewEmptyStruct(), fmt.Errorf("Error executing request: %w", err)
+		return nil, fmt.Errorf("Error executing request: %w", err)
 	}
 	defer res.Body.Close()
 
@@ -50,26 +61,31 @@ func (c *Client) CreateNewResource(newData NewResource) (interface{}, error) {
 
 		data, err := io.ReadAll(res.Body)
 		if err != nil {
-			return newData.NewEmptyStruct(), fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
+			return nil, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
 		}
 		err = json.Unmarshal(data, &errResp)
 		if err != nil {
-			return newData.NewEmptyStruct(), fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
+			return nil, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
 		}
 
-		return newData.NewEmptyStruct(), fmt.Errorf("Error creating %s: %s, %s", newData.GetLogName(), res.Status, errResp.Error)
+		return nil, fmt.Errorf("Error creating %s: %s, %s", newData.GetLogName(), res.Status, errResp.Error)
 	}
 
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
-		return newData.NewEmptyStruct(), fmt.Errorf("Error reading response body: %w", err)
+		return nil, fmt.Errorf("Error reading response body: %w", err)
 	}
 
-	resource := newData.NewEmptyStruct()
+	resource, err := NewEmptyResource(newData)
+	if err != nil {
+		return nil, fmt.Errorf("Error creating new resource: %w", err)
+	}
 	err = json.Unmarshal(data, &resource)
 	if err != nil {
-		return newData.NewEmptyStruct(), fmt.Errorf("Error unmarshalling response body: %w", err)
+		return nil, fmt.Errorf("Error unmarshalling response body: %w", err)
 	}
+
+	fmt.Printf("Created resource of type %T from empty struct %T", resource, nil)
 
 	return resource, nil
 }
