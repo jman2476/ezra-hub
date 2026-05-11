@@ -25,24 +25,24 @@ func (cfg *apiConfig) handlerRefresh(w http.ResponseWriter, req *http.Request) {
 
 	refreshToken, err := auth.GetBearerToken(req.Header)
 	if err != nil {
-		respondWithError(w, http.StatusForbidden, "Forbidden: Bad refresh token", err)
+		respondWithError(w, http.StatusUnauthorized, "Forbidden: Bad refresh token", err)
 		return
 	}
 
 	refreshData, err := cfg.db.GetRefreshToken(req.Context(), refreshToken)
 	if err != nil {
-		respondWithError(w, http.StatusForbidden, "Forbidden: Invalid refresh token", err)
+		respondWithError(w, http.StatusUnauthorized, "Forbidden: Invalid refresh token", err)
 		return
 	}
 
 	if valid, err := cfg.verifyRefreshToken(refreshData); !valid {
-		respondWithError(w, http.StatusForbidden, "Forbidden: Expired token", err)
+		respondWithError(w, http.StatusUnauthorized, "Forbidden: Expired token", err)
 		return
 	}
 
 	newToken, err := auth.MakeJWT(refreshData.UserID, cfg.secret, time.Hour)
 	if err != nil {
-		respondWithError(w, http.StatusForbidden, "Forbidden", err)
+		respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
 		return
 	}
 

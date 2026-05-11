@@ -2,10 +2,16 @@ package apicaller
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"time"
+)
+
+var (
+	errRefreshedTooSoon = errors.New("Refreshing too soon, refresh token likely invalid")
+	errBadRefreshToken  = errors.New("Refresh token expired or invalid, user must sign in again")
 )
 
 func (c *Client) Refresh() (status int, errVal error) {
@@ -68,6 +74,20 @@ func (c *Client) Refresh() (status int, errVal error) {
 	return
 }
 
-func (c *Client) Retry(data struct{}, callback func(struct{}) (struct{}, error)) {
+func RetryCreateNew[R any, NR NewResource[R]](c *Client, newData NR) (R, error) {
+	var nilRes R
+	if time.Since(c.lastRefresh) <= time.Minute {
+		return nilRes, errRefreshedTooSoon
+	}
 
+	status, err := c.Refresh()
+	if err != nil {
+		if status == 200 {
+			return nilRes, err
+		}
+
+		return nilRes, errBadRefreshToken
+	}
+
+	return CreateNewResource[R](c, newData, true)
 }

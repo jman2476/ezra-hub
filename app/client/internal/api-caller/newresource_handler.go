@@ -13,7 +13,7 @@ type NewResource[Resource any] interface {
 	GetEndpointURL(*Client) string
 }
 
-func CreateNewResource[R any, NR NewResource[R]](c *Client, newData NR) (R, error) {
+func CreateNewResource[R any, NR NewResource[R]](c *Client, newData NR, retry bool) (R, error) {
 	url := newData.GetEndpointURL(c)
 	var resource R
 
@@ -51,6 +51,10 @@ func CreateNewResource[R any, NR NewResource[R]](c *Client, newData NR) (R, erro
 		err = json.Unmarshal(data, &errResp)
 		if err != nil {
 			return resource, fmt.Errorf("Response code: %s, Error unmarshalling response body: %w", res.Status, err)
+		}
+
+		if !retry && res.StatusCode == 401 {
+			return RetryCreateNew[R](c, newData)
 		}
 
 		return resource, fmt.Errorf("Error creating %s: %s, %s", newData.GetLogName(), res.Status, errResp.Error)

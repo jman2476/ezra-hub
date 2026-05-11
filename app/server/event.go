@@ -22,13 +22,13 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) 
 
 	token, err := auth.GetBearerToken(req.Header)
 	if err != nil {
-		respondWithError(w, http.StatusForbidden, "Forbidden", err)
+		respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
 		return
 	}
 
 	userID, err := auth.ValidateJWT(token, cfg.secret)
 	if err != nil {
-		respondWithError(w, http.StatusForbidden, "JWT Expired", err)
+		respondWithError(w, http.StatusUnauthorized, "JWT Expired", err)
 		return
 	}
 

@@ -1,7 +1,7 @@
 package apicaller
 
 func (c *Client) NewUser(signupInfo NewUser) (User, error) {
-	user, err := CreateNewResource[User](c, signupInfo)
+	user, err := CreateNewResource[User](c, signupInfo, false)
 	if err != nil {
 		return User{}, err
 	}
