@@ -16,6 +16,8 @@ github.com/nyaruka/phonenumbers v1.7.2 h1:biMUpF5TWuHtYXVzuNE7pSCjlA9tkvd8Vaq8b1
 github.com/nyaruka/phonenumbers v1.7.2/go.mod h1:fsKPJ70O9JetEA4ggnJadYTFWwtGPvu/lETTXNXq6Cs=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/rabbitmq/amqp091-go v1.11.0 h1:HxIctVm9Gid/Vtn706necmZ7Wj6pgGI2eqplRbEY8O8=
+github.com/rabbitmq/amqp091-go v1.11.0/go.mod h1:Hy4jKW5kQART1u+JkDTF9YYOQUHXqMuhrgxOEeS7G4o=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=

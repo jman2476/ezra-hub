@@ -9,6 +9,7 @@ import (
 	"github.com/jman2476/ezra-hub/app/server/internal/database"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	amqp "github.com/rabbitmq/amqp091-go"
 )
 
 type apiConfig struct {
@@ -22,11 +23,25 @@ func main() {
 	dbURL := os.Getenv("DB_URL")
 	platform := os.Getenv("PLATFORM")
 	secret := os.Getenv("SECRET")
+	rabbitConnString := os.Getenv("RABBIT_SERVER")
 
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
 		log.Printf("Error opening database connection: %s", err)
 	}
+
+	connection, err := amqp.Dial(rabbitConnString)
+	if err != nil {
+		log.Printf("Error establishing connection to RabbitMQ server: %s", err)
+	}
+	defer connection.Close()
+	log.Printf("Connection to RabbitMQ server successful")
+
+	channel, err := connection.Channel()
+	if err != nil {
+		log.Printf("Error creating channel: %s", err)
+	}
+	log.Printf("Successfully created channel %v", channel)
 
 	port := os.Getenv("SERVER_PORT")
 	const filepathRoot = "."
