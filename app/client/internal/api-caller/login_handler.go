@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 )
 
 func (c *Client) LoginUser(loginInfo UserLogin) (User, error) {
@@ -59,6 +60,7 @@ func (c *Client) LoginUser(loginInfo UserLogin) (User, error) {
 
 	c.token = user.Token
 	c.refresh = user.Refresh
+	c.lastRefresh = time.Now()
 
 	return user, nil
 }

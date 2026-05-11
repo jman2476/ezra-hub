@@ -9,10 +9,11 @@ import (
 )
 
 type Client struct {
-	httpClient http.Client
-	baseURL    string
-	token      string
-	refresh    string
+	httpClient  http.Client
+	baseURL     string
+	token       string
+	refresh     string
+	lastRefresh time.Time
 }
 
 func NewClient(timeout time.Duration) Client {

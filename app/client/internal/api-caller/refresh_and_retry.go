@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 )
 
 func (c *Client) Refresh() (status int, errVal error) {
@@ -63,6 +64,7 @@ func (c *Client) Refresh() (status int, errVal error) {
 	}
 
 	c.token = new_jwt.Token
+	c.lastRefresh = time.Now()
 	return
 }
 
