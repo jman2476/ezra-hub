@@ -15,6 +15,7 @@ var (
 )
 
 func (c *Client) Refresh() (status int, errVal error) {
+	fmt.Println("Refreshing JWT\r")
 	url := c.baseURL + "/api/refresh"
 
 	req, err := http.NewRequest("POST", url, nil)
@@ -75,6 +76,7 @@ func (c *Client) Refresh() (status int, errVal error) {
 }
 
 func RetryCreateNew[R any, NR NewResource[R]](c *Client, newData NR) (R, error) {
+	fmt.Printf("Retrying create %s\r\n", newData.GetLogName())
 	var nilRes R
 	if time.Since(c.lastRefresh) <= time.Minute {
 		return nilRes, errRefreshedTooSoon

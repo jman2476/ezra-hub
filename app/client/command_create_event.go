@@ -26,7 +26,7 @@ func commandCreateEvent(cfg *config) error {
 	}
 	newEvent.Type = eventType
 
-	cfg.Term.SetPrompt("When is the event: YYYY-MM-DD hh:mm")
+	cfg.Term.SetPrompt("When is the event: YYYY-MM-DD hh:mm  ")
 	date, err := cfg.Term.ReadLine()
 	if err != nil {
 		return err
