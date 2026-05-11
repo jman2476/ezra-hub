@@ -43,7 +43,7 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	token, err := auth.MakeJWT(user.ID, cfg.secret, time.Hour)
+	token, err := auth.MakeJWT(user.ID, cfg.secret, time.Minute)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Error making authentication token", err)
 		return

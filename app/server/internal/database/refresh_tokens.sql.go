@@ -20,7 +20,7 @@ VALUES (
     NOW(),
     NOW(),
     $2,
-    date_add(NOW(), '60 days')
+    date_add(NOW(), '5 minutes')
 ) returning token, created_at, updated_at
 `
 
