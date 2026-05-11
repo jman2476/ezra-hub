@@ -28,5 +28,10 @@ func getCommands() map[string]cliCommand {
 			description: "Create new event",
 			callback:    commandCreateEvent,
 		},
+		"logout": {
+			name:        "logout",
+			description: "Log out user",
+			callback:    commandLogout,
+		},
 	}
 }

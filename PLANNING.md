@@ -32,26 +32,22 @@ See notebook
     - add refresh token table to db [X]
 4. Migrate DB to take password, add password login to server
     - first implement JWT and password hashing [X]
-    - add refresh tokens after that's working [ ]
-    - add refresh tokens table for tracking [ ]
-    - 4.a) Create basic events to test JWT, Refresh tokens, Authorization [ ]
+    - add refresh tokens after that's working [X]
+    - add refresh tokens table for tracking [X]
+    - 4.a) Create basic events to test JWT, Refresh tokens, Authorization [X]
         - Create basic events table [X]
             - Event name, type, creator, created at/updated at, description
         - Create endpoint for creating events
             - Must be logged in to create event [X]
             - Use JWT to get user ID [X]
-            - add client side event creation [ ]
-    - 4.b) Create updating events endpoint [ ]
-        - for each field, ask "Update?" [ ]
-            - if yes, open writing field
-            - if no, continue to next field
-        - Verify user by JWT [ ]
-    - 4.c) Add endpoint refresh to create new JWT [X]
+            - add client side event creation [X]
+
+    - 4.b) Add endpoint refresh to create new JWT [X]
         - Add revoking of refresh tokens [X]
         - Create new JWT if JWT is expired [X]
-5. Add client login, verify
-    - find a way to safely store information on client side
-    - don't want JWT/refresh token in a bad place
+5. Add client login, verify [X]
+    - find a way to safely store information on client side [X]
+    - don't want JWT/refresh token in a bad place [X]
 6. Setup RabbitMQ to broadcast user logins
     - Temporary
     - Primarily to start RabbitMQ integration
