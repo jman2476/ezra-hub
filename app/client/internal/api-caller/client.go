@@ -11,6 +11,8 @@ import (
 type Client struct {
 	httpClient http.Client
 	baseURL    string
+	token      string
+	refresh    string
 }
 
 func NewClient(timeout time.Duration) Client {

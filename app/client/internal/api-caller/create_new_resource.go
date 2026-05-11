@@ -18,7 +18,7 @@ type Resource interface {
 	User | Event
 }
 
-func (c *Client) CreateNewResource(newData NewResource, header http.Header) (interface{}, error) {
+func (c *Client) CreateNewResource(newData NewResource) (interface{}, error) {
 	url := newData.GetEndpointURL(c)
 
 	resourceData, err := json.Marshal(newData)
@@ -30,6 +30,11 @@ func (c *Client) CreateNewResource(newData NewResource, header http.Header) (int
 	req, err := http.NewRequest("POST", url, body)
 	if err != nil {
 		return newData.NewEmptyStruct(), fmt.Errorf("Error creating request: %w", err)
+	}
+
+	header, ok := c.MakeAuthHeader()
+	if ok {
+		req.Header = header
 	}
 
 	res, err := c.httpClient.Do(req)

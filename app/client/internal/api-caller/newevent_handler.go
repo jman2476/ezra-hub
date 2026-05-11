@@ -1,6 +1,8 @@
 package apicaller
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func (c *Client) NewEvent(newEventInfo NewEvent) (Event, error) {
 	resVal, err := c.CreateNewResource(newEventInfo)

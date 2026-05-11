@@ -57,5 +57,8 @@ func (c *Client) LoginUser(loginInfo UserLogin) (User, error) {
 		return User{}, fmt.Errorf("Error unmarshalling response body: %w", err)
 	}
 
+	c.token = user.Token
+	c.refresh = user.Refresh
+
 	return user, nil
 }
