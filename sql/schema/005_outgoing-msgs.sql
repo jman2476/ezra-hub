@@ -9,4 +9,4 @@ CREATE TABLE outgoingmessages(
 
 
 -- +goose Down
-DROP TABLE outgoinglogs;
+DROP TABLE outgoingmessages;
