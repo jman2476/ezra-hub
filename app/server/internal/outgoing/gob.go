@@ -1,4 +1,4 @@
-package msgbroker
+package outgoing
 
 import (
 	"bytes"
