@@ -1,10 +1,10 @@
 -- +goose Up
-CREATE TABLE outgoingmsgs(
-    id UUID PRIMARY,
-    encoded_log BYTEA,
+CREATE TABLE outgoingmessages(
+    id UUID PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
-    sent BOOLEAN DEFAULT false
+    encoded_log BYTEA NOT NULL,
+    sent BOOLEAN NOT NULL DEFAULT false 
 );
 
 

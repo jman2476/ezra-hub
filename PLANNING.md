@@ -48,9 +48,9 @@ See notebook
 5. Add client login, verify [X]
     - find a way to safely store information on client side [X]
     - don't want JWT/refresh token in a bad place [X]
-6. Setup RabbitMQ to broadcast user logins
-    - Temporary
-    - Primarily to start RabbitMQ integration
+6. Setup RabbitMQ to broadcast user logins [X]
+    - Temporary [X]
+    - Primarily to start RabbitMQ integration [X]
 7. Create outgoing_messages table
     - all messages get stored here as gob-data
     - has field 'sent: boolean'
