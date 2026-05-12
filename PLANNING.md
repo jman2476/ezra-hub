@@ -51,7 +51,7 @@ See notebook
 6. Setup RabbitMQ to broadcast user logins [X]
     - Temporary [X]
     - Primarily to start RabbitMQ integration [X]
-7. Create outgoing_messages table
+7. Create outgoing_messages table [X]
     - all messages get stored here as gob-data
     - has field 'sent: boolean'
     - once a message is sent to RabbitMQ, field is updated
