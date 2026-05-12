@@ -22,6 +22,14 @@ type Event struct {
 	ExpiresAt time.Time
 }
 
+type Outgoingmessage struct {
+	ID         uuid.UUID
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	EncodedMsg []byte
+	Sent       bool
+}
+
 type Refreshtoken struct {
 	Token     string
 	CreatedAt time.Time
