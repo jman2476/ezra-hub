@@ -16,6 +16,7 @@ type apiConfig struct {
 	db       *database.Queries
 	platform string
 	secret   string
+	channel  *amqp.Channel
 }
 
 func main() {
@@ -50,6 +51,7 @@ func main() {
 		db:       database.New(db),
 		platform: platform,
 		secret:   secret,
+		channel:  channel,
 	}
 
 	mux := http.NewServeMux()

@@ -8,6 +8,8 @@ import (
 
 	"github.com/jman2476/ezra-hub/app/server/internal/auth"
 	"github.com/jman2476/ezra-hub/app/server/internal/database"
+	"github.com/jman2476/ezra-hub/app/server/internal/msgbroker"
+	"github.com/jman2476/ezra-hub/pkg/routing"
 )
 
 func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
@@ -59,6 +61,13 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 		respondWithError(w, http.StatusInternalServerError, "Error creating refresh token", err)
 		return
 	}
+
+	err = msgbroker.PublishJSON(
+		cfg.channel,
+		routing.ExchangeEzraDirect,
+		routing.ActiveUserKey,
+		routing.ActiveUser{Name: user.Name},
+	)
 
 	respondWithJSON(w, http.StatusOK, mapUser(user, token, refresh.Token))
 }
