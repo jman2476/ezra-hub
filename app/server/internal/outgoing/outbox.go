@@ -9,7 +9,7 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func LogOutgoingMessage(db *database.Queries, msg Outgoing) (uuid.UUID, error) {
+func LogOutgoingMessage(db *database.Queries, msg Message) (uuid.UUID, error) {
 	data, err := EncodeGob(msg)
 	if err != nil {
 		return uuid.UUID{}, fmt.Errorf("Log Outgoing Message error: %w", err)
@@ -23,7 +23,7 @@ func LogOutgoingMessage(db *database.Queries, msg Outgoing) (uuid.UUID, error) {
 	return out.ID, nil
 }
 
-type Outgoing struct {
+type Message struct {
 	Exchange   string
 	Key        string
 	Publishing amqp.Publishing

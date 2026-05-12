@@ -67,6 +67,7 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 		routing.ExchangeEzraDirect,
 		routing.ActiveUserKey,
 		routing.ActiveUser{Name: user.Name},
+		cfg.db,
 	)
 
 	respondWithJSON(w, http.StatusOK, mapUser(user, token, refresh.Token))
