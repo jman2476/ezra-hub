@@ -1,5 +1,5 @@
 -- +goose Up
-CREATE TABLE outgoinglogs(
+CREATE TABLE outgoingmsgs(
     id UUID PRIMARY,
     encoded_log BYTEA,
     created_at TIMESTAMP NOT NULL,
