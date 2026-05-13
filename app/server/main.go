@@ -41,8 +41,9 @@ func main() {
 	channel, err := connection.Channel()
 	if err != nil {
 		log.Printf("Error creating channel: %s", err)
+	} else {
+		log.Printf("Successfully created channel %v", channel)
 	}
-	log.Printf("Successfully created channel %v", channel)
 
 	port := os.Getenv("SERVER_PORT")
 	const filepathRoot = "."
