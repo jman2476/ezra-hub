@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	apicaller "github.com/jman2476/ezra-hub/app/client/internal/api-caller"
@@ -20,13 +21,13 @@ func commandCreateEvent(cfg *config) error {
 	newEvent.Name = name
 
 	cfg.Term.SetPrompt("Type: ")
-	eventType, err := cfg.Term.ReadLine()
+	eventCategory, err := cfg.Term.ReadLine()
 	if err != nil {
 		return err
 	}
-	newEvent.Type = eventType
+	newEvent.Category = strings.ToLower(eventCategory)
 
-	cfg.Term.SetPrompt("When is the event: YYYY-MM-DD hh:mm  ")
+	cfg.Term.SetPrompt("When is the event: YYYY-MM-DD hh:mm >")
 	date, err := cfg.Term.ReadLine()
 	if err != nil {
 		return err
@@ -48,9 +49,32 @@ func commandCreateEvent(cfg *config) error {
 	durStr := strconv.Itoa(durNum*24) + "h"
 	durParsed, err := time.ParseDuration(durStr)
 	if err != nil {
-		return nil
+		return err
 	}
 	newEvent.ExpiresAt = newEvent.OccursOn.Add(durParsed)
+
+	cfg.Term.SetPrompt("Give a brief description of the event:\r\n")
+	description, err := cfg.Term.ReadLine()
+	if err != nil {
+		return err
+	}
+	newEvent.Description = description
+
+	cfg.Term.SetPrompt("How many volunteers do you need? Type 0 if irrelavent. Invalid entries will be set to 0\n\rMin: ")
+	min, err := cfg.Term.ReadLine()
+	if err != nil {
+		return err
+	}
+	minInt, _ := strconv.Atoi(min) // ignore error, because error will set minInt to 0 anyway, which is what we want
+	newEvent.MinVolunteers = int32(minInt)
+
+	cfg.Term.SetPrompt("Max: ")
+	max, err := cfg.Term.ReadLine()
+	if err != nil {
+		return err
+	}
+	maxInt, _ := strconv.Atoi(max) // ignore error, because error will set maxInt to 0 anyway, which is what we want
+	newEvent.MaxVolunteers = int32(maxInt)
 
 	event, err := cfg.Client.NewEvent(newEvent)
 	if err != nil {
@@ -65,7 +89,25 @@ func printEvent(event apicaller.Event) {
 	fmt.Printf("\rEvent name: %s\n", event.Name)
 	fmt.Printf("\rCreated At: %v\n", event.CreatedAt)
 	fmt.Printf("\rUpdated At: %v\n", event.UpdatedAt)
-	fmt.Printf("\rType: %s\n", event.Type)
+	fmt.Printf("\rCategory: %s\n", event.Category)
 	fmt.Printf("\rOccurs On: %v\n", event.OccursOn)
 	fmt.Printf("\rExpires At: %v\n", event.ExpiresAt)
+	printVolunteersNeeded(event)
+	fmt.Printf("\rDescription: %v\n", event.Description)
+}
+
+func printVolunteersNeeded(event apicaller.Event) {
+	volunteer := "Volunteers: "
+	if event.MinVolunteers.Valid {
+		volunteer += fmt.Sprintf("Min: %d", event.MinVolunteers.Int32)
+	}
+	if event.MaxVolunteers.Valid {
+		volunteer += fmt.Sprintf("Max: %d", event.MaxVolunteers.Int32)
+	}
+
+	if !event.MinVolunteers.Valid && !event.MaxVolunteers.Valid {
+		volunteer += "Any"
+	}
+
+	fmt.Printf("\r%s\n", volunteer)
 }
