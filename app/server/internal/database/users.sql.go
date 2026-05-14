@@ -90,6 +90,18 @@ func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmail
 	return i, err
 }
 
+const getUserNameOnly = `-- name: GetUserNameOnly :one
+SELECT name FROM users
+WHERE id = $1
+`
+
+func (q *Queries) GetUserNameOnly(ctx context.Context, id uuid.UUID) (string, error) {
+	row := q.db.QueryRowContext(ctx, getUserNameOnly, id)
+	var name string
+	err := row.Scan(&name)
+	return name, err
+}
+
 const getUserforLogin = `-- name: GetUserforLogin :one
 SELECT id, created_at, updated_at, name, phone_number, email, hashed_password, subs FROM users
 WHERE name = $1 and email = $2

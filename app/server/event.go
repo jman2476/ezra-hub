@@ -9,6 +9,8 @@ import (
 
 	"github.com/jman2476/ezra-hub/app/server/internal/auth"
 	"github.com/jman2476/ezra-hub/app/server/internal/database"
+	"github.com/jman2476/ezra-hub/app/server/internal/msgbroker"
+	"github.com/jman2476/ezra-hub/pkg/routing"
 )
 
 func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) {
@@ -62,6 +64,23 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) 
 	event, err := cfg.db.CreateEvent(req.Context(), eventArgs)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Database error: unable to create event", err)
+		return
+	}
+
+	creator_name, err := cfg.db.GetUserNameOnly(req.Context(), event.OwnerID)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Database error: cannot get creator's name. Event still created", err)
+		return
+	}
+
+	err = msgbroker.PublishJSON(
+		cfg.channel,
+		routing.ExchangeEzraTopic,
+		string(event.Category)+"."+creator_name,
+		event, cfg.db,
+	)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Message broker error: unable to publish new event", err)
 		return
 	}
 

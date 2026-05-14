@@ -18,3 +18,7 @@ WHERE name = $1 and email = $2;
 -- name: GetUsers :many
 SELECT *
 FROM users;
+
+-- name: GetUserNameOnly :one
+SELECT name FROM users
+WHERE id = $1;

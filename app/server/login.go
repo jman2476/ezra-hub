@@ -69,6 +69,10 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 		routing.ActiveUser{Name: user.Name},
 		cfg.db,
 	)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Message broker error: unable to publish user login", err)
+		return
+	}
 
 	respondWithJSON(w, http.StatusOK, mapUser(user, token, refresh.Token))
 }
