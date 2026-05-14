@@ -1,6 +1,6 @@
 -- +goose Up
 CREATE TYPE genre AS ENUM 
-        ('ride', 'shopping', 'check-in', 'meal', 'other');
+        ('ride', 'shopping', 'check-in', 'meal', 'gathering', 'other');
 ALTER TABLE events
 ADD column min_volunteers INT,
 ADD column max_volunteers INT,
