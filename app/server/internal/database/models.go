@@ -16,11 +16,12 @@ import (
 type Genre string
 
 const (
-	GenreRide     Genre = "ride"
-	GenreShopping Genre = "shopping"
-	GenreCheckIn  Genre = "check-in"
-	GenreMeal     Genre = "meal"
-	GenreOther    Genre = "other"
+	GenreRide      Genre = "ride"
+	GenreShopping  Genre = "shopping"
+	GenreCheckIn   Genre = "check-in"
+	GenreMeal      Genre = "meal"
+	GenreGathering Genre = "gathering"
+	GenreOther     Genre = "other"
 )
 
 func (e *Genre) Scan(src interface{}) error {
@@ -56,6 +57,52 @@ func (ns NullGenre) Value() (driver.Value, error) {
 		return nil, nil
 	}
 	return string(ns.Genre), nil
+}
+
+type Subscription string
+
+const (
+	SubscriptionRide      Subscription = "ride"
+	SubscriptionShopping  Subscription = "shopping"
+	SubscriptionCheckIn   Subscription = "check-in"
+	SubscriptionMeal      Subscription = "meal"
+	SubscriptionGathering Subscription = "gathering"
+	SubscriptionOther     Subscription = "other"
+)
+
+func (e *Subscription) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = Subscription(s)
+	case string:
+		*e = Subscription(s)
+	default:
+		return fmt.Errorf("unsupported scan type for Subscription: %T", src)
+	}
+	return nil
+}
+
+type NullSubscription struct {
+	Subscription Subscription
+	Valid        bool // Valid is true if Subscription is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullSubscription) Scan(value interface{}) error {
+	if value == nil {
+		ns.Subscription, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.Subscription.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullSubscription) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.Subscription), nil
 }
 
 type Event struct {
@@ -98,4 +145,5 @@ type User struct {
 	PhoneNumber    string
 	Email          string
 	HashedPassword string
+	Subs           []Subscription
 }

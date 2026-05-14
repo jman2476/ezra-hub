@@ -11,11 +11,12 @@ import (
 type Genre string
 
 const (
-	GenreRide     Genre = "ride"
-	GenreShopping Genre = "shopping"
-	GenreCheckIn  Genre = "check-in"
-	GenreMeal     Genre = "meal"
-	GenreOther    Genre = "other"
+	GenreRide      Genre = "ride"
+	GenreShopping  Genre = "shopping"
+	GenreCheckIn   Genre = "check-in"
+	GenreMeal      Genre = "meal"
+	GenreGathering Genre = "gathering"
+	GenreOther     Genre = "other"
 )
 
 type Event struct {
@@ -60,6 +61,8 @@ func validateGenre(s string) Genre {
 		return GenreCheckIn
 	case "meal":
 		return GenreMeal
+	case "gathering":
+		return GenreGathering
 	default:
 		return GenreOther
 	}

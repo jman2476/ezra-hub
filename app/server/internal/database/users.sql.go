@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 const clearUsers = `-- name: ClearUsers :exec
@@ -24,7 +25,7 @@ func (q *Queries) ClearUsers(ctx context.Context) error {
 const createUser = `-- name: CreateUser :one
 INSERT INTO users (id, created_at, updated_at, name, phone_number, email, hashed_password)
 VALUES (gen_random_uuid(), NOW(), NOW(), $1, $2, $3, $4)
-RETURNING id, created_at, updated_at, name, phone_number, email, hashed_password
+RETURNING id, created_at, updated_at, name, phone_number, email, hashed_password, subs
 `
 
 type CreateUserParams struct {
@@ -50,6 +51,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.PhoneNumber,
 		&i.Email,
 		&i.HashedPassword,
+		pq.Array(&i.Subs),
 	)
 	return i, err
 }
@@ -89,7 +91,7 @@ func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmail
 }
 
 const getUserforLogin = `-- name: GetUserforLogin :one
-SELECT id, created_at, updated_at, name, phone_number, email, hashed_password FROM users
+SELECT id, created_at, updated_at, name, phone_number, email, hashed_password, subs FROM users
 WHERE name = $1 and email = $2
 `
 
@@ -109,12 +111,13 @@ func (q *Queries) GetUserforLogin(ctx context.Context, arg GetUserforLoginParams
 		&i.PhoneNumber,
 		&i.Email,
 		&i.HashedPassword,
+		pq.Array(&i.Subs),
 	)
 	return i, err
 }
 
 const getUsers = `-- name: GetUsers :many
-SELECT id, created_at, updated_at, name, phone_number, email, hashed_password
+SELECT id, created_at, updated_at, name, phone_number, email, hashed_password, subs
 FROM users
 `
 
@@ -135,6 +138,7 @@ func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 			&i.PhoneNumber,
 			&i.Email,
 			&i.HashedPassword,
+			pq.Array(&i.Subs),
 		); err != nil {
 			return nil, err
 		}
