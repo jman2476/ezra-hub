@@ -6,20 +6,71 @@ package database
 
 import (
 	"database/sql"
+	"database/sql/driver"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 )
 
+type Genre string
+
+const (
+	GenreRide     Genre = "ride"
+	GenreShopping Genre = "shopping"
+	GenreCheckIn  Genre = "check-in"
+	GenreMeal     Genre = "meal"
+	GenreOther    Genre = "other"
+)
+
+func (e *Genre) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = Genre(s)
+	case string:
+		*e = Genre(s)
+	default:
+		return fmt.Errorf("unsupported scan type for Genre: %T", src)
+	}
+	return nil
+}
+
+type NullGenre struct {
+	Genre Genre
+	Valid bool // Valid is true if Genre is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullGenre) Scan(value interface{}) error {
+	if value == nil {
+		ns.Genre, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.Genre.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullGenre) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.Genre), nil
+}
+
 type Event struct {
-	ID        uuid.UUID
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Name      string
-	OwnerID   uuid.UUID
-	Type      string
-	OccursOn  time.Time
-	ExpiresAt time.Time
+	ID            uuid.UUID
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	Name          string
+	OwnerID       uuid.UUID
+	OccursOn      time.Time
+	ExpiresAt     time.Time
+	MinVolunteers sql.NullInt32
+	MaxVolunteers sql.NullInt32
+	Respondants   []uuid.UUID
+	Description   string
+	Category      Genre
 }
 
 type Outgoingmessage struct {

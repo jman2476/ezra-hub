@@ -7,32 +7,81 @@ package database
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
+const addEventResponder = `-- name: AddEventResponder :one
+UPDATE events
+SET respondants = array_append(respondants, $1)
+WHERE id = $2
+RETURNING id, created_at, updated_at, name, owner_id, occurs_on, expires_at, min_volunteers, max_volunteers, respondants, description, category
+`
+
+type AddEventResponderParams struct {
+	ArrayAppend interface{}
+	ID          uuid.UUID
+}
+
+func (q *Queries) AddEventResponder(ctx context.Context, arg AddEventResponderParams) (Event, error) {
+	row := q.db.QueryRowContext(ctx, addEventResponder, arg.ArrayAppend, arg.ID)
+	var i Event
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.OwnerID,
+		&i.OccursOn,
+		&i.ExpiresAt,
+		&i.MinVolunteers,
+		&i.MaxVolunteers,
+		pq.Array(&i.Respondants),
+		&i.Description,
+		&i.Category,
+	)
+	return i, err
+}
+
 const createEvent = `-- name: CreateEvent :one
-INSERT INTO events(id, created_at, updated_at, name, owner_id, type, occurs_on, expires_at)
-VALUES (gen_random_uuid(), NOW(), NOW(), $1, $2, $3, $4, $5)
-RETURNING id, created_at, updated_at, name, owner_id, type, occurs_on, expires_at
+INSERT INTO events(
+    id, 
+    created_at, updated_at, 
+    name, 
+    description,
+    owner_id, 
+    category, 
+    occurs_on, expires_at,
+    min_volunteers, max_volunteers)
+VALUES (gen_random_uuid(), NOW(), NOW(), 
+    $1, $2, $3, $4, $5, $6, $7, $8)
+RETURNING id, created_at, updated_at, name, owner_id, occurs_on, expires_at, min_volunteers, max_volunteers, respondants, description, category
 `
 
 type CreateEventParams struct {
-	Name      string
-	OwnerID   uuid.UUID
-	Type      string
-	OccursOn  time.Time
-	ExpiresAt time.Time
+	Name          string
+	Description   string
+	OwnerID       uuid.UUID
+	Category      Genre
+	OccursOn      time.Time
+	ExpiresAt     time.Time
+	MinVolunteers sql.NullInt32
+	MaxVolunteers sql.NullInt32
 }
 
 func (q *Queries) CreateEvent(ctx context.Context, arg CreateEventParams) (Event, error) {
 	row := q.db.QueryRowContext(ctx, createEvent,
 		arg.Name,
+		arg.Description,
 		arg.OwnerID,
-		arg.Type,
+		arg.Category,
 		arg.OccursOn,
 		arg.ExpiresAt,
+		arg.MinVolunteers,
+		arg.MaxVolunteers,
 	)
 	var i Event
 	err := row.Scan(
@@ -41,9 +90,55 @@ func (q *Queries) CreateEvent(ctx context.Context, arg CreateEventParams) (Event
 		&i.UpdatedAt,
 		&i.Name,
 		&i.OwnerID,
-		&i.Type,
 		&i.OccursOn,
 		&i.ExpiresAt,
+		&i.MinVolunteers,
+		&i.MaxVolunteers,
+		pq.Array(&i.Respondants),
+		&i.Description,
+		&i.Category,
 	)
 	return i, err
+}
+
+const getEventRespondants = `-- name: GetEventRespondants :many
+SELECT u.id, u.name, u.phone_number, u.email
+FROM users u
+JOIN events e ON u.id = ANY(e.respondants)
+WHERE e.id = $1
+`
+
+type GetEventRespondantsRow struct {
+	ID          uuid.UUID
+	Name        string
+	PhoneNumber string
+	Email       string
+}
+
+func (q *Queries) GetEventRespondants(ctx context.Context, id uuid.UUID) ([]GetEventRespondantsRow, error) {
+	rows, err := q.db.QueryContext(ctx, getEventRespondants, id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetEventRespondantsRow
+	for rows.Next() {
+		var i GetEventRespondantsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.PhoneNumber,
+			&i.Email,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
