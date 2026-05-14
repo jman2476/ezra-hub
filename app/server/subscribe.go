@@ -1,0 +1,80 @@
+package main
+
+import (
+	"encoding/json"
+	"log"
+	"net/http"
+	"slices"
+
+	"github.com/jman2476/ezra-hub/app/server/internal/auth"
+	"github.com/jman2476/ezra-hub/app/server/internal/database"
+)
+
+var subTypes = []string{
+	"ride", "shopping", "check-in", "meal", "gathering", "other",
+}
+
+func (cfg *apiConfig) handlerSubscribe(w http.ResponseWriter, req *http.Request) {
+	log.Println("PATCH /api/users")
+
+	type parameters struct {
+		Queues map[string]int `json:"subscriptions"`
+	}
+
+	token, err := auth.GetBearerToken(req.Header)
+	if err != nil {
+		respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
+		return
+	}
+
+	userID, err := auth.ValidateJWT(token, cfg.secret)
+	if err != nil {
+		respondWithError(w, http.StatusUnauthorized, "JWT Expired", err)
+		return
+	}
+
+	decoder := json.NewDecoder(req.Body)
+	params := parameters{}
+	err = decoder.Decode(&params)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Error decoding request body", err)
+		return
+	}
+
+	currentSubs, err := cfg.db.GetUserSubsbyID(req.Context(), userID)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Can't get user's subscriptions", err)
+		return
+	}
+
+	subsToAdd := getNewSubscriptions(params.Queues, currentSubs.Subs)
+
+	subParams := database.SetSubscriptionbyIDParams{
+		ID:   userID,
+		Subs: subsToAdd,
+	}
+
+	err = cfg.db.SetSubscriptionbyID(req.Context(), subParams)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Unable to set new subscriptions", err)
+		return
+	}
+
+	respondWithJSON(w, http.StatusNoContent, struct{}{})
+}
+
+func getNewSubscriptions(new map[string]int, old []database.Subscription) []database.Subscription {
+	var newList []database.Subscription
+	for _, sub := range old {
+		if _, ok := new[string(sub)]; ok {
+			new[string(sub)] -= 1
+		}
+	}
+	for key, val := range new {
+		if val == 1 && slices.Contains(subTypes, key) {
+			newList = append(newList, database.Subscription(key))
+		}
+	}
+
+	return newList
+}

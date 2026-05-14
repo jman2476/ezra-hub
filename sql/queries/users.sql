@@ -7,7 +7,7 @@ RETURNING *;
 DELETE FROM users;
 
 -- name: GetUserByNameEmail :one
-SELECT id, created_at, updated_at, name, phone_number, email
+SELECT id, created_at, updated_at, name, phone_number, email, subs
 FROM users
 WHERE name = $1 and email = $2;
 
@@ -21,4 +21,13 @@ FROM users;
 
 -- name: GetUserNameOnly :one
 SELECT name FROM users
+WHERE id = $1;
+
+-- name: SetSubscriptionbyID :exec
+UPDATE users
+SET subs = $1
+WHERE id = $2;
+
+-- name: GetUserSubsbyID :one
+SELECT id, subs FROM users
 WHERE id = $1;

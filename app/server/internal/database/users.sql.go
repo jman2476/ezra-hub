@@ -57,7 +57,7 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 }
 
 const getUserByNameEmail = `-- name: GetUserByNameEmail :one
-SELECT id, created_at, updated_at, name, phone_number, email
+SELECT id, created_at, updated_at, name, phone_number, email, subs
 FROM users
 WHERE name = $1 and email = $2
 `
@@ -74,6 +74,7 @@ type GetUserByNameEmailRow struct {
 	Name        string
 	PhoneNumber string
 	Email       string
+	Subs        []Subscription
 }
 
 func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmailParams) (GetUserByNameEmailRow, error) {
@@ -86,6 +87,7 @@ func (q *Queries) GetUserByNameEmail(ctx context.Context, arg GetUserByNameEmail
 		&i.Name,
 		&i.PhoneNumber,
 		&i.Email,
+		pq.Array(&i.Subs),
 	)
 	return i, err
 }
@@ -100,6 +102,23 @@ func (q *Queries) GetUserNameOnly(ctx context.Context, id uuid.UUID) (string, er
 	var name string
 	err := row.Scan(&name)
 	return name, err
+}
+
+const getUserSubsbyID = `-- name: GetUserSubsbyID :one
+SELECT id, subs FROM users
+WHERE id = $1
+`
+
+type GetUserSubsbyIDRow struct {
+	ID   uuid.UUID
+	Subs []Subscription
+}
+
+func (q *Queries) GetUserSubsbyID(ctx context.Context, id uuid.UUID) (GetUserSubsbyIDRow, error) {
+	row := q.db.QueryRowContext(ctx, getUserSubsbyID, id)
+	var i GetUserSubsbyIDRow
+	err := row.Scan(&i.ID, pq.Array(&i.Subs))
+	return i, err
 }
 
 const getUserforLogin = `-- name: GetUserforLogin :one
@@ -163,4 +182,20 @@ func (q *Queries) GetUsers(ctx context.Context) ([]User, error) {
 		return nil, err
 	}
 	return items, nil
+}
+
+const setSubscriptionbyID = `-- name: SetSubscriptionbyID :exec
+UPDATE users
+SET subs = $1
+WHERE id = $2
+`
+
+type SetSubscriptionbyIDParams struct {
+	Subs []Subscription
+	ID   uuid.UUID
+}
+
+func (q *Queries) SetSubscriptionbyID(ctx context.Context, arg SetSubscriptionbyIDParams) error {
+	_, err := q.db.ExecContext(ctx, setSubscriptionbyID, pq.Array(arg.Subs), arg.ID)
+	return err
 }
