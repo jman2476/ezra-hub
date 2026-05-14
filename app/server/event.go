@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -13,9 +14,12 @@ import (
 func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) {
 	type parameters struct {
 		Name      string    `json:"name"`
-		Type      string    `json:"type"`
+		Category  string    `json:"category"`
 		OccursOn  time.Time `json:"occurs_on"`
 		ExpiresAt time.Time `json:"expires_at"`
+		MinVol    int32     `json:"min_volunteer"`
+		MaxVol    int32     `json:"max_volunteer"`
+		Desc      string    `json:"description"`
 	}
 
 	log.Printf("POST /api/events")
@@ -43,9 +47,16 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) 
 	eventArgs := database.CreateEventParams{
 		Name:      params.Name,
 		OwnerID:   userID,
-		Type:      params.Type,
+		Category:  database.Genre(validateGenre(params.Category)),
 		OccursOn:  params.OccursOn,
 		ExpiresAt: params.ExpiresAt,
+		MinVolunteers: sql.NullInt32{
+			Int32: params.MinVol,
+			Valid: params.MinVol != 0},
+		MaxVolunteers: sql.NullInt32{
+			Int32: params.MaxVol,
+			Valid: params.MaxVol != 0},
+		Description: params.Desc,
 	}
 
 	event, err := cfg.db.CreateEvent(req.Context(), eventArgs)
