@@ -1,0 +1,96 @@
+package menu
+
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"os"
+	"strings"
+
+	"golang.org/x/term"
+)
+
+func menuRepl(items []string, index int) (string, error) {
+	if index >= len(items) {
+		return "", fmt.Errorf("Index %d is out of range of slice", index)
+	}
+	scrollReader := bufio.NewReader(os.Stdin)
+	var buff []byte
+
+	printMenu(items, index)
+	for {
+		b, err := scrollReader.ReadByte()
+		if err != nil {
+			fmt.Printf("error reading input: %v", err)
+		}
+		if int(b) == 13 {
+			return items[index], nil
+		}
+		buff = append(buff, b)
+		if len(buff) < 3 || buff == nil {
+			continue
+		}
+		if int(buff[len(buff)-3]) == 27 && int(buff[len(buff)-2]) == 91 {
+			switch last := rune(buff[len(buff)-1]); last {
+			case 'A':
+				newIndex := index - 1
+				if newIndex >= 0 {
+					index = newIndex
+				}
+				clearMenu(len(items))
+				printMenu(items, index)
+			case 'B':
+				newIndex := index + 1
+				if newIndex < len(items) {
+					index = newIndex
+				}
+				clearMenu(len(items))
+				printMenu(items, index)
+			}
+		}
+	}
+}
+
+func printMenu(items []string, index int) {
+	fmt.Println("[\u2191]/[\u2193] to navigate, [Enter] to select\r")
+	for idx, item := range items {
+		margin := "  "
+		if idx == index {
+			margin = "> "
+		}
+		fmt.Printf("%s%s\n\r", margin, item)
+	}
+}
+
+func clearMenu(num int) {
+	var wipe strings.Builder
+	for range num + 1 {
+		wipe.Write([]byte("\r\033[K\033[A"))
+	}
+
+	fmt.Print(wipe.String())
+}
+
+func clearWindow() error {
+	_, height, err := term.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		return err
+	}
+
+	for range height {
+		// fmt.Println("\r\nClearing Window\r")
+		fmt.Print("\r\033[K\033[A")
+	}
+	return nil
+}
+
+func setReaderWriter(in, out *os.File) io.ReadWriter {
+	rw := struct {
+		io.Reader
+		io.Writer
+	}{
+		Reader: in,
+		Writer: out,
+	}
+	return rw
+}
