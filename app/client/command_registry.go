@@ -38,5 +38,10 @@ func getCommands() map[string]cliCommand {
 			description: "Subscribe to feeds",
 			callback:    commandSubscribe,
 		},
+		"events": {
+			name:        "events",
+			description: "list events",
+			callback:    commandListEvents,
+		},
 	}
 }

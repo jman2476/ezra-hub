@@ -88,7 +88,7 @@ func (cfg *config) termNewLine() {
 
 func (cfg *config) loginOptions() {
 	var options = []string{"signup", "login", "exit"}
-	commandName, err := menu.MenuRepl(options, 0)
+	commandName, _, err := menu.MenuRepl(options, 0)
 	if err != nil {
 		fmt.Println(
 			fmt.Errorf("Menu error: %w", err),

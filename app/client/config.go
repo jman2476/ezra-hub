@@ -13,4 +13,5 @@ type config struct {
 	Window     int
 	Client     apicaller.Client
 	Connection *amqp.Connection
+	Events     []apicaller.Event
 }

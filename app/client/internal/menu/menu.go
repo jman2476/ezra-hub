@@ -9,9 +9,9 @@ import (
 	"golang.org/x/term"
 )
 
-func MenuRepl(items []string, index int) (string, error) {
+func MenuRepl(items []string, index int) (string, int, error) {
 	if index >= len(items) {
-		return "", fmt.Errorf("Index %d is out of range of slice", index)
+		return "", 0, fmt.Errorf("Index %d is out of range of slice", index)
 	}
 	scrollReader := bufio.NewReader(os.Stdin)
 	var buff []byte
@@ -23,7 +23,7 @@ func MenuRepl(items []string, index int) (string, error) {
 			fmt.Printf("error reading input: %v", err)
 		}
 		if int(b) == 13 {
-			return items[index], nil
+			return items[index], index, nil
 		}
 		buff = append(buff, b)
 		if len(buff) < 3 || buff == nil {
