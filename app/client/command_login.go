@@ -11,6 +11,7 @@ import (
 func commandLogin(cfg *config) error {
 	fmt.Println("Log in to your account\n\r")
 	var loginData apicaller.UserLogin
+	var user apicaller.User
 
 	cfg.Term.SetPrompt("Name: ")
 	name, err := cfg.Term.ReadLine()
@@ -32,23 +33,12 @@ func commandLogin(cfg *config) error {
 	}
 	loginData.Password = password
 
-	user, err := cfg.Client.LoginUser(loginData)
+	user, err = cfg.Client.LoginUser(loginData)
 	if err != nil {
 		return err
 	}
 	cfg.User = user
 	printUser(user)
-
-	// _, _, err = msgbroker.DeclareAndBind(
-	// 	cfg.Connection,
-	// 	routing.ExchangeEzraDirect,
-	// 	routing.ActiveUserKey+"."+user.Name,
-	// 	routing.ActiveUserKey,
-	// 	msgbroker.SimpleQueueTransient,
-	// )
-	// if err != nil {
-	// 	fmt.Printf("Errors encountered in declare and bind: %s\r\n", err)
-	// }
 
 	err = msgbroker.SubscribeJSON(
 		cfg.Connection,

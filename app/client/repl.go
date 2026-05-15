@@ -23,7 +23,7 @@ func startRepl(cfg *config) {
 	cfg.Term = term.NewTerminal(rw, "")
 	cfg.termState = oldSate
 
-	// login/signup loop
+	// login/signup/exit
 	cfg.loginOptions()
 
 	// main loop

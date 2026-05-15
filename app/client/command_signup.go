@@ -9,6 +9,7 @@ import (
 func commandSignUp(cfg *config) error {
 	fmt.Println("Signup new user\n\r")
 	var newUser apicaller.NewUser
+	var user apicaller.User
 
 	cfg.Term.SetPrompt("Name: ")
 	name, err := cfg.Term.ReadLine()
@@ -48,7 +49,7 @@ func commandSignUp(cfg *config) error {
 		}
 	}
 
-	user, err := cfg.Client.NewUser(newUser)
+	user, err = cfg.Client.NewUser(newUser)
 	if err != nil {
 		return err
 	}
