@@ -39,16 +39,16 @@ func commandLogin(cfg *config) error {
 	cfg.User = user
 	printUser(user)
 
-	_, _, err = msgbroker.DeclareAndBind(
-		cfg.Connection,
-		routing.ExchangeEzraDirect,
-		routing.ActiveUserKey+"."+user.Name,
-		routing.ActiveUserKey,
-		msgbroker.SimpleQueueTransient,
-	)
-	if err != nil {
-		fmt.Printf("Errors encountered in declare and bind: %s\r\n", err)
-	}
+	// _, _, err = msgbroker.DeclareAndBind(
+	// 	cfg.Connection,
+	// 	routing.ExchangeEzraDirect,
+	// 	routing.ActiveUserKey+"."+user.Name,
+	// 	routing.ActiveUserKey,
+	// 	msgbroker.SimpleQueueTransient,
+	// )
+	// if err != nil {
+	// 	fmt.Printf("Errors encountered in declare and bind: %s\r\n", err)
+	// }
 
 	err = msgbroker.SubscribeJSON(
 		cfg.Connection,

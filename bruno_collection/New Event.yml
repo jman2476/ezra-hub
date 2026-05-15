@@ -1,5 +1,5 @@
 info:
-  name: Hank New Event
+  name: New Event
   type: http
   seq: 7
 
@@ -14,9 +14,12 @@ http:
     data: |-
       {
         "name": "BBQ July 4",
-        "type": "cookout party",
+        "category": "gathering",
         "occurs_on": "2026-07-04T12:01:23.970923Z",
-        "expires_at": "2026-07-05T12:01:23.970923Z"
+        "expires_at": "2026-07-05T12:01:23.970923Z",
+        "min_volunteer": 3,
+        "max_volunteer": 100,
+        "description": "We are gonna eat barbaque and drink things out of cans"
       }
 
 settings:

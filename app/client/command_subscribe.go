@@ -41,7 +41,7 @@ func commandSubscribe(cfg *config) error {
 			cfg.Connection,
 			routing.ExchangeEzraTopic,
 			sub+"."+cfg.User.Name,
-			sub,
+			sub+".*",
 			msgbroker.SimpleQueueTransient,
 			handlerEvent(cfg),
 		)
