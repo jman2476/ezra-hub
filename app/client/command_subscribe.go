@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/jman2476/ezra-hub/app/client/internal/msgbroker"
+	"github.com/jman2476/ezra-hub/pkg/routing"
 )
 
 func commandSubscribe(cfg *config) error {
@@ -13,7 +16,7 @@ func commandSubscribe(cfg *config) error {
 	cfg.Term.SetPrompt("Event choices> ")
 	input, err := cfg.Term.ReadLine()
 	if err != nil {
-		return err
+		return fmt.Errorf("ReadLine error: %w", err)
 	}
 
 	choices := strings.Split(strings.ToLower(input), ",")
@@ -25,10 +28,27 @@ func commandSubscribe(cfg *config) error {
 	for _, choice := range choices {
 		subMap[choice] = 1
 	}
+	fmt.Printf("\r\nSub Map: %v\r\n", subMap)
 
-	if cfg.User.Subscriptions != nil {
-		for _, sub := range cfg.User.Subscriptions {
-			subMap[sub] = 1
+	newSubs, err := cfg.Client.SetSubscriptions(subMap)
+	if err != nil {
+		return fmt.Errorf("Set Subscriptions error: %w", err)
+	}
+
+	for _, sub := range newSubs {
+		cfg.User.Subscriptions = append(cfg.User.Subscriptions, sub)
+		err := msgbroker.SubscribeJSON(
+			cfg.Connection,
+			routing.ExchangeEzraTopic,
+			sub+"."+cfg.User.Name,
+			sub,
+			msgbroker.SimpleQueueTransient,
+			handlerEvent(cfg),
+		)
+		if err != nil {
+			fmt.Println(fmt.Errorf("\r\nError subscribing to event type %s: %w", sub, err))
+		} else {
+			fmt.Printf("\rSuccessfully subscribed to the %s feed\n", sub)
 		}
 	}
 

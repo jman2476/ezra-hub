@@ -33,5 +33,10 @@ func getCommands() map[string]cliCommand {
 			description: "Log out user",
 			callback:    commandLogout,
 		},
+		"subscribe": {
+			name:        "subscribe",
+			description: "Subscribe to feeds",
+			callback:    commandSubscribe,
+		},
 	}
 }

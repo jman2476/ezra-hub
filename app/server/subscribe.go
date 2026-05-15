@@ -46,12 +46,13 @@ func (cfg *apiConfig) handlerSubscribe(w http.ResponseWriter, req *http.Request)
 		respondWithError(w, http.StatusInternalServerError, "Can't get user's subscriptions", err)
 		return
 	}
-
+	log.Printf("Paramters struct %v", params)
+	log.Printf("Params queues: %v", params.Queues)
 	subsToAdd := getNewSubscriptions(params.Queues, currentSubs.Subs)
 
 	subParams := database.SetSubscriptionbyIDParams{
 		ID:   userID,
-		Subs: subsToAdd,
+		Subs: slices.Concat(currentSubs.Subs, subsToAdd),
 	}
 
 	err = cfg.db.SetSubscriptionbyID(req.Context(), subParams)
@@ -60,7 +61,7 @@ func (cfg *apiConfig) handlerSubscribe(w http.ResponseWriter, req *http.Request)
 		return
 	}
 
-	respondWithJSON(w, http.StatusNoContent, struct{}{})
+	respondWithJSON(w, http.StatusOK, subsToAdd)
 }
 
 func getNewSubscriptions(new map[string]int, old []database.Subscription) []database.Subscription {
@@ -75,6 +76,7 @@ func getNewSubscriptions(new map[string]int, old []database.Subscription) []data
 			newList = append(newList, database.Subscription(key))
 		}
 	}
+	log.Printf("new: %v\r\nold: %v\r\nnewList: %v", new, old, newList)
 
 	return newList
 }
