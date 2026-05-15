@@ -8,15 +8,15 @@ http:
   url: http://localhost:3294/api/events
   headers:
     - name: Authorization
-      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjFlNDAyMmU5LWVkNzMtNGRjNC1iMDllLWZhODJkMjljOTA4NSIsImV4cCI6MTc3ODI2Njg2OCwiaWF0IjoxNzc4MjY2NTY4fQ.xwHys8Z7IZ-MCh1tzKV-44Xb9IWe3y--Z2OQ9m_OQx8
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjJmZDM2ZWQ3LWIzYjItNDI5Zi04MjNjLTQ2ZjJjNTQ1OGNhMyIsImV4cCI6MTc3ODg4MTIzNywiaWF0IjoxNzc4ODc3NjM3fQ.nDSc7Oz6MTEXbmpNoFdsM0OGmAKyIKOYiz8LXPvG4zs
   body:
     type: json
     data: |-
       {
-        "name": "BBQ July 4",
+        "name": "BBQ June 4",
         "category": "gathering",
-        "occurs_on": "2026-07-04T12:01:23.970923Z",
-        "expires_at": "2026-07-05T12:01:23.970923Z",
+        "occurs_on": "2026-08-04T12:01:23.970923Z",
+        "expires_at": "2026-08-05T12:01:23.970923Z",
         "min_volunteer": 3,
         "max_volunteer": 100,
         "description": "We are gonna eat barbaque and drink things out of cans"

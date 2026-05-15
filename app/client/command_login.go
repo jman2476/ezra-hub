@@ -48,6 +48,30 @@ func commandLogin(cfg *config) error {
 		msgbroker.SimpleQueueTransient,
 		handlerActiveUsers(cfg),
 	)
+	// User subscriptions not properly getting sent from the server
+	fmt.Printf("User subs: %v", user.Subscriptions)
 
+	errSlice := resubQueues(cfg)
+	for _, e := range errSlice {
+		fmt.Println(
+			fmt.Errorf("Err subscribing to %w", e),
+		)
+	}
 	return nil
+}
+
+func resubQueues(cfg *config) (errSlice []error) {
+	for _, cat := range cfg.User.Subscriptions {
+		fmt.Printf("\rSubscribing to %s", cat)
+		err := msgbroker.SubscribeJSON(
+			cfg.Connection,
+			routing.ExchangeEzraTopic,
+			cat+"."+cfg.User.Name,
+			cat+".*",
+			msgbroker.SimpleQueueTransient,
+			handlerEvent(cfg),
+		)
+		errSlice = append(errSlice, fmt.Errorf("%s: %w", cat, err))
+	}
+	return
 }
