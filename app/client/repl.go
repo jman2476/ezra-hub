@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/jman2476/ezra-hub/app/client/internal/menu"
 	"golang.org/x/term"
 )
 
@@ -22,6 +23,10 @@ func startRepl(cfg *config) {
 	cfg.Term = term.NewTerminal(rw, "")
 	cfg.termState = oldSate
 
+	// login/signup loop
+	cfg.loginOptions()
+
+	// main loop
 	for {
 		prompt := "Ezra"
 		if cfg.User.Name != "" {
@@ -79,4 +84,28 @@ func setReaderWriter(in, out *os.File) io.ReadWriter {
 func (cfg *config) termNewLine() {
 	prompt := "Ezra:" + cfg.User.Name + ">"
 	cfg.Term.Write([]byte(prompt))
+}
+
+func (cfg *config) loginOptions() {
+	var options = []string{"signup", "login", "exit"}
+	commandName, err := menu.MenuRepl(options, 0)
+	if err != nil {
+		fmt.Println(
+			fmt.Errorf("Menu error: %w", err),
+		)
+	}
+
+	command, ok := getCommands()[commandName]
+	if ok {
+		err := command.callback(cfg)
+
+		if err != nil {
+			fmt.Println("\r", err)
+		}
+
+	} else {
+		fmt.Println("\rUnknown command")
+
+	}
+
 }

@@ -3,21 +3,20 @@ package menu
 import (
 	"bufio"
 	"fmt"
-	"io"
 	"os"
 	"strings"
 
 	"golang.org/x/term"
 )
 
-func menuRepl(items []string, index int) (string, error) {
+func MenuRepl(items []string, index int) (string, error) {
 	if index >= len(items) {
 		return "", fmt.Errorf("Index %d is out of range of slice", index)
 	}
 	scrollReader := bufio.NewReader(os.Stdin)
 	var buff []byte
 
-	printMenu(items, index)
+	PrintMenu(items, index)
 	for {
 		b, err := scrollReader.ReadByte()
 		if err != nil {
@@ -37,21 +36,21 @@ func menuRepl(items []string, index int) (string, error) {
 				if newIndex >= 0 {
 					index = newIndex
 				}
-				clearMenu(len(items))
-				printMenu(items, index)
+				ClearMenu(len(items))
+				PrintMenu(items, index)
 			case 'B':
 				newIndex := index + 1
 				if newIndex < len(items) {
 					index = newIndex
 				}
-				clearMenu(len(items))
-				printMenu(items, index)
+				ClearMenu(len(items))
+				PrintMenu(items, index)
 			}
 		}
 	}
 }
 
-func printMenu(items []string, index int) {
+func PrintMenu(items []string, index int) {
 	fmt.Println("[\u2191]/[\u2193] to navigate, [Enter] to select\r")
 	for idx, item := range items {
 		margin := "  "
@@ -62,7 +61,7 @@ func printMenu(items []string, index int) {
 	}
 }
 
-func clearMenu(num int) {
+func ClearMenu(num int) {
 	var wipe strings.Builder
 	for range num + 1 {
 		wipe.Write([]byte("\r\033[K\033[A"))
@@ -71,26 +70,14 @@ func clearMenu(num int) {
 	fmt.Print(wipe.String())
 }
 
-func clearWindow() error {
+func ClearWindow() error {
 	_, height, err := term.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
 		return err
 	}
 
 	for range height {
-		// fmt.Println("\r\nClearing Window\r")
 		fmt.Print("\r\033[K\033[A")
 	}
 	return nil
-}
-
-func setReaderWriter(in, out *os.File) io.ReadWriter {
-	rw := struct {
-		io.Reader
-		io.Writer
-	}{
-		Reader: in,
-		Writer: out,
-	}
-	return rw
 }
