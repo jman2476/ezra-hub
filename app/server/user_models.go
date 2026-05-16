@@ -8,14 +8,15 @@ import (
 )
 
 type User struct {
-	ID          uuid.UUID `json:"id"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	Name        string    `json:"name"`
-	PhoneNumber string    `json:"phone_number"`
-	Email       string    `json:"email"`
-	JWT         string    `json:"jwt"`
-	Refresh     string    `json:"refresh_token"`
+	ID          uuid.UUID               `json:"id"`
+	CreatedAt   time.Time               `json:"created_at"`
+	UpdatedAt   time.Time               `json:"updated_at"`
+	Name        string                  `json:"name"`
+	PhoneNumber string                  `json:"phone_number"`
+	Email       string                  `json:"email"`
+	JWT         string                  `json:"jwt"`
+	Refresh     string                  `json:"refresh_token"`
+	Subs        []database.Subscription `json:"subs"`
 }
 
 func mapUser(user database.User, jwt, refresh string) User {
@@ -29,6 +30,7 @@ func mapUser(user database.User, jwt, refresh string) User {
 			Email:       user.Email,
 			JWT:         jwt,
 			Refresh:     refresh,
+			Subs:        user.Subs,
 		}
 	}
 	return User{
@@ -38,5 +40,6 @@ func mapUser(user database.User, jwt, refresh string) User {
 		Name:        user.Name,
 		PhoneNumber: user.PhoneNumber,
 		Email:       user.Email,
+		Subs:        user.Subs,
 	}
 }

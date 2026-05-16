@@ -34,9 +34,10 @@ func main() {
 	connection, err := amqp.Dial(rabbitConnString)
 	if err != nil {
 		log.Printf("Error establishing connection to RabbitMQ server: %s", err)
+	} else {
+		log.Printf("Connection to RabbitMQ server successful")
 	}
 	defer connection.Close()
-	log.Printf("Connection to RabbitMQ server successful")
 
 	channel, err := connection.Channel()
 	if err != nil {
