@@ -11,6 +11,7 @@ import (
 )
 
 func PublishJSON[T any](ch *amqp.Channel, exchange, key string, val T, db *database.Queries) error {
+	// There's an error here, and I need to find it
 	data, err := json.Marshal(val)
 	if err != nil {
 		return fmt.Errorf("Marshaling error: %w", err)

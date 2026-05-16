@@ -72,7 +72,7 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) 
 		respondWithError(w, http.StatusInternalServerError, "Database error: cannot get creator's name. Event still created", err)
 		return
 	}
-
+	log.Printf("\r%s created %s\n", creator_name, event.Name)
 	err = msgbroker.PublishJSON(
 		cfg.channel,
 		routing.ExchangeEzraTopic,
@@ -82,6 +82,8 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) 
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Message broker error: unable to publish new event", err)
 		return
+	} else {
+		log.Println("\rIt seems like we published\r")
 	}
 
 	respondWithJSON(w, http.StatusCreated, mapEvent(event))
