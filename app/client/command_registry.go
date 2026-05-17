@@ -8,6 +8,11 @@ type cliCommand struct {
 
 func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "List commands for Ezra Hub client",
+			callback:    commandHelp,
+		},
 		"exit": {
 			name:        "exit",
 			description: "Exit Ezra Hub",
