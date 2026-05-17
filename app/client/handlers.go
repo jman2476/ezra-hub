@@ -30,7 +30,7 @@ func handlerEvent(cfg *config) func(apicaller.Event) msgbroker.AckType {
 		fmt.Println("\r************************")
 		fmt.Printf("\rNew %s Event Incoming!\n", strings.ToUpper(e.Category))
 		printEvent(e)
-		fmt.Println("\r************************")
+		fmt.Println("\r************************\r")
 
 		cfg.Events = append(cfg.Events, e)
 
