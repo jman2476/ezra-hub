@@ -8,7 +8,7 @@ http:
   url: http://localhost:3294/api/events/:id
   headers:
     - name: Authorization
-      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjJmZDM2ZWQ3LWIzYjItNDI5Zi04MjNjLTQ2ZjJjNTQ1OGNhMyIsImV4cCI6MTc3OTEzMDY0OSwiaWF0IjoxNzc5MTI3MDQ5fQ.Gt_e0l98Rlm1Nkl2htaxBvsNaGxRd07QbHJg5qWTVfg
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjkzMWNkNzkzLWRlMzktNGI0NC05YWQ5LWM5YzlhMTNiZjUxMSIsImV4cCI6MTc3OTE0MjY1OCwiaWF0IjoxNzc5MTM5MDU4fQ.LZ5DP1znz-2CeAMBL_d_o8elINgG8pj87-ymBf2RYfY
   params:
     - name: id
       value: 51c5f38b-2472-4147-9d70-2b18198e88e2
