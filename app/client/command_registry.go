@@ -48,5 +48,10 @@ func getCommands() map[string]cliCommand {
 			description: "list events",
 			callback:    commandListEvents,
 		},
+		"respond": {
+			name:        "respond",
+			description: "Respond whether you can volunteer for an event",
+			callback:    commandRespond,
+		},
 	}
 }

@@ -81,3 +81,54 @@ func ClearWindow() error {
 	}
 	return nil
 }
+
+func SelectYesNo() (selection bool) {
+	var stateYes = ">Yes  No"
+	var stateNo = " Yes >No"
+	// var clearLine = "\r        \r"
+	var current = stateYes
+
+	boolReader := bufio.NewReader(os.Stdin)
+	var buff []byte
+	fmt.Print(current)
+	for {
+		selection = stateYes == current
+		b, err := boolReader.ReadByte()
+		if err != nil {
+			fmt.Printf("error reading input: %v", err)
+		}
+		if int(b) == 13 {
+			return
+		}
+		buff = append(buff, b)
+		if len(buff) < 3 || buff == nil {
+			continue
+		}
+		if int(buff[len(buff)-3]) == 27 && int(buff[len(buff)-2]) == 91 {
+			switch last := rune(buff[len(buff)-1]); last {
+			case 'C':
+				fallthrough
+			case 'D':
+				if selection {
+					current = stateNo
+				} else {
+					current = stateYes
+				}
+				EraseCharacters(len(current))
+				fmt.Print(current)
+			default:
+				continue
+			}
+		}
+	}
+}
+
+func EraseCharacters(chars int) {
+	var clear strings.Builder
+	for range chars {
+		clear.Write([]byte("\033[D"))
+	}
+	// clear.Write([]byte("\033[K"))
+
+	fmt.Print(clear.String())
+}
