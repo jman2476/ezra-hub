@@ -1,0 +1,78 @@
+package main
+
+import (
+	"encoding/json"
+	"log"
+	"net/http"
+
+	"github.com/google/uuid"
+	"github.com/jman2476/ezra-hub/app/server/internal/auth"
+	"github.com/jman2476/ezra-hub/app/server/internal/database"
+	"github.com/jman2476/ezra-hub/app/server/internal/msgbroker"
+	"github.com/jman2476/ezra-hub/pkg/routing"
+)
+
+func (cfg *apiConfig) handlerRespondEvent(w http.ResponseWriter, req *http.Request) {
+	log.Println("PATCH /api/events/{id}")
+
+	type parameters struct {
+		Available bool `json:"available"`
+	}
+
+	token, err := auth.GetBearerToken(req.Header)
+	if err != nil {
+		respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
+		return
+	}
+
+	userID, err := auth.ValidateJWT(token, cfg.secret)
+	if err != nil {
+		respondWithError(w, http.StatusUnauthorized, "JWT Expired", err)
+		return
+	}
+
+	decoder := json.NewDecoder(req.Body)
+	params := parameters{}
+	err = decoder.Decode(&params)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Error decoding request body", err)
+		return
+	}
+
+	eventID := req.PathValue("id")
+	eventUUID, err := uuid.Parse(eventID)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid event identifier", err)
+	}
+
+	responderParams := database.AddEventResponderParams{
+		ArrayAppend: userID,
+		ID:          eventUUID,
+	}
+
+	event, err := cfg.db.AddEventResponder(req.Context(), responderParams)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Database error updating event respondants", err)
+		return
+	}
+
+	creator_name, err := cfg.db.GetUserNameOnly(req.Context(), event.OwnerID)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Database error: cannot get creator's name. Event still updated with responder", err)
+		return
+	}
+	log.Printf("\r%s created %s\n", creator_name, event.Name)
+
+	err = msgbroker.PublishJSON(
+		cfg.channel,
+		routing.ExchangeEzraTopic,
+		string(event.Category)+"."+creator_name,
+		mapEvent(event), cfg.db,
+	)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Message broker error: unable to publish new event", err)
+		return
+	}
+
+	respondWithJSON(w, http.StatusNoContent, struct{}{})
+}

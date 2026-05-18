@@ -1,0 +1,15 @@
+info:
+  name: Respond to Event Unavailable
+  type: http
+  seq: 10
+
+http:
+  method: PATCH
+  url: http://localhost:3294/api/events/
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

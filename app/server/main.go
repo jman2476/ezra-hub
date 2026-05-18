@@ -69,6 +69,7 @@ func main() {
 
 	// Event endpoints: Create, Update
 	mux.HandleFunc("POST /api/events", apiCfg.handlerNewEvent)
+	mux.HandleFunc("PATCH /api/events/{id}", apiCfg.handlerRespondEvent)
 
 	// Token endpoints:
 	mux.HandleFunc("POST /api/refresh", apiCfg.handlerRefresh)

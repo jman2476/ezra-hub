@@ -1,0 +1,28 @@
+info:
+  name: Respond to Event Available
+  type: http
+  seq: 9
+
+http:
+  method: PATCH
+  url: http://localhost:3294/api/events/:id
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjFjOGViMjI3LTg3YjUtNDkzZi1iYWUxLWJmYmNjMjNkMmQ0YSIsImV4cCI6MTc3OTEzMDQ4MCwiaWF0IjoxNzc5MTI2ODgwfQ.o1aynNDQ8Q9mBbXXb0U34EuOaNBADZS63cu59hwmoh4
+  params:
+    - name: id
+      value: ""
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "available": true,
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

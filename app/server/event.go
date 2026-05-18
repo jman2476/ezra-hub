@@ -73,6 +73,7 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) 
 		return
 	}
 	log.Printf("\r%s created %s\n", creator_name, event.Name)
+
 	err = msgbroker.PublishJSON(
 		cfg.channel,
 		routing.ExchangeEzraTopic,
