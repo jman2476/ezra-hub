@@ -45,15 +45,29 @@ func (cfg *apiConfig) handlerRespondEvent(w http.ResponseWriter, req *http.Reque
 		respondWithError(w, http.StatusBadRequest, "Invalid event identifier", err)
 	}
 
-	responderParams := database.AddEventResponderParams{
-		ArrayAppend: userID,
-		ID:          eventUUID,
-	}
+	var event database.Event
 
-	event, err := cfg.db.AddEventResponder(req.Context(), responderParams)
-	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, "Database error updating event respondants", err)
-		return
+	if params.Available {
+		responderParams := database.AddEventResponderParams{
+			ArrayAppend: userID,
+			ID:          eventUUID,
+		}
+
+		event, err = cfg.db.AddEventResponder(req.Context(), responderParams)
+		if err != nil {
+			respondWithError(w, http.StatusInternalServerError, "Database error updating event respondants", err)
+			return
+		}
+
+	} else {
+		responderParams := database.RemoveEventResponderParams{
+			ArrayRemove: userID,
+			ID:          eventUUID,
+		}
+		event, err = cfg.db.RemoveEventResponder(req.Context(), responderParams)
+		if err != nil {
+			respondWithError(w, http.StatusInternalServerError, "Database error updating event respondants", err)
+		}
 	}
 
 	creator_name, err := cfg.db.GetUserNameOnly(req.Context(), event.OwnerID)
@@ -70,7 +84,7 @@ func (cfg *apiConfig) handlerRespondEvent(w http.ResponseWriter, req *http.Reque
 		mapEvent(event), cfg.db,
 	)
 	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, "Message broker error: unable to publish new event", err)
+		respondWithError(w, http.StatusInternalServerError, "Message broker error: unable to publish updated event", err)
 		return
 	}
 

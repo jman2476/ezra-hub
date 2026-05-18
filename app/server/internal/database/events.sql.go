@@ -143,3 +143,36 @@ func (q *Queries) GetEventRespondants(ctx context.Context, id uuid.UUID) ([]GetE
 	}
 	return items, nil
 }
+
+const removeEventResponder = `-- name: RemoveEventResponder :one
+UPDATE events
+SET respondants = array_remove(respondants, $1),
+updated_at = NOW()
+WHERE id = $2
+RETURNING id, created_at, updated_at, name, owner_id, occurs_on, expires_at, min_volunteers, max_volunteers, respondants, description, category
+`
+
+type RemoveEventResponderParams struct {
+	ArrayRemove interface{}
+	ID          uuid.UUID
+}
+
+func (q *Queries) RemoveEventResponder(ctx context.Context, arg RemoveEventResponderParams) (Event, error) {
+	row := q.db.QueryRowContext(ctx, removeEventResponder, arg.ArrayRemove, arg.ID)
+	var i Event
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.OwnerID,
+		&i.OccursOn,
+		&i.ExpiresAt,
+		&i.MinVolunteers,
+		&i.MaxVolunteers,
+		pq.Array(&i.Respondants),
+		&i.Description,
+		&i.Category,
+	)
+	return i, err
+}

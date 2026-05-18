@@ -19,6 +19,13 @@ updated_at = NOW()
 WHERE id = $2
 RETURNING *;
 
+-- name: RemoveEventResponder :one
+UPDATE events
+SET respondants = array_remove(respondants, $1),
+updated_at = NOW()
+WHERE id = $2
+RETURNING *;
+
 -- name: GetEventRespondants :many
 SELECT u.id, u.name, u.phone_number, u.email
 FROM users u
