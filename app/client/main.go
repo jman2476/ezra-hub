@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/google/uuid"
 	apicaller "github.com/jman2476/ezra-hub/app/client/internal/api-caller"
 	"github.com/joho/godotenv"
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -28,6 +29,7 @@ func main() {
 		Window:     int(os.Stdin.Fd()), // sets reference for term window
 		Client:     ezraClient,
 		Connection: connection,
+		Events:     make(map[uuid.UUID]apicaller.Event),
 	}
 
 	startRepl(cfg)

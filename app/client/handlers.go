@@ -32,7 +32,7 @@ func handlerEvent(cfg *config) func(apicaller.Event) msgbroker.AckType {
 		printEvent(e)
 		fmt.Println("\r************************\r")
 
-		cfg.Events = append(cfg.Events, e)
+		cfg.Events[e.ID] = e
 
 		return msgbroker.Ack
 	}

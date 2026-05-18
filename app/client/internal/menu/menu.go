@@ -128,7 +128,6 @@ func EraseCharacters(chars int) {
 	for range chars {
 		clear.Write([]byte("\033[D"))
 	}
-	// clear.Write([]byte("\033[K"))
 
 	fmt.Print(clear.String())
 }
