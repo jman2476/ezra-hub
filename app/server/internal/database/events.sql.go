@@ -16,7 +16,8 @@ import (
 
 const addEventResponder = `-- name: AddEventResponder :one
 UPDATE events
-SET respondants = array_append(respondants, $1)
+SET respondants = array_append(respondants, $1),
+updated_at = NOW()
 WHERE id = $2
 RETURNING id, created_at, updated_at, name, owner_id, occurs_on, expires_at, min_volunteers, max_volunteers, respondants, description, category
 `

@@ -14,7 +14,8 @@ RETURNING *;
 
 -- name: AddEventResponder :one
 UPDATE events
-SET respondants = array_append(respondants, $1)
+SET respondants = array_append(respondants, $1),
+updated_at = NOW()
 WHERE id = $2
 RETURNING *;
 
