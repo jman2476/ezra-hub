@@ -1,0 +1,28 @@
+info:
+  name: Get Events by type
+  type: http
+  seq: 11
+
+http:
+  method: GET
+  url: http://localhost:3294/api/events?type=check-in&type=gathering&type=meal
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjJmZDM2ZWQ3LWIzYjItNDI5Zi04MjNjLTQ2ZjJjNTQ1OGNhMyIsImV4cCI6MTc3OTIyMjI2OCwiaWF0IjoxNzc5MjE4NjY4fQ.S9S6hycXsEqnILI9geYtNQat1gJliCeyN36mDWAp3Xw
+  params:
+    - name: type
+      value: check-in
+      type: query
+    - name: type
+      value: gathering
+      type: query
+    - name: type
+      value: meal
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

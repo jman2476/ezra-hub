@@ -60,6 +60,7 @@ func mapEvents(events []database.Event) (list []Event) {
 	for _, e := range events {
 		list = append(list, mapEvent(e))
 	}
+	return
 }
 
 func mapEventwName(e database.CreateEventRow) EventwName {
