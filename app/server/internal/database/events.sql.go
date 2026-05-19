@@ -164,6 +164,47 @@ func (q *Queries) GetEventRespondants(ctx context.Context, id uuid.UUID) ([]GetE
 	return items, nil
 }
 
+const getEventsByCategory = `-- name: GetEventsByCategory :many
+SELECT id, created_at, updated_at, name, owner_id, occurs_on, expires_at, min_volunteers, max_volunteers, respondants, description, category FROM events
+WHERE category = ANY($1::GENRE[])
+`
+
+func (q *Queries) GetEventsByCategory(ctx context.Context, dollar_1 []Genre) ([]Event, error) {
+	rows, err := q.db.QueryContext(ctx, getEventsByCategory, pq.Array(dollar_1))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Event
+	for rows.Next() {
+		var i Event
+		if err := rows.Scan(
+			&i.ID,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+			&i.Name,
+			&i.OwnerID,
+			&i.OccursOn,
+			&i.ExpiresAt,
+			&i.MinVolunteers,
+			&i.MaxVolunteers,
+			pq.Array(&i.Respondants),
+			&i.Description,
+			&i.Category,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const removeEventResponder = `-- name: RemoveEventResponder :one
 UPDATE events
 SET respondants = array_remove(respondants, $1),

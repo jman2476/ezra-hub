@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/jman2476/ezra-hub/app/server/internal/auth"
+	"github.com/google/uuid"
 	"github.com/jman2476/ezra-hub/app/server/internal/database"
 )
 
@@ -14,28 +14,16 @@ var subTypes = []string{
 	"ride", "shopping", "check-in", "meal", "gathering", "other",
 }
 
-func (cfg *apiConfig) handlerSubscribe(w http.ResponseWriter, req *http.Request) {
+func (cfg *apiConfig) handlerSubscribe(w http.ResponseWriter, req *http.Request, userID uuid.UUID) {
 	log.Println("PATCH /api/users")
 
 	type parameters struct {
 		Queues map[string]int `json:"subscriptions"`
 	}
 
-	token, err := auth.GetBearerToken(req.Header)
-	if err != nil {
-		respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
-		return
-	}
-
-	userID, err := auth.ValidateJWT(token, cfg.secret)
-	if err != nil {
-		respondWithError(w, http.StatusUnauthorized, "JWT Expired", err)
-		return
-	}
-
 	decoder := json.NewDecoder(req.Body)
 	params := parameters{}
-	err = decoder.Decode(&params)
+	err := decoder.Decode(&params)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Error decoding request body", err)
 		return

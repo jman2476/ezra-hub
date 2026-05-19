@@ -34,3 +34,7 @@ SELECT u.id, u.name, u.phone_number, u.email
 FROM users u
 JOIN events e ON u.id = ANY(e.respondants)
 WHERE e.id = $1;
+
+-- name: GetEventsByCategory :many
+SELECT * FROM events
+WHERE category = ANY($1::GENRE[]);
