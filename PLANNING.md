@@ -21,7 +21,7 @@ See notebook
     - design table schema   [X]
     - design endpoints  [X]
     - 
-2. Setup client to basic sign in, no password
+2. Setup client to basic sign in, no password [X]
     - implement bubbletea, if reasonable [maybe later]
     - make http requests to [X]
         - create user [X]
@@ -52,9 +52,9 @@ See notebook
     - Temporary [X]
     - Primarily to start RabbitMQ integration [X]
 7. Create outgoing_messages table [X]
-    - all messages get stored here as gob-data
-    - has field 'sent: boolean'
-    - once a message is sent to RabbitMQ, field is updated
+    - all messages get stored here as gob-data [X]
+    - has field 'sent: boolean' [X]
+    - once a message is sent to RabbitMQ, field is updated [A]
 8. Create logging queue
     - save all server events to disk in files seperated by date
     - date will be based on server's local time, new day creates new file
@@ -62,14 +62,14 @@ See notebook
 9. Add needs/events table to DB
     - each event needs date, creator, benefactor, and type
     - possibly create a type table for easy lookup between user and event table
-    - update users to have a field where they subscribe to different event types
+    - update users to have a field where they subscribe to different event types [X]
 
-10. Add event creation endpoint to Server
-    - Broadcast to all clients on event creation
-    - don't worry about what users are subscribed to yet
-11. Add client-side event creation
-    - add subscription by event type
-    - add to SERVER to only broadcast on event type
+10. Add event creation endpoint to Server [X]
+    - Broadcast to all clients on event creation [X]
+    - don't worry about what users are subscribed to yet [X]
+11. Add client-side event creation [X]
+    - add subscription by event type [X]
+    - add to SERVER to only broadcast on event type [X]
 12. Add event response/update endpoint to Server
     - Broadcast updates to all clients that are subscribed
 13. Add event response/update to Client
@@ -79,4 +79,4 @@ See notebook
     - on log in, client requests active events from server
     - server checks db for active events of each type, and sends to user
     - once user has received list, subscribes to queues of each feed to maintain accuracy
-    - can refresh at any point, does not disturb queues
+    - can refresh at any point, does not disturb queues 
