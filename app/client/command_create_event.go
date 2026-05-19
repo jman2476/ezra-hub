@@ -80,7 +80,7 @@ func commandCreateEvent(cfg *config) error {
 	if err != nil {
 		return err
 	}
-	printEvent(event)
+	printEventwName(event)
 
 	return nil
 }
@@ -94,6 +94,11 @@ func printEvent(event apicaller.Event) {
 	fmt.Printf("\rExpires At: %v\n", event.ExpiresAt)
 	printVolunteersNeeded(event)
 	fmt.Printf("\rDescription: %v\n", event.Description)
+}
+
+func printEventwName(event apicaller.EventwName) {
+	fmt.Printf("\rNew event from %s\n", event.Creator)
+	printEvent(event.Event)
 }
 
 func printVolunteersNeeded(event apicaller.Event) {

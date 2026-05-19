@@ -43,3 +43,8 @@ type Event struct {
 	Description   string        `json:"description"`
 	Respondants   []uuid.UUID   `json:"respondants"`
 }
+
+type EventwName struct {
+	Event   `json:"event"`
+	Creator string `json:"creator"`
+}

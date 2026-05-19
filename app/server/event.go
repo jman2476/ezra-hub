@@ -78,12 +78,12 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) 
 		cfg.channel,
 		routing.ExchangeEzraTopic,
 		string(event.Category)+"."+creator_name,
-		mapEvent(event), cfg.db,
+		mapEventwName(event), cfg.db,
 	)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Message broker error: unable to publish new event", err)
 		return
 	}
 
-	respondWithJSON(w, http.StatusCreated, mapEvent(event))
+	respondWithJSON(w, http.StatusCreated, mapEventwName(event))
 }

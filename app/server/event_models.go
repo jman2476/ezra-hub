@@ -34,6 +34,11 @@ type Event struct {
 	Respondants   []uuid.UUID   `json:"respondants"`
 }
 
+type EventwName struct {
+	Event   `json:"event"`
+	Creator string `json:"creator"`
+}
+
 func mapEvent(e database.Event) Event {
 	return Event{
 		ID:            e.ID,
@@ -48,6 +53,26 @@ func mapEvent(e database.Event) Event {
 		MaxVolunteers: e.MaxVolunteers,
 		Description:   e.Description,
 		Respondants:   e.Respondants,
+	}
+}
+
+func mapEventwName(e database.CreateEventRow) EventwName {
+	return EventwName{
+		Event: Event{
+			ID:            e.ID,
+			CreatedAt:     e.CreatedAt,
+			UpdatedAt:     e.UpdatedAt,
+			Name:          e.Name,
+			OwnerID:       e.OwnerID,
+			Category:      Genre(e.Category),
+			OccursOn:      e.OccursOn,
+			ExpiresAt:     e.ExpiresAt,
+			MinVolunteers: e.MinVolunteers,
+			MaxVolunteers: e.MaxVolunteers,
+			Description:   e.Description,
+			Respondants:   e.Respondants,
+		},
+		Creator: e.CreatorName,
 	}
 }
 

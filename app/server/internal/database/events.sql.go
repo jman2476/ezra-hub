@@ -48,7 +48,7 @@ func (q *Queries) AddEventResponder(ctx context.Context, arg AddEventResponderPa
 }
 
 const createEvent = `-- name: CreateEvent :one
-INSERT INTO events(
+WITH inserted as (INSERT INTO events(
     id, 
     created_at, updated_at, 
     name, 
@@ -59,7 +59,10 @@ INSERT INTO events(
     min_volunteers, max_volunteers)
 VALUES (gen_random_uuid(), NOW(), NOW(), 
     $1, $2, $3, $4, $5, $6, $7, $8)
-RETURNING id, created_at, updated_at, name, owner_id, occurs_on, expires_at, min_volunteers, max_volunteers, respondants, description, category
+RETURNING id, created_at, updated_at, name, owner_id, occurs_on, expires_at, min_volunteers, max_volunteers, respondants, description, category)
+SELECT inserted.id, inserted.created_at, inserted.updated_at, inserted.name, inserted.owner_id, inserted.occurs_on, inserted.expires_at, inserted.min_volunteers, inserted.max_volunteers, inserted.respondants, inserted.description, inserted.category, u.name as creator_name
+FROM inserted
+JOIN users u ON u.id = inserted.owner_id
 `
 
 type CreateEventParams struct {
@@ -73,7 +76,23 @@ type CreateEventParams struct {
 	MaxVolunteers sql.NullInt32
 }
 
-func (q *Queries) CreateEvent(ctx context.Context, arg CreateEventParams) (Event, error) {
+type CreateEventRow struct {
+	ID            uuid.UUID
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
+	Name          string
+	OwnerID       uuid.UUID
+	OccursOn      time.Time
+	ExpiresAt     time.Time
+	MinVolunteers sql.NullInt32
+	MaxVolunteers sql.NullInt32
+	Respondants   []uuid.UUID
+	Description   string
+	Category      Genre
+	CreatorName   string
+}
+
+func (q *Queries) CreateEvent(ctx context.Context, arg CreateEventParams) (CreateEventRow, error) {
 	row := q.db.QueryRowContext(ctx, createEvent,
 		arg.Name,
 		arg.Description,
@@ -84,7 +103,7 @@ func (q *Queries) CreateEvent(ctx context.Context, arg CreateEventParams) (Event
 		arg.MinVolunteers,
 		arg.MaxVolunteers,
 	)
-	var i Event
+	var i CreateEventRow
 	err := row.Scan(
 		&i.ID,
 		&i.CreatedAt,
@@ -98,6 +117,7 @@ func (q *Queries) CreateEvent(ctx context.Context, arg CreateEventParams) (Event
 		pq.Array(&i.Respondants),
 		&i.Description,
 		&i.Category,
+		&i.CreatorName,
 	)
 	return i, err
 }

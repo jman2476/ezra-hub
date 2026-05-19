@@ -1,9 +1,9 @@
 package apicaller
 
-func (c *Client) NewEvent(newEventInfo NewEvent) (Event, error) {
-	event, err := CreateNewResource[Event](c, newEventInfo, false)
+func (c *Client) NewEvent(newEventInfo NewEvent) (EventwName, error) {
+	event, err := CreateNewResource[EventwName](c, newEventInfo, false)
 	if err != nil {
-		return Event{}, err
+		return EventwName{}, err
 	}
 
 	return event, nil

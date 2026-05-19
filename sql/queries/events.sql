@@ -1,5 +1,5 @@
 -- name: CreateEvent :one
-INSERT INTO events(
+WITH inserted as (INSERT INTO events(
     id, 
     created_at, updated_at, 
     name, 
@@ -10,7 +10,10 @@ INSERT INTO events(
     min_volunteers, max_volunteers)
 VALUES (gen_random_uuid(), NOW(), NOW(), 
     $1, $2, $3, $4, $5, $6, $7, $8)
-RETURNING *;
+RETURNING *)
+SELECT inserted.*, u.name as creator_name
+FROM inserted
+JOIN users u ON u.id = inserted.owner_id;
 
 -- name: AddEventResponder :one
 UPDATE events
