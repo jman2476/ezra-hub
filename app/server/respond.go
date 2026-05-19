@@ -6,34 +6,21 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/jman2476/ezra-hub/app/server/internal/auth"
 	"github.com/jman2476/ezra-hub/app/server/internal/database"
 	"github.com/jman2476/ezra-hub/app/server/internal/msgbroker"
 	"github.com/jman2476/ezra-hub/pkg/routing"
 )
 
-func (cfg *apiConfig) handlerRespondEvent(w http.ResponseWriter, req *http.Request) {
+func (cfg *apiConfig) handlerRespondEvent(w http.ResponseWriter, req *http.Request, userID uuid.UUID) {
 	log.Println("PATCH /api/events/{id}")
 
 	type parameters struct {
 		Available bool `json:"available"`
 	}
 
-	token, err := auth.GetBearerToken(req.Header)
-	if err != nil {
-		respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
-		return
-	}
-
-	userID, err := auth.ValidateJWT(token, cfg.secret)
-	if err != nil {
-		respondWithError(w, http.StatusUnauthorized, "JWT Expired", err)
-		return
-	}
-
 	decoder := json.NewDecoder(req.Body)
 	params := parameters{}
-	err = decoder.Decode(&params)
+	err := decoder.Decode(&params)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Error decoding request body", err)
 		return

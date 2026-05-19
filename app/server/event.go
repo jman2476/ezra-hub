@@ -7,13 +7,13 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/jman2476/ezra-hub/app/server/internal/auth"
+	"github.com/google/uuid"
 	"github.com/jman2476/ezra-hub/app/server/internal/database"
 	"github.com/jman2476/ezra-hub/app/server/internal/msgbroker"
 	"github.com/jman2476/ezra-hub/pkg/routing"
 )
 
-func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) {
+func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request, userID uuid.UUID) {
 	type parameters struct {
 		Name      string    `json:"name"`
 		Category  string    `json:"category"`
@@ -26,21 +26,9 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request) 
 
 	log.Printf("POST /api/events")
 
-	token, err := auth.GetBearerToken(req.Header)
-	if err != nil {
-		respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
-		return
-	}
-
-	userID, err := auth.ValidateJWT(token, cfg.secret)
-	if err != nil {
-		respondWithError(w, http.StatusUnauthorized, "JWT Expired", err)
-		return
-	}
-
 	decoder := json.NewDecoder(req.Body)
 	params := parameters{}
-	err = decoder.Decode(&params)
+	err := decoder.Decode(&params)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Error decoding event body", err)
 		return
