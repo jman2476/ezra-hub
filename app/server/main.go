@@ -70,6 +70,7 @@ func main() {
 	// Event endpoints: Create, Update
 	mux.HandleFunc("POST /api/events", apiCfg.authorize(apiCfg.handlerNewEvent))
 	mux.HandleFunc("PATCH /api/events/{id}", apiCfg.authorize(apiCfg.handlerRespondEvent))
+	mux.HandleFunc("GET /api/events", apiCfg.authorize(apiCfg.handlerGetEventsByType))
 
 	// Token endpoints:
 	mux.HandleFunc("POST /api/refresh", apiCfg.handlerRefresh)

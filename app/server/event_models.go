@@ -56,6 +56,12 @@ func mapEvent(e database.Event) Event {
 	}
 }
 
+func mapEvents(events []database.Event) (list []Event) {
+	for _, e := range events {
+		list = append(list, mapEvent(e))
+	}
+}
+
 func mapEventwName(e database.CreateEventRow) EventwName {
 	return EventwName{
 		Event: Event{
@@ -91,4 +97,11 @@ func validateGenre(s string) Genre {
 	default:
 		return GenreOther
 	}
+}
+
+func mapGenres2DB(genres []Genre) (dbGenres []database.Genre) {
+	for _, g := range genres {
+		dbGenres = append(dbGenres, database.Genre(g))
+	}
+	return
 }
