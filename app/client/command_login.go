@@ -57,6 +57,12 @@ func commandLogin(cfg *config) error {
 			fmt.Errorf("\rErr subscribing to %w\n", e),
 		)
 	}
+
+	err = getSubbedEvents(cfg)
+	if err != nil {
+		fmt.Println("\rError getting subbed events: ", err)
+	}
+
 	return nil
 }
 
@@ -77,4 +83,16 @@ func resubQueues(cfg *config) (errSlice []error) {
 	}
 
 	return
+}
+
+func getSubbedEvents(cfg *config) error {
+	events, err := cfg.Client.GetUserEvents(cfg.User.Subscriptions)
+	if err != nil {
+		return err
+	}
+
+	for _, e := range events {
+		cfg.Events[e.ID] = e
+	}
+	return nil
 }
