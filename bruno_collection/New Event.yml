@@ -8,7 +8,7 @@ http:
   url: http://localhost:3294/api/events
   headers:
     - name: Authorization
-      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjFjOGViMjI3LTg3YjUtNDkzZi1iYWUxLWJmYmNjMjNkMmQ0YSIsImV4cCI6MTc3OTIxMTQ1MSwiaWF0IjoxNzc5MjA3ODUxfQ.88Q9K5Hk_UlDYVUZrQm5ul1rloQ2lK0yn_m4xpfnu28
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjkzMWNkNzkzLWRlMzktNGI0NC05YWQ5LWM5YzlhMTNiZjUxMSIsImV4cCI6MTc3OTIyNjk2NiwiaWF0IjoxNzc5MjIzMzY2fQ._Zuhiz7jetr6D3x8fwop7rvgsodEFrl9cPz1XqKtMPk
   body:
     type: json
     data: |-

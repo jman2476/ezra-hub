@@ -39,25 +39,27 @@ func CreateNewResource[R any, NR NewResource[R]](c *Client, newData NR, retry bo
 	}
 	defer res.Body.Close()
 
+	if !retry && res.StatusCode == 401 {
+		return RetryCreateNew[R](c, newData)
+	}
+
 	if res.StatusCode != 201 {
-		errResp := struct {
-			Error string `json:"error"`
-		}{}
+		finalErr := fmt.Sprintf("Error creating %s", newData.GetLogName())
+		return handleStatusError[R](res, finalErr)
+		// errResp := struct {
+		// 	Error string `json:"error"`
+		// }{}
 
-		data, err := io.ReadAll(res.Body)
-		if err != nil {
-			return resource, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
-		}
-		err = json.Unmarshal(data, &errResp)
-		if err != nil {
-			return resource, fmt.Errorf("Response code: %s, Error unmarshalling response body: %w", res.Status, err)
-		}
+		// data, err := io.ReadAll(res.Body)
+		// if err != nil {
+		// 	return resource, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
+		// }
+		// err = json.Unmarshal(data, &errResp)
+		// if err != nil {
+		// 	return resource, fmt.Errorf("Response code: %s, Error unmarshalling response body: %w", res.Status, err)
+		// }
 
-		if !retry && res.StatusCode == 401 {
-			return RetryCreateNew[R](c, newData)
-		}
-
-		return resource, fmt.Errorf("Error creating %s: %s, %s", newData.GetLogName(), res.Status, errResp.Error)
+		// return resource, fmt.Errorf("Error creating %s: %s, %s", newData.GetLogName(), res.Status, errResp.Error)
 	}
 
 	data, err := io.ReadAll(res.Body)

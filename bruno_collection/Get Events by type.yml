@@ -5,10 +5,10 @@ info:
 
 http:
   method: GET
-  url: http://localhost:3294/api/events?type=check-in&type=gathering&type=meal
+  url: http://localhost:3294/api/events?type=check-in&type=gathering&type=meal&
   headers:
     - name: Authorization
-      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjJmZDM2ZWQ3LWIzYjItNDI5Zi04MjNjLTQ2ZjJjNTQ1OGNhMyIsImV4cCI6MTc3OTIyMjI2OCwiaWF0IjoxNzc5MjE4NjY4fQ.S9S6hycXsEqnILI9geYtNQat1gJliCeyN36mDWAp3Xw
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjkzMWNkNzkzLWRlMzktNGI0NC05YWQ5LWM5YzlhMTNiZjUxMSIsImV4cCI6MTc3OTIyNjk2NiwiaWF0IjoxNzc5MjIzMzY2fQ._Zuhiz7jetr6D3x8fwop7rvgsodEFrl9cPz1XqKtMPk
   params:
     - name: type
       value: check-in
