@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"slices"
 	"time"
 
 	"github.com/jman2476/ezra-hub/app/server/internal/auth"
@@ -45,10 +46,20 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	token, err := auth.MakeJWT(user.ID, cfg.secret, time.Hour)
-	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, "Error making authentication token", err)
-		return
+	var token string
+	if slices.Contains(cfg.args, "shortJWT") {
+		token, err = auth.MakeJWT(user.ID, cfg.secret, time.Minute*3)
+		if err != nil {
+			respondWithError(w, http.StatusInternalServerError, "Error making authentication token", err)
+			return
+		}
+	} else {
+		token, err = auth.MakeJWT(user.ID, cfg.secret, time.Hour)
+		if err != nil {
+			respondWithError(w, http.StatusInternalServerError, "Error making authentication token", err)
+			return
+		}
+
 	}
 
 	refreshArgs := database.CreateRefreshTokenParams{

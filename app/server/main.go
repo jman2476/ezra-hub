@@ -17,6 +17,7 @@ type apiConfig struct {
 	platform string
 	secret   string
 	channel  *amqp.Channel
+	args     []string
 }
 
 func main() {
@@ -54,6 +55,10 @@ func main() {
 		platform: platform,
 		secret:   secret,
 		channel:  channel,
+	}
+
+	if platform == "dev" {
+		apiCfg.args = os.Args[1:]
 	}
 
 	mux := http.NewServeMux()
