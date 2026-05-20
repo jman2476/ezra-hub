@@ -8,7 +8,7 @@ import (
 
 func commandMenu(cfg *config) error {
 	var cmdList []string
-	for key, _ := range getCommands() {
+	for key := range getCommands() {
 		cmdList = append(cmdList, key)
 	}
 	command, _, err := menu.MenuRepl(cmdList, 0)

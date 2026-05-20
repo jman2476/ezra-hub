@@ -71,7 +71,7 @@ See notebook
     - add subscription by event type [X]
     - add to SERVER to only broadcast on event type [X]
 12. Add event response/update endpoint to Server
-    - Broadcast updates to all clients that are subscribed
+    - Broadcast updates to all clients that are subscribed [X]
 13. Add event response/update to Client
     - Users should be able to interact with other's events
     - if only one person required, when someone responds it will still be visible but shown that it's taken
