@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"slices"
 	"time"
 
 	"github.com/jman2476/ezra-hub/app/server/internal/auth"
@@ -40,10 +41,20 @@ func (cfg *apiConfig) handlerRefresh(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	newToken, err := auth.MakeJWT(refreshData.UserID, cfg.secret, time.Hour)
-	if err != nil {
-		respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
-		return
+	var newToken string
+	if slices.Contains(cfg.args, "shortJWT") {
+		log.Println("Refreshing short JWT: 3 minute lifetime")
+		newToken, err = auth.MakeJWT(refreshData.UserID, cfg.secret, time.Minute*3)
+		if err != nil {
+			respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
+			return
+		}
+	} else {
+		newToken, err = auth.MakeJWT(refreshData.UserID, cfg.secret, time.Hour)
+		if err != nil {
+			respondWithError(w, http.StatusUnauthorized, "Forbidden", err)
+			return
+		}
 	}
 
 	respondWithJSON(w, http.StatusOK, response{Token: newToken})

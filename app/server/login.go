@@ -48,6 +48,7 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 
 	var token string
 	if slices.Contains(cfg.args, "shortJWT") {
+		log.Println("Creating short JWT: 3 minute lifetime")
 		token, err = auth.MakeJWT(user.ID, cfg.secret, time.Minute*3)
 		if err != nil {
 			respondWithError(w, http.StatusInternalServerError, "Error making authentication token", err)
