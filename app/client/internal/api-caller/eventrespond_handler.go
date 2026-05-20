@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (c *Client) RespondtoEvent(eventID uuid.UUID, available bool) error {
+func (c *Client) RespondtoEvent(eventID uuid.UUID, available, retry bool) error {
 	url := c.baseURL + "/api/events/" + eventID.String()
 
 	var going = struct {
@@ -35,6 +35,11 @@ func (c *Client) RespondtoEvent(eventID uuid.UUID, available bool) error {
 		return fmt.Errorf("Error executing request: %w", err)
 	}
 	defer res.Body.Close()
+
+	// Insert retry
+	if !retry && res.StatusCode == 401 {
+		return RetryEventRespond(c, eventID, available)
+	}
 
 	if res.StatusCode != 204 {
 		_, err = handleStatusError[any](res, "Error responding to event")

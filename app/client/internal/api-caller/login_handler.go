@@ -51,7 +51,7 @@ func (c *Client) LoginUser(loginInfo UserLogin) (User, error) {
 	return user, nil
 }
 
-func (c *Client) GetUserEvents(categories []string) ([]Event, error) {
+func (c *Client) GetUserEvents(categories []string, retry bool) ([]Event, error) {
 	url := c.baseURL + "/api/events?"
 
 	for _, c := range categories {
@@ -77,6 +77,11 @@ func (c *Client) GetUserEvents(categories []string) ([]Event, error) {
 
 	if res.StatusCode == 204 {
 		return []Event{}, nil
+	}
+
+	// Insert retry
+	if !retry && res.StatusCode == 401 {
+		return RetryGetUserEvents(c, categories)
 	}
 
 	if res.StatusCode != 200 {

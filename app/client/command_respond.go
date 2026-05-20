@@ -29,6 +29,7 @@ func commandRespond(cfg *config) error {
 		err := cfg.Client.RespondtoEvent(
 			cfg.Events[listIDs[index]].ID,
 			going,
+			false,
 		)
 		if err != nil {
 			return fmt.Errorf("Error responding to event: %w", err)

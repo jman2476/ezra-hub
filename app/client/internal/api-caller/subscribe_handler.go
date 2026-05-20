@@ -12,7 +12,7 @@ type Subscriptions struct {
 	Subs map[string]int `json:"subscriptions"`
 }
 
-func (c *Client) SetSubscriptions(subs map[string]int) ([]string, error) {
+func (c *Client) SetSubscriptions(subs map[string]int, retry bool) ([]string, error) {
 	url := c.baseURL + "/api/users"
 
 	var subStruct Subscriptions
@@ -35,6 +35,11 @@ func (c *Client) SetSubscriptions(subs map[string]int) ([]string, error) {
 		return []string{}, fmt.Errorf("Error executing request: %w", err)
 	}
 	defer res.Body.Close()
+
+	// Insert retry
+	if !retry && res.StatusCode == 401 {
+		return RetrySubscribe(c, subs)
+	}
 
 	if res.StatusCode != 200 {
 		return handleStatusError[[]string](res, "Error setting user subscriptions")

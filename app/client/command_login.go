@@ -86,7 +86,9 @@ func resubQueues(cfg *config) (errSlice []error) {
 }
 
 func getSubbedEvents(cfg *config) error {
-	events, err := cfg.Client.GetUserEvents(cfg.User.Subscriptions)
+	events, err := cfg.Client.GetUserEvents(
+		cfg.User.Subscriptions, false,
+	)
 	if err != nil {
 		return err
 	}

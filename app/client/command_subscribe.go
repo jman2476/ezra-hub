@@ -30,7 +30,7 @@ func commandSubscribe(cfg *config) error {
 	}
 	fmt.Printf("\r\nSub Map: %v\r\n", subMap)
 
-	newSubs, err := cfg.Client.SetSubscriptions(subMap)
+	newSubs, err := cfg.Client.SetSubscriptions(subMap, false)
 	if err != nil {
 		return fmt.Errorf("Set Subscriptions error: %w", err)
 	}

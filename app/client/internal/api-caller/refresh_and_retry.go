@@ -7,6 +7,8 @@ import (
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 var (
@@ -59,7 +61,7 @@ func (c *Client) Refresh() (status int, errVal error) {
 }
 
 func RetryCreateNew[R any, NR NewResource[R]](c *Client, newData NR) (R, error) {
-	fmt.Printf("Retrying create %s\r\n", newData.GetLogName())
+	fmt.Printf("\rRetrying create %s\r\n", newData.GetLogName())
 	var nilRes R
 	if time.Since(c.lastRefresh) <= time.Minute {
 		return nilRes, errRefreshedTooSoon
@@ -75,4 +77,56 @@ func RetryCreateNew[R any, NR NewResource[R]](c *Client, newData NR) (R, error) 
 	}
 
 	return CreateNewResource[R](c, newData, true)
+}
+
+func RetryEventRespond(c *Client, eventID uuid.UUID, available bool) error {
+	fmt.Println("\rRetrying respond to event")
+	if time.Since(c.lastRefresh) <= time.Minute {
+		return errRefreshedTooSoon
+	}
+
+	status, err := c.Refresh()
+	if err != nil {
+		if status == 200 {
+			return err
+		}
+
+		return errBadRefreshToken
+	}
+
+	return c.RespondtoEvent(eventID, available, true)
+}
+
+func RetryGetUserEvents(c *Client, categories []string) ([]Event, error) {
+	fmt.Println("\rRetrying get user events")
+	if time.Since(c.lastRefresh) <= time.Minute {
+		return []Event{}, errRefreshedTooSoon
+	}
+
+	status, err := c.Refresh()
+	if err != nil {
+		if status == 200 {
+			return []Event{}, err
+		}
+		return []Event{}, errBadRefreshToken
+	}
+
+	return c.GetUserEvents(categories, true)
+}
+
+func RetrySubscribe(c *Client, subs map[string]int) ([]string, error) {
+	fmt.Println("\rRetrying set subscriptions")
+	if time.Since(c.lastRefresh) <= time.Minute {
+		return []string{}, errRefreshedTooSoon
+	}
+
+	status, err := c.Refresh()
+	if err != nil {
+		if status == 200 {
+			return []string{}, err
+		}
+		return []string{}, errBadRefreshToken
+	}
+
+	return c.SetSubscriptions(subs, true)
 }
