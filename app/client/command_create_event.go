@@ -93,6 +93,7 @@ func printEvent(event apicaller.Event) {
 	fmt.Printf("\rOccurs On: %v\n", event.OccursOn)
 	fmt.Printf("\rExpires At: %v\n", event.ExpiresAt)
 	printVolunteersNeeded(event)
+	printNumGoing(event)
 	fmt.Printf("\rDescription: %v\n", event.Description)
 }
 
@@ -115,4 +116,9 @@ func printVolunteersNeeded(event apicaller.Event) {
 	}
 
 	fmt.Printf("\r%s\n", volunteer)
+}
+
+func printNumGoing(event apicaller.Event) {
+	count := len(event.Respondants)
+	fmt.Printf("\rPeople going: %d\n", count)
 }

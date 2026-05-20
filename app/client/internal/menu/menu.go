@@ -85,7 +85,6 @@ func ClearWindow() error {
 func SelectYesNo() (selection bool) {
 	var stateYes = ">Yes  No"
 	var stateNo = " Yes >No"
-	// var clearLine = "\r        \r"
 	var current = stateYes
 
 	boolReader := bufio.NewReader(os.Stdin)
