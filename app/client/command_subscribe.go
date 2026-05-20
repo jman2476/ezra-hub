@@ -40,15 +40,29 @@ func commandSubscribe(cfg *config) error {
 		err := msgbroker.SubscribeJSON(
 			cfg.Connection,
 			routing.ExchangeEzraTopic,
-			sub+"."+cfg.User.Name,
-			sub+".*",
+			sub+".new."+cfg.User.Name,
+			sub+".new.*",
 			msgbroker.SimpleQueueTransient,
-			handlerEvent(cfg),
+			handlerEventNew(cfg),
 		)
 		if err != nil {
-			fmt.Println(fmt.Errorf("\r\nError subscribing to event type %s: %w", sub, err))
+			fmt.Println(fmt.Errorf("\r\nError subscribing to new event queue %s: %w", sub, err))
 		} else {
 			fmt.Printf("\rSuccessfully subscribed to the %s feed\n", sub)
+		}
+
+		err = msgbroker.SubscribeJSON(
+			cfg.Connection,
+			routing.ExchangeEzraTopic,
+			sub+".update."+cfg.User.Name,
+			sub+".update.*",
+			msgbroker.SimpleQueueTransient,
+			handlerEventUpdate(cfg),
+		)
+		if err != nil {
+			fmt.Println(fmt.Errorf("\r\nError subscribing to update event queue %s: %w", sub, err))
+		} else {
+			fmt.Printf("\rSuccessfully subscribed to update %s feed\n", sub)
 		}
 	}
 

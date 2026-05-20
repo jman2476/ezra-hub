@@ -68,14 +68,27 @@ func commandLogin(cfg *config) error {
 
 func resubQueues(cfg *config) (errSlice []error) {
 	for _, cat := range cfg.User.Subscriptions {
-		fmt.Printf("\rSubscribing to %s\n", cat)
+		fmt.Printf("\rSubscribing to new %s\n", cat)
 		err := msgbroker.SubscribeJSON(
 			cfg.Connection,
 			routing.ExchangeEzraTopic,
-			cat+"."+cfg.User.Name,
-			cat+".*",
+			cat+".new."+cfg.User.Name,
+			cat+".new.*",
 			msgbroker.SimpleQueueTransient,
-			handlerEvent(cfg),
+			handlerEventNew(cfg),
+		)
+		if err != nil {
+			errSlice = append(errSlice, fmt.Errorf("%s: %w", cat, err))
+		}
+
+		fmt.Printf("\rSubscribing to update %s\n", cat)
+		err = msgbroker.SubscribeJSON(
+			cfg.Connection,
+			routing.ExchangeEzraTopic,
+			cat+".update."+cfg.User.Name,
+			cat+".update.*",
+			msgbroker.SimpleQueueTransient,
+			handlerEventUpdate(cfg),
 		)
 		if err != nil {
 			errSlice = append(errSlice, fmt.Errorf("%s: %w", cat, err))

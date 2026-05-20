@@ -65,7 +65,7 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request, 
 	err = msgbroker.PublishJSON(
 		cfg.channel,
 		routing.ExchangeEzraTopic,
-		string(event.Category)+"."+creator_name,
+		string(event.Category)+".new."+creator_name,
 		mapEventwName(event), cfg.db,
 	)
 	if err != nil {
