@@ -53,5 +53,10 @@ func getCommands() map[string]cliCommand {
 			description: "Respond whether you can volunteer for an event",
 			callback:    commandRespond,
 		},
+		"menu": {
+			name:        "menu",
+			description: "show menu of all commands",
+			callback:    commandMenu,
+		},
 	}
 }
