@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -38,21 +37,23 @@ func (c *Client) RespondtoEvent(eventID uuid.UUID, available bool) error {
 	defer res.Body.Close()
 
 	if res.StatusCode != 204 {
-		errResp := struct {
-			Error string `json:"error"`
-		}{}
+		_, err = handleStatusError[any](res, "Error responding to event")
+		return err
+		// errResp := struct {
+		// 	Error string `json:"error"`
+		// }{}
 
-		data, err := io.ReadAll(res.Body)
-		if err != nil {
-			return fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
-		}
+		// data, err := io.ReadAll(res.Body)
+		// if err != nil {
+		// 	return fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
+		// }
 
-		err = json.Unmarshal(data, &errResp)
-		if err != nil {
-			return fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
-		}
+		// err = json.Unmarshal(data, &errResp)
+		// if err != nil {
+		// 	return fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
+		// }
 
-		return fmt.Errorf("Error logging in user: %s, %s", res.Status, errResp.Error)
+		// return fmt.Errorf("Error logging in user: %s, %s", res.Status, errResp.Error)
 	}
 
 	fmt.Println("\rResponse successfully sent to server")

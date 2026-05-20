@@ -37,21 +37,7 @@ func (c *Client) SetSubscriptions(subs map[string]int) ([]string, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		errResp := struct {
-			Error string `json:"error"`
-		}{}
-
-		data, err := io.ReadAll(res.Body)
-		if err != nil {
-			return []string{}, fmt.Errorf("Response Code: %s, Error reading response body: %w", res.Status, err)
-		}
-
-		err = json.Unmarshal(data, &errResp)
-		if err != nil {
-			return []string{}, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
-		}
-
-		return []string{}, fmt.Errorf("Error setting user subscriptions: %s %s", res.Status, errResp.Error)
+		return handleStatusError[[]string](res, "Error setting user subscriptions")
 	}
 
 	data, err := io.ReadAll(res.Body)

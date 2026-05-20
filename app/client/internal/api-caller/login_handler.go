@@ -30,21 +30,7 @@ func (c *Client) LoginUser(loginInfo UserLogin) (User, error) {
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		errResp := struct {
-			Error string `json:"error"`
-		}{}
-
-		data, err := io.ReadAll(res.Body)
-		if err != nil {
-			return User{}, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
-		}
-
-		err = json.Unmarshal(data, &errResp)
-		if err != nil {
-			return User{}, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
-		}
-
-		return User{}, fmt.Errorf("Error logging in user: %s, %s", res.Status, errResp.Error)
+		return handleStatusError[User](res, "Error logging in user")
 	}
 
 	data, err := io.ReadAll(res.Body)
@@ -94,21 +80,7 @@ func (c *Client) GetUserEvents(categories []string) ([]Event, error) {
 	}
 
 	if res.StatusCode != 200 {
-		errResp := struct {
-			Error string `json:"error"`
-		}{}
-
-		data, err := io.ReadAll(res.Body)
-		if err != nil {
-			return []Event{}, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
-		}
-		fmt.Printf("\rjson data: %v\n", data)
-		err = json.Unmarshal(data, &errResp)
-		if err != nil {
-			return []Event{}, fmt.Errorf("Response code: %s, Error unmarshaling response body: %w", res.Status, err)
-		}
-
-		return []Event{}, fmt.Errorf("Error getting user events: %s, %s", res.Status, errResp.Error)
+		return handleStatusError[[]Event](res, "Error getting user events")
 	}
 
 	data, err := io.ReadAll(res.Body)

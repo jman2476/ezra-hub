@@ -46,20 +46,6 @@ func CreateNewResource[R any, NR NewResource[R]](c *Client, newData NR, retry bo
 	if res.StatusCode != 201 {
 		finalErr := fmt.Sprintf("Error creating %s", newData.GetLogName())
 		return handleStatusError[R](res, finalErr)
-		// errResp := struct {
-		// 	Error string `json:"error"`
-		// }{}
-
-		// data, err := io.ReadAll(res.Body)
-		// if err != nil {
-		// 	return resource, fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
-		// }
-		// err = json.Unmarshal(data, &errResp)
-		// if err != nil {
-		// 	return resource, fmt.Errorf("Response code: %s, Error unmarshalling response body: %w", res.Status, err)
-		// }
-
-		// return resource, fmt.Errorf("Error creating %s: %s, %s", newData.GetLogName(), res.Status, errResp.Error)
 	}
 
 	data, err := io.ReadAll(res.Body)

@@ -34,24 +34,7 @@ func (c *Client) Refresh() (status int, errVal error) {
 	status = res.StatusCode
 
 	if status != 200 {
-		errResp := struct {
-			Error string `json:"error"`
-		}{}
-
-		data, err := io.ReadAll(res.Body)
-		if err != nil {
-			errVal = fmt.Errorf("Response code: %s, Error reading response body: %w", res.Status, err)
-			return
-		}
-
-		err = json.Unmarshal(data, &errResp)
-		if err != nil {
-			errVal = fmt.Errorf("Response code: %s, Error unmarshalling response body: %w", res.Status, err)
-			return
-		}
-
-		errVal = fmt.Errorf("Error refreshing JWT: %s, %s", res.Status, errResp.Error)
-		return
+		return handleStatusError[int](res, "Error refreshing JWT")
 	}
 
 	new_jwt := struct {
