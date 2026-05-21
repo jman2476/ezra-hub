@@ -58,5 +58,15 @@ func getCommands() map[string]cliCommand {
 			description: "show menu of all commands",
 			callback:    commandMenu,
 		},
+		"update-user": {
+			name:        "update user",
+			description: "update user information",
+			callback:    commandUpdateUser,
+		},
+		"update-event": {
+			name:        "update event",
+			description: "update event information",
+			callback:    commandUpdateEvent,
+		},
 	}
 }
