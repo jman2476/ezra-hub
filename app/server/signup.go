@@ -36,16 +36,15 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	phoneNumber, err := phonenumbers.Parse(params.PhoneNumber, "US")
-	if err != nil {
-		respondWithError(w, http.StatusBadRequest, "Invalid phone number", err)
+	phoneNumber, ok := validatePhoneNumber(w, params.PhoneNumber)
+	if !ok {
+		// Already responded w/ error
 		return
 	}
-	phoneStr := fmt.Sprintf("+%d %d", *phoneNumber.CountryCode, *phoneNumber.NationalNumber)
 
-	email, err := mail.ParseAddress(params.Email)
-	if err != nil {
-		respondWithError(w, http.StatusBadRequest, "Invalid email address", err)
+	email, ok := validateEmail(w, params.Email)
+	if !ok {
+		// Already responded w/ error
 		return
 	}
 
@@ -57,8 +56,8 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 
 	userArgs := database.CreateUserParams{
 		Name:           params.Name,
-		PhoneNumber:    phoneStr,
-		Email:          email.Address,
+		PhoneNumber:    phoneNumber,
+		Email:          email,
 		HashedPassword: hash,
 	}
 
