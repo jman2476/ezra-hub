@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func (c *Client) UpdateUser(nu NewUser) (User, error) {
+func (c *Client) UpdateUser(nu UserUpdate) (User, error) {
 	v := reflect.ValueOf(nu)
 	fields := v.Fields()
 

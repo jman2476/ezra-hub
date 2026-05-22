@@ -27,6 +27,12 @@ type UserLogin struct {
 	Password string `json:"password"`
 }
 
+type UserUpdate struct {
+	Name        string `json:"name"`
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phone_number"`
+}
+
 type User struct {
 	Name          string    `json:"name"`
 	PhoneNumber   string    `json:"phone_number"`

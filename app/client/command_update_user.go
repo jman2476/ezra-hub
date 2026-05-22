@@ -7,7 +7,7 @@ import (
 )
 
 func commandUpdateUser(cfg *config) error {
-	var userUpdate apicaller.NewUser
+	var userUpdate apicaller.UserUpdate
 
 	fmt.Println("\rType in the fields you want to update, leave the others blank\r")
 
@@ -18,6 +18,8 @@ func commandUpdateUser(cfg *config) error {
 	}
 	if name != "" {
 		userUpdate.Name = name
+	} else {
+		userUpdate.Name = cfg.User.Name
 	}
 
 	cfg.Term.SetPrompt("Email: ")
@@ -27,6 +29,8 @@ func commandUpdateUser(cfg *config) error {
 	}
 	if email != "" {
 		userUpdate.Email = email
+	} else {
+		userUpdate.Email = cfg.User.Email
 	}
 
 	cfg.Term.SetPrompt("Phone number: ")
@@ -36,6 +40,8 @@ func commandUpdateUser(cfg *config) error {
 	}
 	if phonenumber != "" {
 		userUpdate.PhoneNumber = phonenumber
+	} else {
+		userUpdate.PhoneNumber = cfg.User.PhoneNumber
 	}
 
 	cfg.Client.UpdateUser(userUpdate)
