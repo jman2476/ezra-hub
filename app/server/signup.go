@@ -78,3 +78,22 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 
 	respondWithJSON(w, http.StatusCreated, mapUser(user, "", ""))
 }
+
+func validatePhoneNumber(w http.ResponseWriter, pn string) (string, bool) {
+	phoneNumber, err := phonenumbers.Parse(pn, "US")
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid phone number", err)
+		return "", false
+	}
+
+	return fmt.Sprintf("+%d %d", *phoneNumber.CountryCode, *phoneNumber.NationalNumber), true
+}
+
+func validateEmail(w http.ResponseWriter, em string) (string, bool) {
+	email, err := mail.ParseAddress(em)
+	if err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid email address", err)
+		return "", false
+	}
+	return email.Address, true
+}
