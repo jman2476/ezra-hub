@@ -15,7 +15,7 @@ var subTypes = []string{
 }
 
 func (cfg *apiConfig) handlerSubscribe(w http.ResponseWriter, req *http.Request, userID uuid.UUID) {
-	log.Println("PATCH /api/users")
+	log.Println("PATCH /api/users/subs")
 
 	type parameters struct {
 		Queues map[string]int `json:"subscriptions"`

@@ -70,7 +70,8 @@ func main() {
 	// User endpoints: Create, Login, Update
 	mux.HandleFunc("POST /api/users", apiCfg.handlerNewUser)
 	mux.HandleFunc("POST /api/login", apiCfg.handerLogIn)
-	mux.HandleFunc("PATCH /api/users", apiCfg.authorize(apiCfg.handlerSubscribe))
+	mux.HandleFunc("PATCH /api/users", apiCfg.authorize(apiCfg.handlerUpdateUser))
+	mux.HandleFunc("PATCH /api/users/subs", apiCfg.authorize(apiCfg.handlerSubscribe))
 
 	// Event endpoints: Create, Update
 	mux.HandleFunc("POST /api/events", apiCfg.authorize(apiCfg.handlerNewEvent))

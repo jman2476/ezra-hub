@@ -13,7 +13,7 @@ type Subscriptions struct {
 }
 
 func (c *Client) SetSubscriptions(subs map[string]int, retry bool) ([]string, error) {
-	url := c.baseURL + "/api/users"
+	url := c.baseURL + "/api/users/subs"
 
 	var subStruct Subscriptions
 	subStruct.Subs = subs
