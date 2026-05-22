@@ -199,3 +199,39 @@ func (q *Queries) SetSubscriptionbyID(ctx context.Context, arg SetSubscriptionby
 	_, err := q.db.ExecContext(ctx, setSubscriptionbyID, pq.Array(arg.Subs), arg.ID)
 	return err
 }
+
+const updateUserbyID = `-- name: UpdateUserbyID :one
+UPDATE users
+set name = $1, email = $2, 
+phone_number = $3, updated_at = NOW()
+WHERE id = $4
+RETURNING id, created_at, updated_at, name, phone_number, email, hashed_password, subs
+`
+
+type UpdateUserbyIDParams struct {
+	Name        string
+	Email       string
+	PhoneNumber string
+	ID          uuid.UUID
+}
+
+func (q *Queries) UpdateUserbyID(ctx context.Context, arg UpdateUserbyIDParams) (User, error) {
+	row := q.db.QueryRowContext(ctx, updateUserbyID,
+		arg.Name,
+		arg.Email,
+		arg.PhoneNumber,
+		arg.ID,
+	)
+	var i User
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.PhoneNumber,
+		&i.Email,
+		&i.HashedPassword,
+		pq.Array(&i.Subs),
+	)
+	return i, err
+}
