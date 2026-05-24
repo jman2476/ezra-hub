@@ -36,3 +36,5 @@ func (cfg *apiConfig) handlerGetEventsByType(w http.ResponseWriter, req *http.Re
 
 	respondWithJSON(w, http.StatusOK, mapEvents(events))
 }
+
+// cheese
