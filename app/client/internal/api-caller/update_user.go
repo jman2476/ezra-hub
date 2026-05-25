@@ -17,10 +17,13 @@ func (c *Client) UpdateUser(nu UserUpdate) (User, error) {
 	}
 	body := bytes.NewReader(updateData)
 
-	req, err := http.NewRequest("POST", url, body)
+	req, err := http.NewRequest("PATCH", url, body)
 	if err != nil {
 		return User{}, fmt.Errorf("Error creating request: %w", err)
 	}
+
+	header := c.MakeAuthHeader(c.token)
+	req.Header = header
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
