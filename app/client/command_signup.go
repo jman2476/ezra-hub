@@ -56,6 +56,8 @@ func commandSignUp(cfg *config) error {
 	fmt.Println("\r\n", user)
 	printUser(user)
 
+	cfg.User = user
+
 	return nil
 }
 
