@@ -6,5 +6,11 @@ func (c *Client) NewUser(signupInfo NewUser) (User, error) {
 		return User{}, err
 	}
 
-	return user, nil
+	var login = UserLogin{
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: signupInfo.Password,
+	}
+
+	return c.LoginUser(login)
 }
