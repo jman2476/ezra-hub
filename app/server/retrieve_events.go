@@ -48,6 +48,7 @@ func (cfg *apiConfig) handlerGetEventsbyUser(w http.ResponseWriter, req *http.Re
 
 	if len(events) == 0 {
 		respondWithJSON(w, http.StatusNoContent, struct{}{})
+		return
 	}
 
 	respondWithJSON(w, http.StatusOK, mapEvents(events))
