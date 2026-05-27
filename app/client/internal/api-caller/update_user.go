@@ -47,14 +47,4 @@ func (c *Client) UpdateUser(nu UserUpdate) (User, error) {
 	}
 
 	return user, nil
-
-	// v := reflect.ValueOf(nu)
-	// fields := v.Fields()
-
-	// for data, field := range fields {
-	// 	if field.Interface() != "" {
-	// 		fmt.Printf("\rNew %s: %s\n", data.Name, field.Interface())
-	// 	}
-	// }
-
 }
