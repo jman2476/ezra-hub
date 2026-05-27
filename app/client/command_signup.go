@@ -57,6 +57,7 @@ func commandSignUp(cfg *config) error {
 	printUser(user)
 
 	cfg.User = user
+	//cheese
 
 	return nil
 }
