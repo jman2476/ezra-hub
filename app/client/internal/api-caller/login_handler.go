@@ -85,7 +85,7 @@ func (c *Client) GetUserEvents(categories []string, retry bool) ([]Event, error)
 	}
 
 	if res.StatusCode != 200 {
-		return handleStatusError[[]Event](res, "Error getting user events")
+		return handleStatusError[[]Event](res, "Error getting user subscribed events")
 	}
 
 	data, err := io.ReadAll(res.Body)
