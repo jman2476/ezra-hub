@@ -48,3 +48,7 @@ type EventwName struct {
 	Event   `json:"event"`
 	Creator string `json:"creator"`
 }
+
+func (e Event) GetName() string {
+	return e.Name
+}

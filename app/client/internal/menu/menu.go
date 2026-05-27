@@ -130,3 +130,23 @@ func EraseCharacters(chars int) {
 
 	fmt.Print(clear.String())
 }
+
+type NamedItem interface {
+	GetName() string
+}
+
+func ItemMenu[ni NamedItem](itemList []ni) (ni, error) {
+	var namelist []string
+	var emptyItem ni
+
+	for _, item := range itemList {
+		namelist = append(namelist, item.GetName())
+	}
+
+	_, index, err := MenuRepl(namelist, 0)
+	if err != nil {
+		return emptyItem, fmt.Errorf("Error with menu of %T structs: %w", itemList[0], err)
+	}
+
+	return itemList[index], nil
+}

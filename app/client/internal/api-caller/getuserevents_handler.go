@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func (c *Client) GetUserCreatedEvents() ([]Event, error) {
+func (c *Client) GetUserCreatedEvents(retry bool) ([]Event, error) {
 	url := c.baseURL + "/api/events/users"
 
 	if c.token == "" {
@@ -30,6 +30,10 @@ func (c *Client) GetUserCreatedEvents() ([]Event, error) {
 
 	if res.StatusCode == 204 {
 		return []Event{}, fmt.Errorf("User owns no current events")
+	}
+
+	if !retry && res.StatusCode == 401 {
+		return RetryGetUserCreatedEvents(c)
 	}
 
 	if res.StatusCode != 200 {

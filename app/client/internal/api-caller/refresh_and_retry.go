@@ -114,6 +114,23 @@ func RetryGetUserEvents(c *Client, categories []string) ([]Event, error) {
 	return c.GetUserEvents(categories, true)
 }
 
+func RetryGetUserCreatedEvents(c *Client) ([]Event, error) {
+	fmt.Println("\rRetrying get user events")
+	if time.Since(c.lastRefresh) <= time.Minute {
+		return []Event{}, errRefreshedTooSoon
+	}
+
+	status, err := c.Refresh()
+	if err != nil {
+		if status == 200 {
+			return []Event{}, err
+		}
+		return []Event{}, errBadRefreshToken
+	}
+
+	return c.GetUserCreatedEvents(true)
+}
+
 func RetrySubscribe(c *Client, subs map[string]int) ([]string, error) {
 	fmt.Println("\rRetrying set subscriptions")
 	if time.Since(c.lastRefresh) <= time.Minute {
