@@ -37,4 +37,14 @@ func (cfg *apiConfig) handlerGetEventsByType(w http.ResponseWriter, req *http.Re
 	respondWithJSON(w, http.StatusOK, mapEvents(events))
 }
 
-// cheese
+func (cfg *apiConfig) handlerGetEventsbyUser(w http.ResponseWriter, req *http.Request, userID uuid.UUID) {
+	log.Printf("GET /api/events/users/")
+
+	events, err := cfg.db.GetEventsByOwner(req.Context(), userID)
+	if err != nil {
+		respondWithError(w, http.StatusInternalServerError, "Error getting user's events from database", err)
+		return
+	}
+
+	respondWithJSON(w, http.StatusOK, mapEvents(events))
+}

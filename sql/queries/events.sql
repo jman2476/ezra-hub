@@ -38,3 +38,7 @@ WHERE e.id = $1;
 -- name: GetEventsByCategory :many
 SELECT * FROM events
 WHERE category = ANY($1::GENRE[]);
+
+-- name: GetEventsByOwner :many
+SELECT * FROM events
+WHERE owner_id = $1;
