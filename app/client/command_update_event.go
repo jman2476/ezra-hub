@@ -50,7 +50,7 @@ func commandUpdateEvent(cfg *config) error {
 	if err != nil {
 		return err
 	}
-	if name != "" {
+	if eventCategory != "" {
 		eventUpdate.Category = strings.ToLower(eventCategory)
 	} else {
 		eventUpdate.Category = selected.Category
@@ -126,7 +126,7 @@ func commandUpdateEvent(cfg *config) error {
 		eventUpdate.MaxVolunteers = selected.MaxVolunteers.Int32
 	}
 
-	event, err := cfg.Client.UpdateEvent(eventUpdate)
+	event, err := cfg.Client.UpdateEvent(eventUpdate, selected.ID)
 	if err != nil {
 		return err
 	}
