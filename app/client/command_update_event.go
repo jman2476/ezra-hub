@@ -22,6 +22,9 @@ func commandUpdateEvent(cfg *config) error {
 		return fmt.Errorf("Error selecting event from menu: %w", err)
 	}
 
+	fmt.Println("\rCurrent event attributes: ")
+	printEvent(selected)
+
 	// set that equal to var currentEvent apicaller.Event
 	var eventUpdate apicaller.NewEvent
 
@@ -38,11 +41,12 @@ func commandUpdateEvent(cfg *config) error {
 		eventUpdate.Name = selected.Name
 	}
 
-	cfg.Term.SetPrompt("Name: ")
+	cfg.Term.SetPrompt("Type: ")
 
-	cfg.Term.SetPrompt("Name: ")
-	cfg.Term.SetPrompt("Name: ")
-	cfg.Term.SetPrompt("Name: ")
-	cfg.Term.SetPrompt("Name: ")
+	cfg.Term.SetPrompt("When is the event: YYYY-MM-DD hh:mm >")
+	cfg.Term.SetPrompt("How many days is it valid for: ")
+	cfg.Term.SetPrompt("Give a brief description of the event:\r\n")
+	cfg.Term.SetPrompt("How many volunteers do you need? Type 0 if irrelavent. Invalid entries will be set to 0\n\rMin: ")
+	cfg.Term.SetPrompt("Max: ")
 	return nil
 }

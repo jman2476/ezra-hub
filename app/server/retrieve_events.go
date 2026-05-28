@@ -16,6 +16,7 @@ func (cfg *apiConfig) handlerGetEventsByType(w http.ResponseWriter, req *http.Re
 	types := req.URL.Query()["type"]
 	if len(types) == 0 {
 		respondWithJSON(w, http.StatusNoContent, struct{}{})
+		return
 	}
 
 	if slices.Contains(types, "all") {
