@@ -202,7 +202,7 @@ func (q *Queries) SetSubscriptionbyID(ctx context.Context, arg SetSubscriptionby
 
 const updateUserbyID = `-- name: UpdateUserbyID :one
 UPDATE users
-set name = $1, email = $2, 
+SET name = $1, email = $2, 
 phone_number = $3, updated_at = NOW()
 WHERE id = $4
 RETURNING id, created_at, updated_at, name, phone_number, email, hashed_password, subs

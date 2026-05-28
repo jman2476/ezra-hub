@@ -34,7 +34,7 @@ WHERE id = $1;
 
 -- name: UpdateUserbyID :one
 UPDATE users
-set name = $1, email = $2, 
+SET name = $1, email = $2, 
 phone_number = $3, updated_at = NOW()
 WHERE id = $4
 RETURNING *;

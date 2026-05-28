@@ -278,3 +278,52 @@ func (q *Queries) RemoveEventResponder(ctx context.Context, arg RemoveEventRespo
 	)
 	return i, err
 }
+
+const updateEventByID = `-- name: UpdateEventByID :one
+UPDATE events
+SET updated_at = NOW(), name = $1,
+description = $2, category = $3, occurs_on = $4,
+expires_at = $5, min_volunteers = $6, max_volunteers = $7
+WHERE id = $8
+RETURNING id, created_at, updated_at, name, owner_id, occurs_on, expires_at, min_volunteers, max_volunteers, respondants, description, category
+`
+
+type UpdateEventByIDParams struct {
+	Name          string
+	Description   string
+	Category      Genre
+	OccursOn      time.Time
+	ExpiresAt     time.Time
+	MinVolunteers sql.NullInt32
+	MaxVolunteers sql.NullInt32
+	ID            uuid.UUID
+}
+
+func (q *Queries) UpdateEventByID(ctx context.Context, arg UpdateEventByIDParams) (Event, error) {
+	row := q.db.QueryRowContext(ctx, updateEventByID,
+		arg.Name,
+		arg.Description,
+		arg.Category,
+		arg.OccursOn,
+		arg.ExpiresAt,
+		arg.MinVolunteers,
+		arg.MaxVolunteers,
+		arg.ID,
+	)
+	var i Event
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.OwnerID,
+		&i.OccursOn,
+		&i.ExpiresAt,
+		&i.MinVolunteers,
+		&i.MaxVolunteers,
+		pq.Array(&i.Respondants),
+		&i.Description,
+		&i.Category,
+	)
+	return i, err
+}

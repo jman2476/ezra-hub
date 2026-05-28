@@ -42,3 +42,11 @@ WHERE category = ANY($1::GENRE[]);
 -- name: GetEventsByOwner :many
 SELECT * FROM events
 WHERE owner_id = $1;
+
+-- name: UpdateEventByID :one
+UPDATE events
+SET updated_at = NOW(), name = $1,
+description = $2, category = $3, occurs_on = $4,
+expires_at = $5, min_volunteers = $6, max_volunteers = $7
+WHERE id = $8
+RETURNING *;
