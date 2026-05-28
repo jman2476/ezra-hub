@@ -52,3 +52,8 @@ type EventwName struct {
 func (e Event) GetName() string {
 	return e.Name
 }
+
+type EventUpdate struct {
+	NewEvent
+	OldType string `json:"old_type"`
+}

@@ -29,7 +29,8 @@ func commandUpdateEvent(cfg *config) error {
 	printEvent(selected)
 
 	// set that equal to var currentEvent apicaller.Event
-	var eventUpdate apicaller.NewEvent
+	var eventUpdate apicaller.EventUpdate
+	eventUpdate.OldType = selected.Category
 
 	fmt.Println("\rType in the fields you want to update, leave the rest blank\r")
 
