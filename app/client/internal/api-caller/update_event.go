@@ -1,6 +1,6 @@
 package apicaller
 
-func (c *Client) UpdateEvent(eventInfo NewEvent) (Event, error) {
+func (c *Client) UpdateEvent(eventInfo EventUpdate) (Event, error) {
 
 	return Event{}, nil
 }
