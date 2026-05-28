@@ -24,9 +24,9 @@ func (c *Client) GetUserCreatedEvents(retry bool) ([]Event, error) {
 
 	res, err := c.httpClient.Do(req)
 	if err != nil {
-		return []Event{}, fmt.Errorf("Error getting events created by current user")
+		return []Event{}, fmt.Errorf("Error getting events created by current user: %w", err)
 	}
-	res.Body.Close()
+	defer res.Body.Close()
 
 	if res.StatusCode == 204 {
 		return []Event{}, fmt.Errorf("User owns no current events")
