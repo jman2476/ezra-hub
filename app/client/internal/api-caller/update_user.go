@@ -8,10 +8,10 @@ import (
 	"net/http"
 )
 
-func (c *Client) UpdateUser(nu UserUpdate) (User, error) {
+func (c *Client) UpdateUser(userInfo UserUpdate) (User, error) {
 	url := c.baseURL + "/api/users"
 
-	updateData, err := json.Marshal(nu)
+	updateData, err := json.Marshal(userInfo)
 	if err != nil {
 		return User{}, fmt.Errorf("Data marshaling error: %w", err)
 	}
