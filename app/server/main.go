@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -47,6 +48,11 @@ func main() {
 		log.Printf("Successfully created channel %v", channel)
 	}
 
+	err = declareExchanges(channel)
+	if err != nil {
+		log.Printf("Error binding exchanges: %s", err)
+	}
+
 	port := os.Getenv("SERVER_PORT")
 	const filepathRoot = "."
 
@@ -89,4 +95,26 @@ func main() {
 
 	log.Printf("Starting Ezra Hub server on port %s", port)
 	log.Fatal(server.ListenAndServe())
+}
+
+func declareExchanges(ch *amqp.Channel) (err error) {
+	err = ch.ExchangeDeclare(
+		"ezra_direct", "direct",
+		true, false, false, false,
+		amqp.Table{},
+	)
+	if err != nil {
+		return fmt.Errorf("Declare ezra_direct exchange error: %w", err)
+	}
+
+	err = ch.ExchangeDeclare(
+		"ezra_topic", "topic",
+		true, false, false, false,
+		amqp.Table{},
+	)
+	if err != nil {
+		return fmt.Errorf("Declare ezra_topic exchange error: %w", err)
+	}
+
+	return
 }

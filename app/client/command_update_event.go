@@ -17,7 +17,7 @@ func commandUpdateEvent(cfg *config) error {
 		return fmt.Errorf("\rError getting events created by user: %w", err)
 	}
 
-	selected, err := menu.ItemMenu[apicaller.Event](events)
+	selected, err := menu.ItemMenu(events)
 	if err != nil {
 		return fmt.Errorf("Error selecting event from menu: %w", err)
 	}
