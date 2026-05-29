@@ -59,7 +59,7 @@ See notebook
     - save all server events to disk in files seperated by date
     - date will be based on server's local time, new day creates new file
     
-9. Add needs/events table to DB
+9. Add needs/events table to DB [X]
     - each event needs date, creator, benefactor, and type
     - possibly create a type table for easy lookup between user and event table
     - update users to have a field where they subscribe to different event types [X]
@@ -72,10 +72,10 @@ See notebook
     - add to SERVER to only broadcast on event type [X]
 12. Add event response/update endpoint to Server
     - Broadcast updates to all clients that are subscribed [X]
-13. Add event response/update to Client
+13. Add event response/update to Client [X]
     - Users should be able to interact with other's events
-    - if only one person required, when someone responds it will still be visible but shown that it's taken
-14. Setup client login refresh
+    - if only one person required, when someone responds it will still be visible but shown that it's taken [X]
+14. Setup client login refresh [X]
     - on log in, client requests active events from server
     - server checks db for active events of each type, and sends to user
     - once user has received list, subscribes to queues of each feed to maintain accuracy

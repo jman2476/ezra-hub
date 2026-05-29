@@ -7,11 +7,7 @@ import (
 )
 
 func commandMenu(cfg *config) error {
-	var cmdList []string
-	for key := range getCommands() {
-		cmdList = append(cmdList, key)
-	}
-	command, _, err := menu.MenuRepl(cmdList, 0)
+	command, _, err := menu.MenuRepl(listCommands(), 0)
 	if err != nil {
 		return fmt.Errorf("List command menu error: %w", err)
 	}
