@@ -82,3 +82,4 @@ See notebook
     - can refresh at any point, does not disturb queues 
 15. Add location information, because that wasn't done before
 16. Make sure all client api calls have a 'recall' function
+17. Add notifications bar above main console area and screen wiping
