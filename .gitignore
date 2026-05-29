@@ -31,3 +31,7 @@ go.work.sum
 # .idea/
 .vscode/
 .VSCodeCounter
+
+# Build files
+ezra_server
+ezra_client

@@ -27,6 +27,7 @@ func main() {
 	platform := os.Getenv("PLATFORM")
 	secret := os.Getenv("SECRET")
 	rabbitConnString := os.Getenv("RABBIT_SERVER")
+	rabbitBackupConn := os.Getenv("RABBIT_SERVER_DOCKER")
 
 	db, err := sql.Open("postgres", dbURL)
 	if err != nil {
@@ -36,6 +37,10 @@ func main() {
 	connection, err := amqp.Dial(rabbitConnString)
 	if err != nil {
 		log.Printf("Error establishing connection to RabbitMQ server: %s", err)
+		connection, err = amqp.Dial(rabbitBackupConn)
+		if err != nil {
+			log.Printf("Error using backup RabbitMQ connection: %s", err)
+		}
 	} else {
 		log.Printf("Connection to RabbitMQ server successful")
 	}
@@ -93,6 +98,8 @@ func main() {
 		Addr:    ":" + port,
 		Handler: mux,
 	}
+
+	fmt.Printf("DEBUG: Addr string [%s] (Length: %d) (Bytes: %v)\n", server.Addr, len(server.Addr), []byte(server.Addr))
 
 	log.Printf("Starting Ezra Hub server on port %s", port)
 	log.Fatal(server.ListenAndServe())
