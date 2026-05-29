@@ -8,7 +8,7 @@ start_or_run () {
         docker start ezra_server
     else
         echo "Ezra Hub Server container not found, creating a new one..."
-        docker run --env-file ./app/server/.env --add-host=host.docker.internal:host-gateway  -p 3294:3294 ezra_server:latest 
+        docker run --name ezra_server --env-file ./app/server/.env --add-host=host.docker.internal:host-gateway  -p 3294:3294 ezrahub_server:latest 
     fi
 }
 
@@ -27,9 +27,9 @@ case "$1" in
     build)
         echo "Building Ezra Hub Server container..."
         go build -C ./app/server -o ezra_server
-        docker build ./app/server -t ezra_server:latest
+        docker build ./app/server -t ezrahub_server:latest
         ;;
     *)
-        echo "Usage: $0 {start|stop|logs}"
+        echo "Usage: $0 {start|stop|logs|build}"
         exit 1
 esac
