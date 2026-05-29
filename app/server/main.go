@@ -23,15 +23,21 @@ type apiConfig struct {
 
 func main() {
 	godotenv.Load("./app/server/.env")
-	dbURL := os.Getenv("DB_URL")
+	// dbURL := os.Getenv("DB_URL")
+	dbBackup := os.Getenv("DB_URL_BACKUP")
 	platform := os.Getenv("PLATFORM")
 	secret := os.Getenv("SECRET")
 	rabbitConnString := os.Getenv("RABBIT_SERVER")
 	rabbitBackupConn := os.Getenv("RABBIT_SERVER_DOCKER")
 
-	db, err := sql.Open("postgres", dbURL)
+	db, err := sql.Open("postgres", dbBackup)
 	if err != nil {
 		log.Printf("Error opening database connection: %s", err)
+
+		db, err = sql.Open("postgres", dbBackup)
+		if err != nil {
+			log.Printf("Error opening database backup connection: %s", err)
+		}
 	}
 
 	connection, err := amqp.Dial(rabbitConnString)
