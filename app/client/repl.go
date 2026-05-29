@@ -45,12 +45,15 @@ func startRepl(cfg *config) {
 		cleanedInput := cleanInput(buffer)
 
 		if len(cleanedInput) == 0 {
+			cfg.handleScreen()
 			continue
 		}
 
 		commandName := cleanedInput[0]
 		command, ok := getCommands()[commandName]
 		if ok {
+			cfg.handleScreen()
+
 			err := command.callback(cfg)
 
 			if err != nil {
@@ -58,6 +61,8 @@ func startRepl(cfg *config) {
 			}
 			continue
 		} else {
+			cfg.handleScreen()
+
 			fmt.Println("\rUnknown command")
 			continue
 		}
@@ -108,4 +113,55 @@ func (cfg *config) loginOptions() {
 
 	}
 
+}
+
+func (cfg *config) handleScreen() {
+	x, y, err := cfg.getCursorPosition()
+	menu.ClearWindow()
+	cfg.drawAlerts(x, y, err)
+}
+
+func (cfg *config) drawAlerts(x, y int, err error) {
+	width, _, err := term.GetSize(int(cfg.Window))
+	if err != nil {
+		fmt.Println("Error getting terminal size")
+		width = 10
+	}
+	var alertBar = make([]string, 3)
+	alertBar[0] = "Alerts"
+	for x := 0; x < width; x++ {
+		if x > 5 {
+			alertBar[0] += "*"
+		}
+		alertBar[2] += "*"
+	}
+	if err != nil {
+		alertBar[1] = fmt.Sprintf("\r%v\n", err)
+	} else {
+		alertBar[1] = fmt.Sprintf("\rX:%d Y:%d", x, y)
+	}
+
+	for i := range alertBar {
+		fmt.Printf("\r%s\n", alertBar[i])
+	}
+}
+
+func (cfg *config) getCursorPosition() (x, y int, err error) {
+	_, err = os.Stdout.Write([]byte("\x1b[6n"))
+	if err != nil {
+		return -1, -1, err
+	}
+
+	var buf [32]byte
+	n, err := os.Stdin.Read(buf[:])
+	if err != nil {
+		return
+	}
+
+	_, err = fmt.Sscanf(string(buf[:n]), "\x1b[%d;%dR", &x, &y)
+	if err != nil {
+		return -1, -1, err
+	}
+
+	return
 }
