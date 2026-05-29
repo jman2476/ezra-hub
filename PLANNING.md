@@ -80,3 +80,5 @@ See notebook
     - server checks db for active events of each type, and sends to user
     - once user has received list, subscribes to queues of each feed to maintain accuracy
     - can refresh at any point, does not disturb queues 
+15. Add location information, because that wasn't done before
+16. Make sure all client api calls have a 'recall' function
