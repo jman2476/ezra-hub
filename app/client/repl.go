@@ -118,10 +118,10 @@ func (cfg *config) loginOptions() {
 func (cfg *config) handleScreen() {
 	x, y, err := cfg.getCursorPosition()
 	menu.ClearWindow()
-	cfg.drawAlerts(x, y, err)
+	cfg.drawAlertsBar(x, y, err)
 }
 
-func (cfg *config) drawAlerts(x, y int, err error) {
+func (cfg *config) drawAlertsBar(x, y int, err error) {
 	width, _, err := term.GetSize(int(cfg.Window))
 	if err != nil {
 		fmt.Println("Error getting terminal size")
@@ -142,7 +142,7 @@ func (cfg *config) drawAlerts(x, y int, err error) {
 	}
 
 	for i := range alertBar {
-		fmt.Printf("\r%s\n", alertBar[i])
+		fmt.Printf("\r%s\n\r", alertBar[i])
 	}
 }
 
@@ -164,4 +164,11 @@ func (cfg *config) getCursorPosition() (x, y int, err error) {
 	}
 
 	return
+}
+
+func (cfg *config) setAlert(msg string, x, y int) {
+	var moveCursor strings.Builder
+	var returnCursor strings.Builder
+	moveCursor.WriteString("\r")
+	returnCursor.WriteString("\r")
 }
