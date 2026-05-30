@@ -115,13 +115,18 @@ func (cfg *config) loginOptions() {
 
 }
 
-func (cfg *config) handleScreen() {
+func (cfg *config) handleScreen() error {
 	x, y, err := cfg.getCursorPosition()
+	if err != nil {
+		return fmt.Errorf("Couldn't get cursor position: %w", err)
+	}
 	menu.ClearWindow()
-	cfg.drawAlertsBar(x, y, err)
+	cfg.drawAlertsBar()
+	cfg.setAlert([]byte("Banana"), x, y)
+	return nil
 }
 
-func (cfg *config) drawAlertsBar(x, y int, err error) {
+func (cfg *config) drawAlertsBar() {
 	width, _, err := term.GetSize(int(cfg.Window))
 	if err != nil {
 		fmt.Println("Error getting terminal size")
@@ -129,16 +134,11 @@ func (cfg *config) drawAlertsBar(x, y int, err error) {
 	}
 	var alertBar = make([]string, 3)
 	alertBar[0] = "Alerts"
-	for x := 0; x < width; x++ {
-		if x > 5 {
+	for i := 0; i < width; i++ {
+		if i > 5 {
 			alertBar[0] += "*"
 		}
 		alertBar[2] += "*"
-	}
-	if err != nil {
-		alertBar[1] = fmt.Sprintf("\r%v\n", err)
-	} else {
-		alertBar[1] = fmt.Sprintf("\rX:%d Y:%d", x, y)
 	}
 
 	for i := range alertBar {
@@ -166,9 +166,46 @@ func (cfg *config) getCursorPosition() (x, y int, err error) {
 	return
 }
 
-func (cfg *config) setAlert(msg string, x, y int) {
+func (cfg *config) setAlert(msg []byte, x, y int) error {
+	w, _, err := term.GetSize(cfg.Window)
 	var moveCursor strings.Builder
 	var returnCursor strings.Builder
-	moveCursor.WriteString("\r")
-	returnCursor.WriteString("\r")
+	var alert strings.Builder
+	_, err = moveCursor.WriteString("\r")
+	if err != nil {
+		return fmt.Errorf("write moveCursor error: %w", err)
+	}
+	_, err = returnCursor.WriteString("\r")
+	if err != nil {
+		return fmt.Errorf("write returnCursor error: %w", err)
+	}
+
+	for range y + 1 {
+		_, err = moveCursor.WriteString("\033[A")
+		if err != nil {
+			return fmt.Errorf("write moveCursor error: %w", err)
+		}
+		_, err = returnCursor.WriteString("\033[B")
+		if err != nil {
+			return fmt.Errorf("write returnCursor error: %w", err)
+		}
+	}
+	for range x {
+		_, err = returnCursor.WriteString("\033[C")
+		if err != nil {
+			return fmt.Errorf("write returnCursor error: %w", err)
+		}
+	}
+	for i := range w {
+		if len(msg) <= i {
+			break
+		}
+		err = alert.WriteByte(msg[i])
+		if err != nil {
+			return fmt.Errorf("write alert error: %w", err)
+		}
+	}
+
+	fmt.Print(moveCursor.String(), alert.String(), returnCursor.String())
+	return nil
 }
