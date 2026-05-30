@@ -53,11 +53,15 @@ func handlerEventUpdate(cfg *config) func(apicaller.Event) msgbroker.AckType {
 		cfg.Term.Write([]byte("\r\n"))
 		defer cfg.termNewLine()
 
-		fmt.Println("\r************************")
-		fmt.Printf("\rUpdated %s Event Incoming!\n", strings.ToUpper(e.Category))
-		printEvent(e)
-		fmt.Println("\r************************\r")
-
+		// fmt.Println("\r************************")
+		// fmt.Printf("\rUpdated %s Event Incoming!\n", strings.ToUpper(e.Category))
+		// printEvent(e)
+		// fmt.Println("\r************************\r")
+		alert := fmt.Sprintf("Updated %s Event Incoming!", strings.ToUpper(e.Category))
+		x, y, err := cfg.getCursorPosition()
+		if err == nil {
+			cfg.setAlert([]byte(alert), x, y)
+		}
 		cfg.Events[e.ID] = e
 
 		return msgbroker.Ack
