@@ -9,7 +9,7 @@ import (
 )
 
 func commandLogin(cfg *config) error {
-	fmt.Println("Log in to your account\n\r")
+	fmt.Println("\rLog in to your account\n\r")
 	var loginData apicaller.UserLogin
 	var user apicaller.User
 

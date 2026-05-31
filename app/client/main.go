@@ -14,7 +14,7 @@ import (
 
 func main() {
 	fmt.Println("Starting Ezra Hub client")
-	ezraClient := apicaller.NewClient(30 * time.Second)
+	ezraClient := apicaller.NewClient(300 * time.Second)
 
 	godotenv.Load("./app/client/.env")
 	rabbitConnString := os.Getenv("RABBIT_SERVER")
