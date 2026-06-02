@@ -44,7 +44,7 @@ func handlerEventNew(cfg *config) func(apicaller.EventwName) msgbroker.AckType {
 
 		cfg.Events[e.ID] = e.Event
 
-		return msgbroker.Ack
+		// return msgbroker.Ack
 	}
 }
 
