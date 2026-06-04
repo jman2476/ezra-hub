@@ -8,7 +8,7 @@ start_or_run () {
         docker start ezra_server
     else
         echo "Ezra Hub Server container not found, creating a new one..."
-        docker run --name ezra_server --env-file ./app/server/.env --add-host=host.docker.internal:host-gateway  -p 3294:3294 ezrahub_server:latest 
+        docker run --name ezra_server --env-file ./app/server/.env-docker --add-host=host.docker.internal:host-gateway  -p 3294:3294 ezrahub_server:latest 
     fi
 }
 
