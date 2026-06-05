@@ -146,4 +146,5 @@ type User struct {
 	Email          string
 	HashedPassword string
 	Subs           []Subscription
+	Address        string
 }
