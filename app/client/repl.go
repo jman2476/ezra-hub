@@ -120,9 +120,15 @@ func (cfg *config) handleScreen() error {
 	if err != nil {
 		return fmt.Errorf("Couldn't get cursor position: %w", err)
 	}
-	menu.ClearWindow()
+	err = menu.ClearWindow()
+	if err != nil {
+		return fmt.Errorf("Error clearing window: %w", err)
+	}
 	cfg.drawAlertsBar()
-	cfg.setAlert([]byte(""), x, y)
+	err = cfg.setAlert([]byte(""), x, y)
+	if err != nil {
+		return fmt.Errorf("Error drawing alerts bar: %w", err)
+	}
 	return nil
 }
 
