@@ -14,13 +14,15 @@ func handlerActiveUsers(cfg *config) func(routing.ActiveUser) msgbroker.AckType 
 		cfg.Term.Write([]byte("\r\n"))
 		defer cfg.termNewLine()
 
-		// fmt.Println("\r***************************\r")
-		// fmt.Printf("----------%s logged in----------\r\n", user.Name)
-		// fmt.Println("***************************\r")
+		fmt.Println("\r***************************\r")
+		fmt.Printf("----------%s logged in----------\r\n", user.Name)
+		fmt.Println("***************************\r")
 		alert := fmt.Sprintf("%s logged in", user.Name)
 		x, y, err := cfg.getCursorPosition()
 		if err == nil {
 			cfg.setAlert([]byte(alert), x, y)
+		} else {
+			cfg.setAlert([]byte(err.Error()), x, y)
 		}
 
 		return msgbroker.Ack
@@ -40,6 +42,8 @@ func handlerEventNew(cfg *config) func(apicaller.EventwName) msgbroker.AckType {
 		x, y, err := cfg.getCursorPosition()
 		if err == nil {
 			cfg.setAlert([]byte(alert), x, y)
+		} else {
+			cfg.setAlert([]byte(err.Error()), x, y)
 		}
 
 		cfg.Events[e.ID] = e.Event
@@ -61,6 +65,8 @@ func handlerEventUpdate(cfg *config) func(apicaller.Event) msgbroker.AckType {
 		x, y, err := cfg.getCursorPosition()
 		if err == nil {
 			cfg.setAlert([]byte(alert), x, y)
+		} else {
+			cfg.setAlert([]byte(err.Error()), x, y)
 		}
 		cfg.Events[e.ID] = e
 

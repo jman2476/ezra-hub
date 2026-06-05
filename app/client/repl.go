@@ -122,7 +122,7 @@ func (cfg *config) handleScreen() error {
 	}
 	menu.ClearWindow()
 	cfg.drawAlertsBar()
-	cfg.setAlert([]byte("Banana"), x, y)
+	cfg.setAlert([]byte(""), x, y)
 	return nil
 }
 
