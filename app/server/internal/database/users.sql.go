@@ -128,16 +128,11 @@ func (q *Queries) GetUserSubsbyID(ctx context.Context, id uuid.UUID) (GetUserSub
 
 const getUserforLogin = `-- name: GetUserforLogin :one
 SELECT id, created_at, updated_at, name, phone_number, email, hashed_password, subs, address FROM users
-WHERE name = $1 and email = $2
+WHERE email = $1
 `
 
-type GetUserforLoginParams struct {
-	Name  string
-	Email string
-}
-
-func (q *Queries) GetUserforLogin(ctx context.Context, arg GetUserforLoginParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUserforLogin, arg.Name, arg.Email)
+func (q *Queries) GetUserforLogin(ctx context.Context, email string) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserforLogin, email)
 	var i User
 	err := row.Scan(
 		&i.ID,

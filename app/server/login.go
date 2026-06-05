@@ -17,7 +17,6 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 	log.Println("POST /api/login")
 
 	type parameters struct {
-		Name     string `json:"name"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
@@ -30,11 +29,8 @@ func (cfg *apiConfig) handerLogIn(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	log.Println("decoding")
-	userArgs := database.GetUserforLoginParams{
-		Name:  params.Name,
-		Email: params.Email,
-	}
-	user, err := cfg.db.GetUserforLogin(req.Context(), userArgs)
+
+	user, err := cfg.db.GetUserforLogin(req.Context(), params.Email)
 	if err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Database retreival error", err)
 		return

@@ -13,7 +13,7 @@ WHERE name = $1 and email = $2;
 
 -- name: GetUserforLogin :one
 SELECT * FROM users
-WHERE name = $1 and email = $2;
+WHERE email = $1;
 
 -- name: GetUsers :many
 SELECT *
