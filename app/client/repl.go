@@ -100,12 +100,15 @@ func (cfg *config) termNewLine() {
 }
 
 func (cfg *config) loginOptions() {
-	var options = []string{"signup", "login", "exit"}
+	var options = []string{"skip", "signup", "login", "exit"}
 	commandName, _, err := menu.MenuRepl(options, 0)
 	if err != nil {
 		fmt.Println(
 			fmt.Errorf("Menu error: %w", err),
 		)
+	}
+	if commandName == "skip" {
+		return
 	}
 
 	command, ok := getCommands()[commandName]
@@ -171,7 +174,7 @@ func (cfg *config) getCursorPosition() (x, y int, err error) {
 	if err != nil {
 		return
 	}
-
+	fmt.Println("n read from buffer ", n)
 	_, err = fmt.Sscanf(string(buf[:n]), "\x1b[%d;%dR", &x, &y)
 	if err != nil {
 		return -1, -1, err
@@ -220,6 +223,6 @@ func (cfg *config) setAlert(msg []byte, x, y int) error {
 		}
 	}
 
-	fmt.Print(moveCursor.String(), alert.String(), returnCursor.String())
+	fmt.Print(moveCursor.String(), alert.String(), "distance y: ", y, returnCursor.String())
 	return nil
 }

@@ -16,6 +16,18 @@ func commandAlert(cfg *config) error {
 	if err != nil {
 		return fmt.Errorf("Set alert error: %w", err)
 	}
-
+	cfg.Term.SetPrompt("\rSecond alert> ")
+	secondInput, err := cfg.Term.ReadLine()
+	if err != nil {
+		return fmt.Errorf("Readline error: %w", err)
+	}
+	x, y, err = cfg.getCursorPosition()
+	if err != nil {
+		return fmt.Errorf("Get cursor position error: %w", err)
+	}
+	err = cfg.setAlert([]byte(secondInput), x, y)
+	if err != nil {
+		return fmt.Errorf("Set alert error: %w", err)
+	}
 	return nil
 }
