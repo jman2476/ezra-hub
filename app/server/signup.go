@@ -21,6 +21,7 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 		PhoneNumber string `json:"phone_number"`
 		Email       string `json:"email"`
 		Password    string `json:"password"`
+		Address     string `json:"address"`
 	}
 
 	decoder := json.NewDecoder(req.Body)
@@ -59,6 +60,7 @@ func (cfg *apiConfig) handlerNewUser(w http.ResponseWriter, req *http.Request) {
 		PhoneNumber:    phoneNumber,
 		Email:          email,
 		HashedPassword: hash,
+		Address:        params.Address,
 	}
 
 	user, err := cfg.db.CreateUser(req.Context(), userArgs)

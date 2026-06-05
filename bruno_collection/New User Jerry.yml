@@ -12,7 +12,8 @@ http:
       {
         "name": "Jerry Seinfeld",
         "phone_number": "6094587564",
-        "email": "mrseinfeld@jerry.net"
+        "email": "mrseinfeld@jerry.net",
+        "password": "bingopupp"
       }
   auth: inherit
 

@@ -17,6 +17,7 @@ type User struct {
 	JWT         string                  `json:"jwt"`
 	Refresh     string                  `json:"refresh_token"`
 	Subs        []database.Subscription `json:"subs"`
+	Address     string                  `json:"address"`
 }
 
 func mapUser(user database.User, jwt, refresh string) User {
@@ -31,6 +32,7 @@ func mapUser(user database.User, jwt, refresh string) User {
 			JWT:         jwt,
 			Refresh:     refresh,
 			Subs:        user.Subs,
+			Address:     user.Address,
 		}
 	}
 	return User{
@@ -41,5 +43,6 @@ func mapUser(user database.User, jwt, refresh string) User {
 		PhoneNumber: user.PhoneNumber,
 		Email:       user.Email,
 		Subs:        user.Subs,
+		Address:     user.Address,
 	}
 }
