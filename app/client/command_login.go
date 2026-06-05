@@ -13,13 +13,6 @@ func commandLogin(cfg *config) error {
 	var loginData apicaller.UserLogin
 	var user apicaller.User
 
-	cfg.Term.SetPrompt("Name: ")
-	name, err := cfg.Term.ReadLine()
-	if err != nil {
-		return err
-	}
-	loginData.Name = name
-
 	cfg.Term.SetPrompt("Email: ")
 	email, err := cfg.Term.ReadLine()
 	if err != nil {
