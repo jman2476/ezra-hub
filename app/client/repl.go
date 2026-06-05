@@ -87,7 +87,7 @@ func setReaderWriter(in, out *os.File) io.ReadWriter {
 }
 
 func (cfg *config) termNewLine() {
-	prompt := "Ezra:" + cfg.User.Name + ">"
+	prompt := "\rEzra:" + cfg.User.Name + ">"
 	cfg.Term.Write([]byte(prompt))
 }
 
