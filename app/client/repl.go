@@ -100,7 +100,7 @@ func (cfg *config) termNewLine() {
 }
 
 func (cfg *config) loginOptions() {
-	var options = []string{"skip", "signup", "login", "exit"}
+	var options = []string{"skip", "login", "signup", "exit"}
 	commandName, _, err := menu.MenuRepl(options, 0)
 	if err != nil {
 		fmt.Println(
