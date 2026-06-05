@@ -8,11 +8,12 @@ import (
 )
 
 type config struct {
-	User       apicaller.User
-	Term       *term.Terminal
-	termState  *term.State
-	Window     int
-	Client     apicaller.Client
-	Connection *amqp.Connection
-	Events     map[uuid.UUID]apicaller.Event
+	User            apicaller.User
+	Term            *term.Terminal
+	termState       *term.State
+	Window          int
+	Client          apicaller.Client
+	Connection      *amqp.Connection
+	Events          map[uuid.UUID]apicaller.Event
+	MostRecentAlert string
 }

@@ -127,19 +127,19 @@ func (cfg *config) loginOptions() {
 }
 
 func (cfg *config) handleScreen() error {
-	x, y, err := cfg.getCursorPosition()
-	if err != nil {
-		return fmt.Errorf("Couldn't get cursor position: %w", err)
-	}
-	err = menu.ClearWindow()
+	// x, y, err := cfg.getCursorPosition()
+	// if err != nil {
+	// 	return fmt.Errorf("Couldn't get cursor position: %w", err)
+	// }
+	err := menu.ClearWindow()
 	if err != nil {
 		return fmt.Errorf("Error clearing window: %w", err)
 	}
 	cfg.drawAlertsBar()
-	err = cfg.setAlert([]byte(""), x, y)
-	if err != nil {
-		return fmt.Errorf("Error drawing alerts bar: %w", err)
-	}
+	// err = cfg.setAlert([]byte(""), x, y)
+	// if err != nil {
+	// 	return fmt.Errorf("Error drawing alerts bar: %w", err)
+	// }
 	return nil
 }
 
@@ -157,14 +157,15 @@ func (cfg *config) drawAlertsBar() {
 		}
 		alertBar[2] += "*"
 	}
-
+	alertBar[1] = cfg.MostRecentAlert
+	cfg.MostRecentAlert = ""
 	for i := range alertBar {
 		fmt.Printf("\r%s\n\r", alertBar[i])
 	}
 }
 
 func (cfg *config) getCursorPosition() (x, y int, err error) {
-	_, err = os.Stdout.Write([]byte("\x1b[6n"))
+	_, err = os.Stdout.Write([]byte("\033[6n"))
 	if err != nil {
 		return -1, -1, err
 	}
@@ -174,12 +175,12 @@ func (cfg *config) getCursorPosition() (x, y int, err error) {
 	if err != nil {
 		return
 	}
-	fmt.Println("n read from buffer ", n)
 	_, err = fmt.Sscanf(string(buf[:n]), "\x1b[%d;%dR", &x, &y)
 	if err != nil {
 		return -1, -1, err
 	}
 
+	fmt.Printf("\rbuffer: %v, x: %d, y: %d\n", buf, x, y)
 	return
 }
 
