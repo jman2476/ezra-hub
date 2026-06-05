@@ -127,19 +127,11 @@ func (cfg *config) loginOptions() {
 }
 
 func (cfg *config) handleScreen() error {
-	// x, y, err := cfg.getCursorPosition()
-	// if err != nil {
-	// 	return fmt.Errorf("Couldn't get cursor position: %w", err)
-	// }
 	err := menu.ClearWindow()
 	if err != nil {
 		return fmt.Errorf("Error clearing window: %w", err)
 	}
 	cfg.drawAlertsBar()
-	// err = cfg.setAlert([]byte(""), x, y)
-	// if err != nil {
-	// 	return fmt.Errorf("Error drawing alerts bar: %w", err)
-	// }
 	return nil
 }
 
