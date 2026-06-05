@@ -39,6 +39,7 @@ func handlerEventNew(cfg *config) func(apicaller.EventwName) msgbroker.AckType {
 		// printEvent(e.Event)
 		// fmt.Println("\r************************\r")
 		alert := fmt.Sprintf("New %s Event Incoming from %s!", strings.ToUpper(e.Category), e.Creator)
+		fmt.Printf("\r%s\n", alert)
 		x, y, err := cfg.getCursorPosition()
 		if err == nil {
 			cfg.setAlert([]byte(alert), x, y)

@@ -85,6 +85,12 @@ func getCommands() map[string]cliCommand {
 			callback:    commandUpdateEvent,
 			menuOrder:   10,
 		},
+		"alert": {
+			name:        "alert",
+			description: "tmp/set alert bar",
+			callback:    commandAlert,
+			menuOrder:   11,
+		},
 	}
 }
 

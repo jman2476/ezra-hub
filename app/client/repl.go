@@ -45,23 +45,31 @@ func startRepl(cfg *config) {
 		cleanedInput := cleanInput(buffer)
 
 		if len(cleanedInput) == 0 {
-			cfg.handleScreen()
+			err := cfg.handleScreen()
+			if err != nil {
+				fmt.Println("\r", err)
+			}
 			continue
 		}
 
 		commandName := cleanedInput[0]
 		command, ok := getCommands()[commandName]
 		if ok {
-			cfg.handleScreen()
+			err := cfg.handleScreen()
+			if err != nil {
+				fmt.Println("\r", err)
+			}
 
-			err := command.callback(cfg)
-
+			err = command.callback(cfg)
 			if err != nil {
 				fmt.Println("\r", err)
 			}
 			continue
 		} else {
-			cfg.handleScreen()
+			err := cfg.handleScreen()
+			if err != nil {
+				fmt.Println("\r", err)
+			}
 
 			fmt.Println("\rUnknown command")
 			continue
