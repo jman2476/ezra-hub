@@ -32,6 +32,13 @@ func commandSignUp(cfg *config) error {
 	}
 	newUser.PhoneNumber = phonenumber
 
+	cfg.Term.SetPrompt("Address: ")
+	address, err := cfg.Term.ReadLine()
+	if err != nil {
+		return err
+	}
+	newUser.Address = address
+
 	for {
 		password, err := cfg.Term.ReadPassword("Set password: ")
 		if err != nil {
@@ -57,7 +64,6 @@ func commandSignUp(cfg *config) error {
 	printUser(user)
 
 	cfg.User = user
-	//cheese
 
 	return nil
 }

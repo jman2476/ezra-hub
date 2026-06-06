@@ -44,6 +44,17 @@ func commandUpdateUser(cfg *config) error {
 		userUpdate.PhoneNumber = cfg.User.PhoneNumber
 	}
 
+	cfg.Term.SetPrompt("Address: ")
+	address, err := cfg.Term.ReadLine()
+	if err != nil {
+		return err
+	}
+	if address != "" {
+		userUpdate.Address = address
+	} else {
+		userUpdate.Address = cfg.User.Address
+	}
+
 	user, err := cfg.Client.UpdateUser(userUpdate)
 	if err != nil {
 		return fmt.Errorf("Update user client error: %w", err)
