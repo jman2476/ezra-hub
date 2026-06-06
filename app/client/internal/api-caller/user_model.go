@@ -7,6 +7,7 @@ type NewUser struct {
 	PhoneNumber string `json:"phone_number"`
 	Email       string `json:"email"`
 	Password    string `json:"password"`
+	Address     string `json:"address"`
 }
 
 func (u NewUser) GetLogName() string {
@@ -30,6 +31,7 @@ type UserUpdate struct {
 	Name        string `json:"name"`
 	Email       string `json:"email"`
 	PhoneNumber string `json:"phone_number"`
+	Address     string `json:"Address"`
 }
 
 type User struct {
@@ -41,4 +43,5 @@ type User struct {
 	Token         string    `json:"jwt"`
 	Refresh       string    `json:"refresh_token"`
 	Subscriptions []string  `json:"subs"`
+	Address       string    `json:"address"`
 }
