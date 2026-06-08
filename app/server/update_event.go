@@ -25,6 +25,7 @@ func (cfg *apiConfig) handlerUpdateEvent(w http.ResponseWriter, req *http.Reques
 		MaxVol    int32     `json:"max_volunteer"`
 		Desc      string    `json:"description"`
 		OldType   string    `json:"old_type"`
+		Location  string    `json:"location"`
 	}
 
 	decoder := json.NewDecoder(req.Body)
@@ -54,7 +55,8 @@ func (cfg *apiConfig) handlerUpdateEvent(w http.ResponseWriter, req *http.Reques
 		MaxVolunteers: sql.NullInt32{
 			Int32: params.MaxVol,
 			Valid: params.MaxVol != 0},
-		ID: eventUUID,
+		ID:       eventUUID,
+		Location: params.Location,
 	}
 
 	event, err := cfg.db.UpdateEventByID(req.Context(), eventArgs)
