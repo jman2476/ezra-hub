@@ -32,6 +32,7 @@ type Event struct {
 	MaxVolunteers sql.NullInt32 `json:"max_volunteer"`
 	Description   string        `json:"description"`
 	Respondants   []uuid.UUID   `json:"respondants"`
+	Location      string        `json:"location"`
 }
 
 type EventwName struct {
@@ -53,6 +54,7 @@ func mapEvent(e database.Event) Event {
 		MaxVolunteers: e.MaxVolunteers,
 		Description:   e.Description,
 		Respondants:   e.Respondants,
+		Location:      e.Location,
 	}
 }
 
@@ -78,6 +80,7 @@ func mapEventwName(e database.CreateEventRow) EventwName {
 			MaxVolunteers: e.MaxVolunteers,
 			Description:   e.Description,
 			Respondants:   e.Respondants,
+			Location:      e.Location,
 		},
 		Creator: e.CreatorName,
 	}
