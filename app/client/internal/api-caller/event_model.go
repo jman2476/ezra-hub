@@ -15,6 +15,7 @@ type NewEvent struct {
 	MinVolunteers int32     `json:"min_volunteer"`
 	MaxVolunteers int32     `json:"max_volunteer"`
 	Description   string    `json:"description"`
+	Location      string    `json:"location"`
 }
 
 func (e NewEvent) GetLogName() string {
@@ -42,6 +43,7 @@ type Event struct {
 	MaxVolunteers sql.NullInt32 `json:"max_volunteer"`
 	Description   string        `json:"description"`
 	Respondants   []uuid.UUID   `json:"respondants"`
+	Location      string        `json:"location"`
 }
 
 type EventwName struct {
