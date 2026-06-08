@@ -53,6 +53,13 @@ func commandCreateEvent(cfg *config) error {
 	}
 	newEvent.ExpiresAt = newEvent.OccursOn.Add(durParsed)
 
+	cfg.Term.SetPrompt("Where is the event happening:\r\n")
+	location, err := cfg.Term.ReadLine()
+	if err != nil {
+		return err
+	}
+	newEvent.Location = location
+
 	cfg.Term.SetPrompt("Give a brief description of the event:\r\n")
 	description, err := cfg.Term.ReadLine()
 	if err != nil {
@@ -60,7 +67,7 @@ func commandCreateEvent(cfg *config) error {
 	}
 	newEvent.Description = description
 
-	cfg.Term.SetPrompt("How many volunteers do you need? Type 0 if irrelavent. Invalid entries will be set to 0\n\rMin: ")
+	cfg.Term.SetPrompt("How many volunteers do you need? Type 0 if irrelavent. \rInvalid entries will be set to 0\n\rMin: ")
 	min, err := cfg.Term.ReadLine()
 	if err != nil {
 		return err
@@ -92,6 +99,7 @@ func printEvent(event apicaller.Event) {
 	fmt.Printf("\rCategory: %s\n", event.Category)
 	fmt.Printf("\rOccurs On: %v\n", event.OccursOn)
 	fmt.Printf("\rExpires At: %v\n", event.ExpiresAt)
+	fmt.Printf("\rLocation: %s\n", event.Location)
 	printVolunteersNeeded(event)
 	printNumGoing(event)
 	fmt.Printf("\rDescription: %v\n", event.Description)
@@ -105,7 +113,7 @@ func printEventwName(event apicaller.EventwName) {
 func printVolunteersNeeded(event apicaller.Event) {
 	volunteer := "Volunteers: "
 	if event.MinVolunteers.Valid {
-		volunteer += fmt.Sprintf("Min: %d", event.MinVolunteers.Int32)
+		volunteer += fmt.Sprintf("Min: %d ", event.MinVolunteers.Int32)
 	}
 	if event.MaxVolunteers.Valid {
 		volunteer += fmt.Sprintf("Max: %d", event.MaxVolunteers.Int32)
