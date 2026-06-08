@@ -50,6 +50,7 @@ func commandLogin(cfg *config) error {
 			fmt.Errorf("\rErr subscribing to %w\n", e),
 		)
 	}
+	//cheese
 
 	err = getSubbedEvents(cfg)
 	if err != nil {
