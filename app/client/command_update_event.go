@@ -91,7 +91,7 @@ func commandUpdateEvent(cfg *config) error {
 		eventUpdate.ExpiresAt = eventUpdate.OccursOn.Add(diff)
 	}
 
-	cfg.Term.SetPrompt("Where is the event happening?:\r\n")
+	cfg.Term.SetPrompt("Where is the event happening:\r\n")
 	location, err := cfg.Term.ReadLine()
 	if err != nil {
 		return nil
