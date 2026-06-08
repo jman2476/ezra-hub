@@ -8,7 +8,7 @@ http:
   url: http://localhost:3294/api/events
   headers:
     - name: Authorization
-      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjZlZmM4N2YxLWE5ZGYtNDEwNy04ODg1LWYzYjQ0YzRiM2IzMyIsImV4cCI6MTc3OTkyNjAzOCwiaWF0IjoxNzc5OTIyNDM4fQ.CkOBmMOdqwCOu_o9ZoZe7iZgnDY8aUZIXjyaZk7l-jo
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6IjU3ZTgyZDJlLTRlODMtNGZjZi05Y2ZhLTQ2YzRkZmI4N2Y3NiIsImV4cCI6MTc4MDk1NDE1MywiaWF0IjoxNzgwOTUwNTUzfQ.ZzFsSkoUjge5frzEIv9VSWU8exHkx_G2HLKTLNWBlPc
   body:
     type: json
     data: |-
@@ -19,7 +19,8 @@ http:
         "expires_at": "2026-08-05T12:01:23.970923Z",
         "min_volunteer": 3,
         "max_volunteer": 100,
-        "description": "We are gonna eat barbaque and drink things out of cans"
+        "description": "We are gonna eat barbaque and drink things out of cans",
+        "location": "Springfield, USA"
       }
 
 settings:
