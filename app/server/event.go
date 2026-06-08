@@ -22,6 +22,7 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request, 
 		MinVol    int32     `json:"min_volunteer"`
 		MaxVol    int32     `json:"max_volunteer"`
 		Desc      string    `json:"description"`
+		Location  string    `json:"location"`
 	}
 
 	log.Printf("POST /api/events")
@@ -47,6 +48,7 @@ func (cfg *apiConfig) handlerNewEvent(w http.ResponseWriter, req *http.Request, 
 			Int32: params.MaxVol,
 			Valid: params.MaxVol != 0},
 		Description: params.Desc,
+		Location:    params.Location,
 	}
 
 	event, err := cfg.db.CreateEvent(req.Context(), eventArgs)

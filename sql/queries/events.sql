@@ -7,9 +7,10 @@ WITH inserted as (INSERT INTO events(
     owner_id, 
     category, 
     occurs_on, expires_at,
-    min_volunteers, max_volunteers)
+    min_volunteers, max_volunteers,
+    location)
 VALUES (gen_random_uuid(), NOW(), NOW(), 
-    $1, $2, $3, $4, $5, $6, $7, $8)
+    $1, $2, $3, $4, $5, $6, $7, $8, $9)
 RETURNING *)
 SELECT inserted.*, u.name as creator_name
 FROM inserted
@@ -47,6 +48,7 @@ WHERE owner_id = $1;
 UPDATE events
 SET updated_at = NOW(), name = $1,
 description = $2, category = $3, occurs_on = $4,
-expires_at = $5, min_volunteers = $6, max_volunteers = $7
-WHERE id = $8
+expires_at = $5, min_volunteers = $6, max_volunteers = $7,
+location = $8
+WHERE id = $9
 RETURNING *;
