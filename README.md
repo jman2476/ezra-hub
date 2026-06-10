@@ -15,7 +15,7 @@ Ezra Hub gathers all your community organizing tools into one convenient app.
 
 | URI | Method | Description | Details  |
 | -- | -- | -- | -- |
-| /admin/reset | POST | Reset database instance | [`reset`](#POST-/admin/reset) |
+| /admin/reset | POST | Reset database instance | [`reset`](#post-/admin/reset) |
 | /admin/users | GET | Get all registered users | - |
 | /api/refresh | POST | Create new refresh token for user | Auth Header [^1] |  
 | /api/users | POST | Sign up new user | Body: NewUser [^2] |
