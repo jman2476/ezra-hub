@@ -13,9 +13,9 @@ Ezra Hub gathers all your community organizing tools into one convenient app.
 
 ## Endpoints
 
-| URI | Method | Description | Parameters  |
+| URI | Method | Description | Details  |
 | -- | -- | -- | -- |
-| /admin/reset | POST | Reset database instance | - |
+| /admin/reset | POST | Reset database instance | [`reset`](#POST /admin/reset) |
 | /admin/users | GET | Get all registered users | - |
 | /api/refresh | POST | Create new refresh token for user | Auth Header [^1] |  
 | /api/users | POST | Sign up new user | Body: NewUser [^2] |
@@ -92,7 +92,7 @@ Returns array of all registered users in the database and their data, excluding 
 #### POST /api/login
 
 
-#### POST /api/users
+#### POST /api/refresh
 
 
 #### POST /api/users
