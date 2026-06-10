@@ -17,15 +17,16 @@ Ezra Hub gathers all your community organizing tools into one convenient app.
 | -- | -- | -- | -- | -- |
 | /admin/reset | POST | Reset database instance | - | only available when environment variable PLATFORM="dev" |
 | /admin/users | GET | Get all registered users | - | - |
-| - | - | - | - | - |
-| - | - | - | - | - |
-| - | - | - | - | - |
-| - | - | - | - | - |
-| - | - | - | - | - |
-| - | - | - | - | - |
-| - | - | - | - | - |
-| - | - | - | - | - |
-| - | - | - | - | - |
+| /api/users | POST | - | - | - |
+| /api/login | POST | - | - | - |
+| /api/users | PATCH | - | - | - |
+| /api/users/subs | PATCH | - | - | - |
+| /api/events | POST | - | - | - |
+| /api/events/{event_id} | PATCH | - | - | - |
+| /api/events/{event_id} | PUT | - | - | - |
+| /api/events | GET | - | - | - |
+| /api/events/users | GET | - | - | - | 
+| /api/refresh | POST | - | - | - | 
 
 
 
