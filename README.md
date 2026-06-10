@@ -40,7 +40,9 @@ Authorization : "Bearer [user * token]"
 ```
 ```json
 // Response body
+{
 
+}
 ```
 
 ### Admin Endpoints
@@ -85,18 +87,93 @@ Returns array of all registered users in the database and their data, excluding 
 
 #### POST /api/users
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 #### POST /api/login
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 #### POST /api/refresh
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 #### PATCH /api/users
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 #### PATCH /api/users/subs
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 
 ### Event Endpoints
@@ -104,18 +181,93 @@ Returns array of all registered users in the database and their data, excluding 
 
 #### POST /api/events
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 #### PATCH /api/events/{id}
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 #### PUT /api/events/{id}
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 #### GET /api/events?
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 #### GET /api/events
 
+```json
+// Request header
+Authorization : "Bearer [user * token]"
+
+// Request body
+{
+
+}
+```
+```json
+// Response body
+{
+
+}
+```
 
 ## Licensing
 Ezra Hub is free to use for communities under 50 persons under the AGPLv3 license, found in this repository. For larger communities or commercial applications, please contact [Jeremy McKeegan](https://github.com/jman2476) to discuss an enterprise contract with setup, maintenance and support included.
