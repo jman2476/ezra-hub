@@ -16,21 +16,18 @@ Ezra Hub gathers all your community organizing tools into one convenient app.
 | URI | Method | Description | Details  |
 | -- | -- | -- | -- |
 | /admin/reset | POST | Reset database instance | [`reset`](#post-adminreset) |
-| /admin/users | GET | Get all registered users | - |
-| /api/refresh | POST | Create new refresh token for user | Auth Header [^1] |  
-| /api/users | POST | Sign up new user | Body: NewUser [^2] |
-| /api/login | POST |  - | - | 
-| /api/users | PATCH | - | - |
-| /api/users/subs | PATCH | - | - |
-| /api/events | POST | - | - |
-| /api/events/{id} | PATCH |  - | - |
-| /api/events/{id} | PUT | - | - |
-| /api/events | GET | - | - |
-| /api/events/users | GET | - | - | 
+| /admin/users | GET | Get all registered users | [`get users`](#get-adminusers) |
+| /api/refresh | POST | Create new refresh token for user | [`refresh`](#post-apirefresh) |  
+| /api/users | POST | Sign up new user | [`sign up`](#post-apiusers) |
+| /api/login | POST |  Log in to user account | [`log in`](#post-apilogin) | 
+| /api/users | PATCH | Update user information | - |
+| /api/users/subs | PATCH | Subscribe user to event types | - |
+| /api/events | POST | Create new event | - |
+| /api/events/{id} | PATCH | Respond to event with user's availability | - |
+| /api/events/{id} | PUT | Update event details | - |
+| /api/events | GET | Get events by type | - |
+| /api/events/users | GET | Get events created by user | - | 
 
-[^1]: Authorization headers are formatted as: "Bearer {user_id}"
-
-[^2]: Request body structs are defined on the client side
 
 ```json
 // Request header
@@ -95,10 +92,10 @@ Returns array of all registered users in the database and their data, excluding 
 #### POST /api/refresh
 
 
-#### POST /api/users
+#### PATCH /api/users
 
 
-#### POST /api/users
+#### PATCH /api/users/subs
 
 
 #### POST /api/users
