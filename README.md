@@ -20,13 +20,13 @@ Ezra Hub gathers all your community organizing tools into one convenient app.
 | /api/refresh | POST | Create new refresh token for user | [`refresh`](#post-apirefresh) |  
 | /api/users | POST | Sign up new user | [`sign up`](#post-apiusers) |
 | /api/login | POST |  Log in to user account | [`log in`](#post-apilogin) | 
-| /api/users | PATCH | Update user information | - |
-| /api/users/subs | PATCH | Subscribe user to event types | - |
-| /api/events | POST | Create new event | - |
-| /api/events/{id} | PATCH | Respond to event with user's availability | - |
-| /api/events/{id} | PUT | Update event details | - |
-| /api/events | GET | Get events by type | - |
-| /api/events/users | GET | Get events created by user | - | 
+| /api/users | PATCH | Update user information | [`update user`](#patch-apiusers) |
+| /api/users/subs | PATCH | Subscribe user to event types | [`subscribe`](#patch-apiuserssubs) |
+| /api/events | POST | Create new event | [`create event`](#post-apievents) |
+| /api/events/{id} | PATCH | Respond to event with user's availability | [`respond to event`](#patch-apieventsid) |
+| /api/events/{id} | PUT | Update event details | [`update event`](#put-apieventsid) |
+| /api/events? | GET | Get events by type | [`get events`](#get-apievents) |
+| /api/events/users | GET | Get events created by user | [`get user's events`](#get-apievents-1) | 
 
 
 ```json
@@ -98,8 +98,6 @@ Returns array of all registered users in the database and their data, excluding 
 #### PATCH /api/users/subs
 
 
-#### POST /api/users
-
 
 ### Event Endpoints
 ---
@@ -107,16 +105,16 @@ Returns array of all registered users in the database and their data, excluding 
 #### POST /api/events
 
 
-#### POST /api/events
+#### PATCH /api/events/{id}
 
 
-#### POST /api/events
+#### PUT /api/events/{id}
 
 
-#### POST /api/events
+#### GET /api/events?
 
 
-#### POST /api/events
+#### GET /api/events
 
 
 ## Licensing
