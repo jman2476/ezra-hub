@@ -88,36 +88,53 @@ Returns array of all registered users in the database and their data, excluding 
 #### POST /api/users
 
 ```json
-// Request header
-Authorization : "Bearer [user * token]"
-
 // Request body
 {
-
+    "name": string,
+    "phone_number": string, // must be valid phone number format
+    "email": string, //must be valid email format
+    "password": string,
+    "address": string
 }
 ```
 ```json
 // Response body
 {
-
+        "id": UUID string,
+        "created_at": timestamp,
+        "updated_at": timestamp,
+        "name": string ,
+        "phone_number": string,
+        "email": string,
+        "jwt": empty string,
+        "refresh_token": empty string,
+        "subs": null,
+        "address": string 
 }
 ```
 
 #### POST /api/login
 
 ```json
-// Request header
-Authorization : "Bearer [user * token]"
-
 // Request body
 {
-
+    "email": string,
+    "password": string
 }
 ```
 ```json
 // Response body
 {
-
+        "id": UUID string,
+        "created_at": timestamp,
+        "updated_at": timestamp,
+        "name": string ,
+        "phone_number": string,
+        "email": string,
+        "jwt": string,
+        "refresh_token": string,
+        "subs": []string,
+        "address": string 
 }
 ```
 
@@ -125,17 +142,15 @@ Authorization : "Bearer [user * token]"
 
 ```json
 // Request header
-Authorization : "Bearer [user * token]"
+Authorization : "Bearer [user refresh token]"
 
 // Request body
-{
-
-}
+Empty
 ```
 ```json
 // Response body
 {
-
+    "jwt_token": string
 }
 ```
 
@@ -143,11 +158,13 @@ Authorization : "Bearer [user * token]"
 
 ```json
 // Request header
-Authorization : "Bearer [user * token]"
+Authorization : "Bearer [user authorization token]"
 
 // Request body
 {
-
+    "name": string,
+    "email": string, // must be valid email format
+    "phone_number"
 }
 ```
 ```json
