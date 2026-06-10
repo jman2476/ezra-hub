@@ -16,6 +16,7 @@ func (cfg *apiConfig) handlerUpdateUser(w http.ResponseWriter, req *http.Request
 		Name        string `json:"name"`
 		Email       string `json:"email"`
 		PhoneNumber string `json:"phone_number"`
+		Address     string `json:"address"`
 	}
 
 	decoder := json.NewDecoder(req.Body)
@@ -42,6 +43,7 @@ func (cfg *apiConfig) handlerUpdateUser(w http.ResponseWriter, req *http.Request
 		Name:        params.Name,
 		Email:       email,
 		PhoneNumber: phoneNumber,
+		Address:     params.Address,
 		ID:          userID,
 	}
 
