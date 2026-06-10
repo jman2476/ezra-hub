@@ -4,8 +4,21 @@ info:
   seq: 8
 
 http:
-  method: GET
-  url: http://localhost:3294/
+  method: PATCH
+  url: http://localhost:3294/api/users/subs
+  headers:
+    - name: Authorization
+      value: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlenJhLWh1YiIsInN1YiI6ImI5ZWUwNDdmLTQ3MjYtNDA2Mi05YTVmLWQ4ZjgxOTQ5NTM1ZSIsImV4cCI6MTc4MTEyODIwMSwiaWF0IjoxNzgxMTI0NjAxfQ.sNXO7MVSDIE1UTJkSO5FsgKAxhouhW5iM8YQu6Q7rtA
+  body:
+    type: json
+    data: |-
+      {
+        "subscriptions": {
+          "meal": 1,
+          "gathering": 1,
+          "other": 0
+        }
+      }
   auth: inherit
 
 settings:

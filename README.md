@@ -143,9 +143,7 @@ Returns array of all registered users in the database and their data, excluding 
 ```json
 // Request header
 Authorization : "Bearer [user refresh token]"
-
-// Request body
-Empty
+// No request body
 ```
 ```json
 // Response body
@@ -164,13 +162,23 @@ Authorization : "Bearer [user authorization token]"
 {
     "name": string,
     "email": string, // must be valid email format
-    "phone_number"
+    "phone_number": string, //must be valid phone number format
+    "address": string
 }
 ```
 ```json
 // Response body
 {
-
+        "id": UUID string,
+        "created_at": timestamp,
+        "updated_at": timestamp,
+        "name": string ,
+        "phone_number": string,
+        "email": string,
+        "jwt": string,
+        "refresh_token": string,
+        "subs": []string,
+        "address": string 
 }
 ```
 
@@ -178,18 +186,25 @@ Authorization : "Bearer [user authorization token]"
 
 ```json
 // Request header
-Authorization : "Bearer [user * token]"
+Authorization : "Bearer [user authorization token]"
 
 // Request body
 {
-
+    "subscriptions": {
+        // 'subscription type': int
+        // subscription type options:
+        //   ride, shopping, check-in, meal, gathering, other
+        // int value: 1 for subscribe, other values ignored 
+        // e.g. "ride": 1
+    }
 }
 ```
 ```json
 // Response body
-{
-
-}
+[
+    // list of subscription type, only returning new subscriptions
+    // same options as above
+]
 ```
 
 
