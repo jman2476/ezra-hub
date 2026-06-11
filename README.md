@@ -29,21 +29,6 @@ Ezra Hub gathers all your community organizing tools into one convenient app.
 | /api/events/users | GET | Get events created by user | [`get user's events`](#get-apievents-1) | 
 
 
-```json
-// Request header
-Authorization : "Bearer [user * token]"
-
-// Request body
-{
-
-}
-```
-```json
-// Response body
-{
-
-}
-```
 
 ### Admin Endpoints
 ---
@@ -215,17 +200,43 @@ Authorization : "Bearer [user authorization token]"
 
 ```json
 // Request header
-Authorization : "Bearer [user * token]"
+Authorization : "Bearer [user authorization token]"
 
 // Request body
 {
-
+    "name": string,
+    "category": string,
+    "occurs_on": timestamp,
+    "expires_at": timestamp,
+    "min_volunteer": int32,
+    "max_volunteer": int32,
+    "description": string,
+    "location": string
 }
 ```
 ```json
 // Response body
 {
-
+    "id": UUID string,
+    "created_at": timestamp,
+    "updated_at": timestamp,
+    "name": string,
+    "owner_id": UUID string,
+    "category": Genre, // see app/server/event_models for definition
+    "occurs_on": timestamp,
+    "expires_at": timestamp,
+    "min_volunteer": {
+        "Int32": int32,
+        "Valid": boolean
+    },
+    "max_volunteer": {
+        "Int32": int32,
+        "Valid": boolean
+    },
+    "description": string,
+    "respondants": []UUID string,
+    "location": string,
+    "creator": string
 }
 ```
 
@@ -233,35 +244,59 @@ Authorization : "Bearer [user * token]"
 
 ```json
 // Request header
-Authorization : "Bearer [user * token]"
+Authorization : "Bearer [user authorization token]"
 
 // Request body
 {
-
+    "available": boolean
 }
 ```
 ```json
-// Response body
-{
-
-}
+// Response body: No content
+// Status 204
 ```
 
 #### PUT /api/events/{id}
 
 ```json
 // Request header
-Authorization : "Bearer [user * token]"
+Authorization : "Bearer [user authorization token]"
 
 // Request body
 {
-
+    "name": string,
+    "category": string,
+    "occurs_on": timestamp,
+    "expires_at": timestamp,
+    "min_volunteer": int32,
+    "max_volunteer": int32,
+    "description": string,
+    "old_type": string,
+    "location": string
 }
 ```
 ```json
 // Response body
 {
-
+    "id": UUID string,
+    "created_at": timestamp,
+    "updated_at": timestamp,
+    "name": string,
+    "owner_id": UUID string,
+    "category": Genre, // see app/server/event_models for definition
+    "occurs_on": timestamp,
+    "expires_at": timestamp,
+    "min_volunteer": {
+        "Int32": int32,
+        "Valid": boolean
+    },
+    "max_volunteer": {
+        "Int32": int32,
+        "Valid": boolean
+    },
+    "description": string,
+    "respondants": []UUID string,
+    "location": string
 }
 ```
 
@@ -269,36 +304,76 @@ Authorization : "Bearer [user * token]"
 
 ```json
 // Request header
-Authorization : "Bearer [user * token]"
+Authorization : "Bearer [user authorization token]"
 
-// Request body
-{
+// No request body
+// Query parameters: "type"
+// Use additional query parameter for each category desired
+// e.g. /api/events?type=meal&type=gathering will return all 
+//  gathering and meal type events
 
-}
+
 ```
 ```json
 // Response body
-{
-
-}
+[
+    {
+        "id": UUID string,
+        "created_at": timestamp,
+        "updated_at": timestamp,
+        "name": string,
+        "owner_id": UUID string,
+        "category": Genre, // see app/server/event_models for definition
+        "occurs_on": timestamp,
+        "expires_at": timestamp,
+        "min_volunteer": {
+            "Int32": int32,
+            "Valid": boolean
+        },
+        "max_volunteer": {
+            "Int32": int32,
+            "Valid": boolean
+        },
+        "description": string,
+        "respondants": []UUID string,
+        "location": string
+    },
+]
 ```
 
 #### GET /api/events
 
 ```json
 // Request header
-Authorization : "Bearer [user * token]"
+Authorization : "Bearer [user authorization token]"
 
-// Request body
-{
-
-}
+// No request body
 ```
 ```json
 // Response body
-{
-
-}
+[
+    {
+        "id": UUID string,
+        "created_at": timestamp,
+        "updated_at": timestamp,
+        "name": string,
+        "owner_id": UUID string,
+        "category": Genre, // see app/server/event_models for definition
+        "occurs_on": timestamp,
+        "expires_at": timestamp,
+        "min_volunteer": {
+            "Int32": int32,
+            "Valid": boolean
+        },
+        "max_volunteer": {
+            "Int32": int32,
+            "Valid": boolean
+        },
+        "description": string,
+        "respondants": []UUID string,
+        "location": string
+    },
+]
 ```
 
 ## Licensing
