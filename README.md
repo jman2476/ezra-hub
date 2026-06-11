@@ -12,6 +12,7 @@
 Ezra Hub gathers helps your community organize events and volunteering initiatives.
 
 ## Overview
+The idea for Ezra Hub is to be a central place for community members to share their needs and volunteer to help others. Whether it's checking in on a loved one, giving someone a ride to the doctor, or just planning a gathering, Ezra Hub makes it easy to know what's going on in your community and where you can provide your assistance.
 
 ## Setup
 Ezra Hub requires a RabbitMQ server and a Postgres database to run the server, and a connection to the Ezra Hub and RabbitMQ servers for the client. This guide assumes you will be running RabbitMQ from a docker container, and all other components directly on your machine.
