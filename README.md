@@ -30,11 +30,14 @@ CREATE DATABASE ezra;
 ```
 Then connect to the database with `\c ezra` create a password for the database:
 ```sql
-ALTER USER <username> PASSWORD '<password>'
+ALTER USER <username> PASSWORD '<password>';
 ```
-Note the username and password for setting up the `.env` file
+Note the username and password for creating your connection string for the `.env` file and [goose](https://github.com/pressly/goose) database migrations. Once you have your connection string, find the migrations file called [goose](https://github.com/jman2476/ezra-hub/blob/main/sql/schema/goose), and insert your connection string in the quotes for each command. Copy the first command into a terminal running from `./sql/schema` and run it to bring the database up to the current version.
 
 ### Server
+Within the `./app/server/` folder, create a `.env` file to store your environment variables based on the `EXAMPLE.ENV` file in the root of the project. If you are running this outside of a development environment, be sure to set `PLATFORM=production` or anything other than `dev` in order to disable to database reset endpoint.
+
+Note: currently, Ezra Hub server is not optimized to run from a Docker container, and there is a chance it can crash from a container if not given enough memory. There are plans to improve this in the future, so if you find any bugs please report them in the issues with as much data as possible. If you can, please include the resource usage of your docker container.
 
 ### Client
 
