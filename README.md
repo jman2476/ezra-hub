@@ -9,7 +9,7 @@
 ```
 
 # Ezra Hub
-Ezra Hub gathers all your community organizing tools into one convenient app.
+Ezra Hub gathers helps your community organize events and volunteering initiatives.
 
 ## Setup
 
@@ -21,6 +21,30 @@ Ezra Hub gathers all your community organizing tools into one convenient app.
 
 ### Client
 
+## Usage
+Interacting with Ezra Hub currently acts through the terminal client, with a web-based client planned for the future. Before running the client, verify that the infrastructure for the application (i.e. RabbitMQ server, database server, and Ezra Hub Server) are all set up and running, or the client will be useless.
+
+Upon first opening the app, you will be prompted to log in or sign up, and once that's complete you will be taken to the Ezra Hub command prompt. You can type the desired command by name, enter 'help' for a description of each command, or enter 'menu' to select the desired command from a list. The options are detailed below:
+
+| Command | Purpose | Description |
+| -- | -- | -- |
+| signup | Create new user account | Once new account is created on the server, the new account will be automatically logged in |
+| login | Log into existing account | Also retrieves any saved events |
+| logout | Log out of current account | Clears user data |
+| create | Create new event | Event creation will be broadcast to all users subscribed to the feed of the new event's type |
+| subscribe | Subscribe to event feeds | Choose between *ride, shopping, check-in, meal, gathering,* and *other* |
+| events | Lists all events in the types the user follows | Scroll between events to get more information |
+| respond | Respond to events with your availability | |
+| update-user | Update current user information | All fields except password can be changed |
+| update-event | Update one of the events you created | If event type is changed, subscribers of old and new type will be notified |
+| menu | List all commands | Select an event to execute it |
+| help | List all commands and what they do | |
+| exit | Exit Ezra Hub | |
+
+
+
+---
+---
 ## API Endpoints
 
 | URI | Method | Description | Details  |
