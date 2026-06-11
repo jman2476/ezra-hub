@@ -1,22 +1,11 @@
-                                                                                                                                            
-                                                                                                                        bbbbbbbb            
-EEEEEEEEEEEEEEEEEEEEEE                                                          HHHHHHHHH     HHHHHHHHH                 b::::::b            
-E::::::::::::::::::::E                                                          H:::::::H     H:::::::H                 b::::::b            
-E::::::::::::::::::::E                                                          H:::::::H     H:::::::H                 b::::::b            
-EE::::::EEEEEEEEE::::E                                                          HH::::::H     H::::::HH                  b:::::b            
-  E:::::E       EEEEEEzzzzzzzzzzzzzzzzzrrrrr   rrrrrrrrr   aaaaaaaaaaaaa          H:::::H     H:::::H  uuuuuu    uuuuuu  b:::::bbbbbbbbb    
-  E:::::E             z:::::::::::::::zr::::rrr:::::::::r  a::::::::::::a         H:::::H     H:::::H  u::::u    u::::u  b::::::::::::::bb  
-  E::::::EEEEEEEEEE   z::::::::::::::z r:::::::::::::::::r aaaaaaaaa:::::a        H::::::HHHHH::::::H  u::::u    u::::u  b::::::::::::::::b 
-  E:::::::::::::::E   zzzzzzzz::::::z  rr::::::rrrrr::::::r         a::::a        H:::::::::::::::::H  u::::u    u::::u  b:::::bbbbb:::::::b
-  E:::::::::::::::E         z::::::z    r:::::r     r:::::r  aaaaaaa:::::a        H:::::::::::::::::H  u::::u    u::::u  b:::::b    b::::::b
-  E::::::EEEEEEEEEE        z::::::z     r:::::r     rrrrrrraa::::::::::::a        H::::::HHHHH::::::H  u::::u    u::::u  b:::::b     b:::::b
-  E:::::E                 z::::::z      r:::::r           a::::aaaa::::::a        H:::::H     H:::::H  u::::u    u::::u  b:::::b     b:::::b
-  E:::::E       EEEEEE   z::::::z       r:::::r          a::::a    a:::::a        H:::::H     H:::::H  u:::::uuuu:::::u  b:::::b     b:::::b
-EE::::::EEEEEEEE:::::E  z::::::zzzzzzzz r:::::r          a::::a    a:::::a      HH::::::H     H::::::HHu:::::::::::::::uub:::::bbbbbb::::::b
-E::::::::::::::::::::E z::::::::::::::z r:::::r          a:::::aaaa::::::a      H:::::::H     H:::::::H u:::::::::::::::ub::::::::::::::::b 
-E::::::::::::::::::::Ez:::::::::::::::z r:::::r           a::::::::::aa:::a     H:::::::H     H:::::::H  uu::::::::uu:::ub:::::::::::::::b  
-EEEEEEEEEEEEEEEEEEEEEEzzzzzzzzzzzzzzzzz rrrrrrr            aaaaaaaaaa  aaaa     HHHHHHHHH     HHHHHHHHH    uuuuuuuu  uuuubbbbbbbbbbbbbbbb   
-                                                                                                                                          
+░██████████                                   ░██     ░██            ░██        
+░██                                           ░██     ░██            ░██        
+░██         ░█████████ ░██░████  ░██████      ░██     ░██ ░██    ░██ ░████████  
+░█████████       ░███  ░███           ░██     ░██████████ ░██    ░██ ░██    ░██ 
+░██            ░███    ░██       ░███████     ░██     ░██ ░██    ░██ ░██    ░██ 
+░██          ░███      ░██      ░██   ░██     ░██     ░██ ░██   ░███ ░███   ░██ 
+░██████████ ░█████████ ░██       ░█████░██    ░██     ░██  ░█████░██ ░██░█████  
+                                                                                
                                                                                                                                             
                                                                                                                                             
                                                                                                                                             
