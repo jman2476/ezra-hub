@@ -11,29 +11,29 @@ Ezra Hub gathers all your community organizing tools into one convenient app.
 
 ### Client
 
-## Endpoints
+## API Endpoints
 
 | URI | Method | Description | Details  |
 | -- | -- | -- | -- |
-| /admin/reset | POST | Reset database instance | [`reset`](#post-adminreset) |
-| /admin/users | GET | Get all registered users | [`get users`](#get-adminusers) |
-| /api/refresh | POST | Create new refresh token for user | [`refresh`](#post-apirefresh) |  
-| /api/users | POST | Sign up new user | [`sign up`](#post-apiusers) |
-| /api/login | POST |  Log in to user account | [`log in`](#post-apilogin) | 
-| /api/users | PATCH | Update user information | [`update user`](#patch-apiusers) |
-| /api/users/subs | PATCH | Subscribe user to event types | [`subscribe`](#patch-apiuserssubs) |
-| /api/events | POST | Create new event | [`create event`](#post-apievents) |
-| /api/events/{id} | PATCH | Respond to event with user's availability | [`respond to event`](#patch-apieventsid) |
-| /api/events/{id} | PUT | Update event details | [`update event`](#put-apieventsid) |
-| /api/events? | GET | Get events by type | [`get events`](#get-apievents) |
-| /api/events/users | GET | Get events created by user | [`get user's events`](#get-apievents-1) | 
+| /admin/reset | <font color="cyan">POST</font> | Reset database instance | [`reset`](#post-adminreset) |
+| /admin/users | <font color="green">GET</font> | Get all registered users | [`get users`](#get-adminusers) |
+| /api/refresh | <font color="cyan">POST</font> | Create new refresh token for user | [`refresh`](#post-apirefresh) |  
+| /api/users | <font color="cyan">POST</font> | Sign up new user | [`sign up`](#post-apiusers) |
+| /api/login | <font color="cyan">POST</font> |  Log in to user account | [`log in`](#post-apilogin) | 
+| /api/users | <font color="orange">PATCH</font> | Update user information | [`update user`](#patch-apiusers) |
+| /api/users/subs | <font color="orange">PATCH</font> | Subscribe user to event types | [`subscribe`](#patch-apiuserssubs) |
+| /api/events | <font color="cyan">POST</font> | Create new event | [`create event`](#post-apievents) |
+| /api/events/{id} | <font color="orange">PATCH</font> | Respond to event with user's availability | [`respond to event`](#patch-apieventsid) |
+| /api/events/{id} | <font color="yellow">PUT</font> | Update event details | [`update event`](#put-apieventsid) |
+| /api/events? | <font color="green">GET</font> | Get events by type | [`get events`](#get-apievents) |
+| /api/events/users | <font color="green">GET</font> | Get events created by user | [`get user's events`](#get-apievents-1) | 
 
 
 
 ### Admin Endpoints
 ---
 
-#### POST /admin/reset
+#### <font color="cyan">POST</font> /admin/reset
 Deletes *users* table in the database, which cascades to delete all entries across all tables. Only available when environment variable is set: "PLATFORM=dev".
 ```json
 // Response body
@@ -44,7 +44,7 @@ Deletes *users* table in the database, which cascades to delete all entries acro
 ```
 
 
-#### POST /admin/users
+#### <font color="cyan">POST</font> /admin/users
 Returns array of all registered users in the database and their data, excluding current JWT and refresh tokens.
 
 ```json
@@ -70,7 +70,7 @@ Returns array of all registered users in the database and their data, excluding 
 ### User Endpoints
 ---
 
-#### POST /api/users
+#### <font color="cyan">POST</font> /api/users
 
 ```json
 // Request body
@@ -98,7 +98,7 @@ Returns array of all registered users in the database and their data, excluding 
 }
 ```
 
-#### POST /api/login
+#### <font color="cyan">POST</font> /api/login
 
 ```json
 // Request body
@@ -123,7 +123,7 @@ Returns array of all registered users in the database and their data, excluding 
 }
 ```
 
-#### POST /api/refresh
+#### <font color="cyan">POST</font> /api/refresh
 
 ```json
 // Request header
@@ -137,7 +137,7 @@ Authorization : "Bearer [user refresh token]"
 }
 ```
 
-#### PATCH /api/users
+#### <font color="orange">PATCH</font> /api/users
 
 ```json
 // Request header
@@ -167,7 +167,7 @@ Authorization : "Bearer [user authorization token]"
 }
 ```
 
-#### PATCH /api/users/subs
+#### <font color="orange">PATCH</font> /api/users/subs
 
 ```json
 // Request header
@@ -196,7 +196,7 @@ Authorization : "Bearer [user authorization token]"
 ### Event Endpoints
 ---
 
-#### POST /api/events
+#### <font color="cyan">POST</font> /api/events
 
 ```json
 // Request header
@@ -240,7 +240,7 @@ Authorization : "Bearer [user authorization token]"
 }
 ```
 
-#### PATCH /api/events/{id}
+#### <font color="orange">PATCH</font> /api/events/{id}
 
 ```json
 // Request header
@@ -256,7 +256,7 @@ Authorization : "Bearer [user authorization token]"
 // Status 204
 ```
 
-#### PUT /api/events/{id}
+#### <font color="yellow">PUT</font> /api/events/{id}
 
 ```json
 // Request header
@@ -300,7 +300,7 @@ Authorization : "Bearer [user authorization token]"
 }
 ```
 
-#### GET /api/events?
+#### <font color="green">GET</font> /api/events?
 
 ```json
 // Request header
@@ -341,7 +341,7 @@ Authorization : "Bearer [user authorization token]"
 ]
 ```
 
-#### GET /api/events
+#### <font color="green">GET</font> /api/events
 
 ```json
 // Request header
