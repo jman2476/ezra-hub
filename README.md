@@ -11,11 +11,28 @@
 # Ezra Hub
 Ezra Hub gathers helps your community organize events and volunteering initiatives.
 
+## Overview
+
 ## Setup
+Ezra Hub requires a RabbitMQ server and a Postgres database to run the server, and a connection to the Ezra Hub and RabbitMQ servers for the client. This guide assumes you will be running RabbitMQ from a docker container, and all other components directly on your machine.
 
 ### Rabbitmq
+Download a docker image of RabbitMQ version 4.3+, and run `rabbit.sh start` from the root of the project before starting the main server. If this is the first time, you may need to run this script twice. 
+
+The `./rabbit.sh` file is set up assuming use of the `rabbitmq:4.3-management` image of RabbitMQ. If you are using a different version, please modify the `start_or_run` command on line 11 to reflect the version you are using.
+
+Once the RabbitMQ server is running, you can use `rabbit.sh logs` to view the logs of the RabbitMQ server, and `rabbit.sh stop` to close the container. 
 
 ### Database
+Ezra Hub uses Postgres as its database, and supports Postgres 18+. It should work with versions 16+, but anything earlier is untested. Before starting Ezra Hub for the first time, create a new database withing Postgres:
+```sql
+CREATE DATABASE ezra;
+```
+Then connect to the database with `\c ezra` create a password for the database:
+```sql
+ALTER USER <username> PASSWORD '<password>'
+```
+Note the username and password for setting up the `.env` file
 
 ### Server
 
