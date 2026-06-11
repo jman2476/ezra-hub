@@ -37,9 +37,13 @@ Note the username and password for creating your connection string for the `.env
 ### Server
 Within the `./app/server/` folder, create a `.env` file to store your environment variables based on the `EXAMPLE.ENV` file in the root of the project. If you are running this outside of a development environment, be sure to set `PLATFORM=production` or anything other than `dev` in order to disable to database reset endpoint.
 
+Start the server from the root of the project with `go run ./app/server`, then you will be able to start the client side. Make sure that the database and RabbitMQ server are running before starting the server, or it will not be able to make a connection.
+
 Note: currently, Ezra Hub server is not optimized to run from a Docker container, and there is a chance it can crash from a container if not given enough memory. There are plans to improve this in the future, so if you find any bugs please report them in the issues with as much data as possible. If you can, please include the resource usage of your docker container.
 
 ### Client
+
+
 
 ## Usage
 Interacting with Ezra Hub currently acts through the terminal client, with a web-based client planned for the future. Before running the client, verify that the infrastructure for the application (i.e. RabbitMQ server, database server, and Ezra Hub Server) are all set up and running, or the client will be useless.
@@ -61,7 +65,7 @@ Upon first opening the app, you will be prompted to log in or sign up, and once 
 | help | List all commands and what they do | |
 | exit | Exit Ezra Hub | |
 
-
+To get the most thorough experience, try opening multiple instances of the client with different accounts to see the notification system in action.
 
 ---
 ---
