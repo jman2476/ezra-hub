@@ -9,7 +9,7 @@
 ```
 
 # Ezra Hub
-Ezra Hub gathers helps your community organize events and volunteering initiatives.
+Ezra Hub helps your community organize events and volunteering initiatives.
 
 ## Overview
 The idea for Ezra Hub is to be a central place for community members to share their needs and volunteer to help others. Whether it's checking in on a loved one, giving someone a ride to the doctor, or just planning a gathering, Ezra Hub makes it easy to know what's going on in your community and where you can provide your assistance.
