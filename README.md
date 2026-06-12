@@ -96,7 +96,7 @@ To get the most thorough experience, try opening multiple instances of the clien
 If you come across any errors or have any suggestions, please report them to Issues page on the GitHub repository, and include as much detail as you can.
 
 <!-- ## Licensing
-Ezra Hub is free to use for communities under 50 persons under the AGPLv3 license, found in this repository. For larger communities or commercial applications, please contact [Jeremy McKeegan](https://github.com/jman2476) to discuss an enterprise contract with setup, maintenance and support included -->.
+Ezra Hub is free to use for communities under 50 persons under the AGPLv3 license, found in this repository. For larger communities or commercial applications, please contact [Jeremy McKeegan](https://github.com/jman2476) to discuss an enterprise contract with setup, maintenance and support included. -->
 
 ## Credits
 Ezra Hub was created by [Jeremy McKeegan](https://github.com/jman2476) with the emotional support of his cats: Fionn, Ringo, and Hank.
